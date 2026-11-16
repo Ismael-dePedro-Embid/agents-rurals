@@ -201,14 +201,16 @@ textarea { display: block; width: 100%; margin-top: .35rem; font: inherit; paddi
 .xifra-petita { font-size: 1.35rem; font-weight: 700; line-height: 1.2; }
 .anell { flex-shrink: 0; } .a-fons { fill: none; stroke: var(--vora); stroke-width: 7; }
 .a-val { fill: none; stroke: var(--blau); stroke-width: 7; stroke-linecap: round; transition: stroke-dasharray .4s; } .a-val.ple { stroke: var(--verd); }
-.ratxa .foc { font-size: 2.2rem; filter: grayscale(1); opacity: .45; } .ratxa.activa .foc { filter: none; opacity: 1; }
-.quadres { display: flex; gap: 3px; } .quadres span { width: 1.1rem; height: 1.1rem; border-radius: 3px; background: var(--vora); }
-.quadres .q1 { background: #4a9c5d; } .quadres .q0 { background: #c9483f; }
-.repte-fet { text-align: center; } .repte-fet .quadres { justify-content: center; } .repte-fet .quadres span { width: 1.6rem; height: 1.6rem; } .repte-fet .botons { justify-content: center; }
+.ratxa .foc { color: var(--suau); opacity: .5; } .ratxa .foc .icona { width: 2.4rem; height: 2.4rem; } .ratxa.activa .foc { color: #d9822b; opacity: 1; }
+.quadres { display: flex; gap: 4px; flex-wrap: wrap; } .quadres span { width: 1.25rem; height: 1.25rem; border-radius: 50%; border: 1.5px solid var(--vora); display: grid; place-items: center; }
+.quadres svg { width: 70%; height: 70%; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.quadres .q1 { border-color: var(--verd); background: var(--verd-clar); } .quadres .q1 svg { stroke: var(--verd); }
+.quadres .q0 { border-color: var(--vermell); background: var(--vermell-clar); } .quadres .q0 svg { stroke: var(--vermell); }
+.repte-fet { text-align: center; } .repte-fet .quadres { justify-content: center; } .repte-fet .quadres span { width: 1.7rem; height: 1.7rem; } .repte-fet .botons { justify-content: center; }
 .logros { display: grid; gap: .5rem; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); }
 .logro { display: flex; gap: .5rem; align-items: flex-start; padding: .6rem .65rem; line-height: 1.3; border: 1px solid var(--vora); border-radius: 10px; background: var(--superficie); font-size: .92rem; }
 .logro .suau { font-size: .8rem; }
-.logro .ico { font-size: 1.4rem; filter: grayscale(1); opacity: .4; } .logro.ok .ico { filter: none; opacity: 1; }
+.logro .ico { color: var(--suau); opacity: .45; } .logro .ico .icona { width: 1.6rem; height: 1.6rem; } .logro.ok .ico { color: var(--verd); opacity: 1; }
 .logro.ok { border-color: var(--verd); background: var(--verd-clar); } .logro > div:last-child { flex: 1; min-width: 0; }
 .logro .barra-tema { margin-top: .3rem; } .petit { font-size: .78rem; }
 .setmana { display: flex; gap: .4rem; align-items: flex-end; height: 90px; margin-bottom: .75rem; }
@@ -219,3 +221,24 @@ textarea { display: block; width: 100%; margin-top: .35rem; font: inherit; paddi
 .resum-xifres { display: grid; gap: .3rem; }
 .toast { position: fixed; left: 50%; top: calc(4rem + env(safe-area-inset-top)); transform: translateX(-50%); z-index: 40; background: var(--text); color: var(--fons); padding: .6rem 1rem; border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,.3); text-decoration: none; max-width: calc(100% - 2rem); width: max-content; transition: opacity .4s; }
 .toast.fora { opacity: 0; }
+
+.camp-text { font: inherit; padding: .45rem .6rem; border: 1px solid var(--vora); border-radius: 8px; background: var(--superficie); color: var(--text); width: 11rem; max-width: 100%; }
+.novetats .versio { margin: .6rem 0; } .novetats ul, .novetats-inici ul { margin: .3rem 0; padding-left: 1.2rem; font-size: .92rem; }
+.novetats { padding-bottom: .6rem; }
+.novetats-inici { border-color: var(--blau); background: var(--blau-clar); }
+.drets { font-size: .8rem; margin: .4rem 0 .8rem; }
+
+.boto .icona { width: 1.1rem; height: 1.1rem; vertical-align: -.2rem; margin-right: .2rem; }
+.amb-icona .icona { width: 1.1rem; height: 1.1rem; vertical-align: -.2rem; color: var(--blau); }
+.toast .icona { width: 1.1rem; height: 1.1rem; vertical-align: -.2rem; }
+
+/* Inici i pràctica */
+.continua, .comenca { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; justify-content: space-between; border-color: var(--verd); }
+.continua .botons, .comenca .botons { margin: 0; }
+.boto.gran { padding: .75rem 1.4rem; font-size: 1.05rem; }
+.pendent { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: center; } .pendent .botons { margin: 0; }
+.resum-inici { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; text-align: center; }
+.resum-inici .suau { font-size: .8rem; }
+details.filtres { padding: .2rem 1rem; } details.filtres > summary { cursor: pointer; font-weight: 600; padding: .6rem 0; }
+details.filtres[open] { padding-bottom: 1rem; } details.filtres fieldset { background: none; }
+.enllac-especies a { text-decoration: none; font-weight: 500; } .enllac-especies .icona { vertical-align: -.25rem; color: var(--verd); }
