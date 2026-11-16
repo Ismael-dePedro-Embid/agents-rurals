@@ -56,6 +56,20 @@ const P = (() => {
   };
 })();
 
+// ---------------------------------------------------------------- ajustos de l'usuari
+const AJ_DEF = {tema: 'auto', text: 'normal', barrejaOp: false, avanca: false, cita: 'plegada', nPractica: 20, simCrono: true, simAvanca: true};
+const aj = k => ({...AJ_DEF, ...(P.pref('ajustos') || {})})[k];
+function posaAjust(k, v) { P.pref('ajustos', {...AJ_DEF, ...(P.pref('ajustos') || {}), [k]: v}); aplicaAjustos(); }
+function aplicaAjustos() {
+  const r = document.documentElement;
+  if (aj('tema') === 'auto') delete r.dataset.theme; else r.dataset.theme = aj('tema');
+  if (aj('text') === 'normal') delete r.dataset.text; else r.dataset.text = aj('text');
+  const fosc = aj('tema') === 'dark' || (aj('tema') === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
+  document.querySelector('meta[name=theme-color]').content = fosc ? '#1c3324' : '#2f5d3a';
+}
+matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', aplicaAjustos);
+aplicaAjustos();
+
 // ---------------------------------------------------------------- utilitats
 const barreja = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const ordreTema = t => (t[0] === 'G' ? 0 : 100) + parseInt(t.slice(1), 10);
@@ -81,7 +95,8 @@ const rutes = {
 function navega() {
   const parts = location.hash.replace(/^#\/?/, '').split('/');
   const r = rutes[parts[0]] || vistaInici;
-  document.querySelectorAll('.menu a').forEach(a => a.classList.toggle('actiu', a.getAttribute('href') === '#/' + parts[0]));
+  const seccio = {test: SESSIO && SESSIO.mode === 'simulacre' ? 'simulacre' : 'practica', resultat: 'practica', repas: '', especies: 'practica'}[parts[0]] ?? parts[0];
+  document.querySelectorAll('.menu a, .engranatge').forEach(a => a.classList.toggle('actiu', a.getAttribute('href') === '#/' + seccio));
   if (parts[0] !== 'temari') TORNAR = null;
   $('#tornar').hidden = !(parts[0] === 'temari' && TORNAR);
   r(parts.slice(1).map(decodeURIComponent));
@@ -145,11 +160,12 @@ function vistaPractica() {
         <div class="xips">${[1, 2, 3, 4].map(d => xip('dif', d, ['', 'Bàsic', 'Mitjà', 'Avançat', 'Expert'][d], !(pr.dif) || pr.dif.includes(d))).join('')}</div>
         <label class="fila"><input type="checkbox" name="desact" ${pr.desact ? 'checked' : ''}> Incloure les desactualitzades i les anul·lades</label>
       </fieldset>
+      <p class="suau"><a href="#/especies">Joc d'identificació d'espècies amb foto →</a></p>
       <fieldset><legend>Quines</legend>
         <label class="fila"><input type="radio" name="mode" value="totes" checked> Totes</label>
         <label class="fila"><input type="radio" name="mode" value="noves"> Només les no vistes</label>
         <label class="fila"><input type="radio" name="mode" value="fallades"> Només les fallades</label>
-        <label class="fila">Nombre <select name="n"><option>10</option><option selected>20</option><option>40</option><option>80</option><option value="0">Totes</option></select></label>
+        <label class="fila">Nombre <select name="n">${[10, 20, 40, 80, 0].map(n => `<option value="${n}" ${n === aj('nPractica') ? 'selected' : ''}>${n || 'Totes'}</option>`).join('')}</select></label>
         <label class="fila"><input type="checkbox" name="ordre"> En l'ordre del temari (sense barrejar)</label>
       </fieldset>
       <p id="compte" class="suau"></p>
@@ -271,14 +287,20 @@ function triaSimulacre(origen, noves) {
 
 // ---------------------------------------------------------------- sessió de test
 function comenca(llista, mode, titol, opc = {}) {
-  SESSIO = {mode, titol, ids: llista.map(q => q.id), resp: {}, i: 0, inici: ara(), acabada: false, ex: opc.ex || null};
+  SESSIO = {mode, titol, ids: llista.map(q => q.id), resp: {}, i: 0, inici: ara(), acabada: false, ex: opc.ex || null, perm: {}};
+  // Ordre de les opcions: el de la pregunta, o barrejat si l'usuari ho ha triat (mai als exàmens oficials sencers)
+  if (aj('barrejaOp') && !opc.ex) for (const q of llista) SESSIO.perm[q.id] = barreja([0, 1, 2, 3]);
   if (mode === 'simulacre') SESSIO.fi = ara() + (opc.minuts || D.examen.minuts) * 60e3;
   location.hash = '#/test';
   if (location.hash === '#/test') navega();
 }
 
 let rellotge = null;
+const ordreOp = q => (SESSIO && SESSIO.perm[q.id]) || [0, 1, 2, 3];
+const lletra = (q, k) => LLETRES[ordreOp(q).indexOf(k)];
+let pas = null;
 function vistaTest() {
+  clearTimeout(pas);
   clearInterval(rellotge);
   if (!SESSIO) { location.hash = '#/practica'; return; }
   const S = SESSIO, sim = S.mode === 'simulacre';
@@ -289,17 +311,17 @@ function vistaTest() {
   const fets = Object.keys(S.resp).length;
   $('#app').innerHTML = `
     <div class="capcalera-test"><b>${esc(S.titol)}</b>
-      <span>${sim ? `<span class="temps" id="temps"></span> · ` : ''}${S.i + 1} / ${S.ids.length}</span></div>
+      <span>${sim && aj('simCrono') ? `<span class="temps" id="temps"></span> · ` : ''}${S.i + 1} / ${S.ids.length}</span></div>
     <div class="progres-barra"><div style="width:${pct(fets, S.ids.length)}%"></div></div>
     <div class="targeta">
       <div class="etiquetes"><span class="etiqueta">${esc(q.t)} · ${esc(q.e)}</span>${origenEtiqueta(q)}${S.ex ? `<span class="etiqueta">Pregunta ${q.ex.nu} de l'examen</span>` : ''}<span class="etiqueta" title="Dificultat">${punts(q.d)}</span>
         ${q.s !== 'v' ? `<span class="etiqueta avis">${ESTATS[q.s]}</span>` : ''}</div>
       <p class="enunciat">${esc(q.q)}</p>
-      <div class="opcions">${q.op.map((o, k) => {
+      <div class="opcions">${ordreOp(q).map((k, pos) => {
         let cls = '';
         if (mostra) cls = k === q.ok ? 'correcta' : (k === r ? 'errada' : '');
         else if (r === k) cls = 'triada';
-        return `<button class="opcio ${cls}" data-k="${k}" ${mostra ? 'disabled' : ''}><span class="lletra">${LLETRES[k]})</span><span>${esc(o)}</span></button>`;
+        return `<button class="opcio ${cls}" data-k="${k}" ${mostra ? 'disabled' : ''}><span class="lletra">${LLETRES[pos]})</span><span>${esc(q.op[k])}</span></button>`;
       }).join('')}</div>
       ${mostra ? panellCorreccio(q, r) : ''}
       <div class="botons">
@@ -312,9 +334,10 @@ function vistaTest() {
     ${sim ? `<div class="mapa-preguntes">${S.ids.map((id, k) => `<button data-i="${k}" class="${S.resp[id] !== undefined ? 'resposta' : ''} ${k === S.i ? 'actual' : ''}">${k + 1}</button>`).join('')}</div>` : ''}`;
   document.querySelectorAll('.opcio').forEach(b => b.addEventListener('click', () => {
     const k = +b.dataset.k;
-    if (sim) { S.resp[q.id] = k; if (S.i < S.ids.length - 1) S.i++; vistaTest(); return; }
+    if (sim) { S.resp[q.id] = k; if (aj('simAvanca') && S.i < S.ids.length - 1) S.i++; vistaTest(); return; }
     if (respost) return;
     S.resp[q.id] = k; P.respon(q.id, k === q.ok); vistaTest();
+    if (k === q.ok && aj('avanca') && S.i < S.ids.length - 1) pas = setTimeout(() => { if (location.hash === '#/test' && SESSIO === S) { S.i++; vistaTest(); window.scrollTo(0, 0); } }, 1200);
   }));
   $('#ant')?.addEventListener('click', () => { S.i--; vistaTest(); });
   $('#seg')?.addEventListener('click', () => { S.i++; vistaTest(); });
@@ -331,10 +354,10 @@ function vistaTest() {
   if (sim) {
     const pinta = () => {
       const s = Math.max(0, Math.round((S.fi - ara()) / 1000));
+      if (s === 0) { clearInterval(rellotge); alert('S\'ha acabat el temps.'); acaba(); return; }
       const el = $('#temps'); if (!el) return;
       el.textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
       el.classList.toggle('poc', s < 600);
-      if (s === 0) { clearInterval(rellotge); alert('S\'ha acabat el temps.'); acaba(); }
     };
     pinta(); rellotge = setInterval(pinta, 1000);
   }
@@ -344,13 +367,13 @@ function panellCorreccio(q, r) {
   const be = r === q.ok;
   const oficialAltra = q.o === 'o' && q.ex.r !== 'anul·lada' && LLETRES.indexOf(q.ex.r) !== q.ok;
   return `
-    ${r !== undefined ? `<p class="resultat ${be ? 'be' : 'malament'}">${be ? 'Correcta' : `Incorrecta. La correcta és la ${LLETRES[q.ok]})`}</p>` : `<p class="resultat malament">En blanc. La correcta és la ${LLETRES[q.ok]})</p>`}
+    ${r !== undefined ? `<p class="resultat ${be ? 'be' : 'malament'}">${be ? 'Correcta' : `Incorrecta. La correcta és la ${lletra(q, q.ok)})`}</p>` : `<p class="resultat malament">En blanc. La correcta és la ${lletra(q, q.ok)})</p>`}
     ${q.s === 'a' ? '<p class="suau">El tribunal va anul·lar aquesta pregunta. Es marca la resposta que avui es considera correcta.</p>' : ''}
     ${q.s === 'd' ? '<p class="suau">La norma ha canviat des de l\'examen: la resposta oficial és la marcada, però llegeix l\'explicació.</p>' : ''}
-    ${oficialAltra ? `<p class="suau">Resposta de la plantilla oficial: ${esc(q.ex.r)})</p>` : ''}
+    ${oficialAltra ? `<p class="suau">Resposta de la plantilla oficial: ${esc(q.ex.r)}) de l'examen original</p>` : ''}
     <div class="explicacio">${esc(q.x)}</div>
-    <div class="suau"><b>${esc(q.n)}</b>${q.art ? `, art. ${esc(q.art)}` : ''}</div>
-    <div class="cita">${esc(q.c)}</div>
+    <details class="plega" ${aj('cita') === 'oberta' ? 'open' : ''}><summary><b>${esc(q.n)}</b>${q.art ? `, art. ${esc(q.art)}` : ''} · cita</summary>
+      <div class="cita">${esc(q.c)}</div></details>
     <div class="botons"><a class="boto" data-apunts href="#/temari/${encodeURIComponent(q.f)}/${encodeURIComponent(q.a)}">📖 Obrir als apunts</a>
       <a class="boto" target="_blank" rel="noopener" href="${esc(urlReport(q, r))}">⚑ Reportar un error</a></div>`;
 }
@@ -420,7 +443,7 @@ function vistaResultat() {
     const q = PER_ID.get(S.ids[k]), r = S.resp[q.id];
     $('#revisio').innerHTML = `<div class="targeta"><div class="etiquetes"><span class="etiqueta">${k + 1} · ${esc(q.t)} · ${esc(q.e)}</span>${origenEtiqueta(q)}</div>
       <p class="enunciat">${esc(q.q)}</p>
-      <div class="opcions">${q.op.map((o, j) => `<div class="opcio ${j === q.ok ? 'correcta' : (j === r ? 'errada' : '')}"><span class="lletra">${LLETRES[j]})</span><span>${esc(o)}</span></div>`).join('')}</div>
+      <div class="opcions">${ordreOp(q).map((j, pos) => `<div class="opcio ${j === q.ok ? 'correcta' : (j === r ? 'errada' : '')}"><span class="lletra">${LLETRES[pos]})</span><span>${esc(q.op[j])}</span></div>`).join('')}</div>
       ${panellCorreccio(q, r)}</div>`;
     S.i = k;
   };
@@ -575,15 +598,17 @@ function vistaProgres() {
     </div>
     ${sims.length ? `<h2>Evolució dels simulacres</h2><div class="targeta">${graficaSims(sims)}</div>` : ''}
     ${febles.length ? `<div class="targeta"><b>Punts febles:</b> ${febles.map(f => `${f.t.codi} (${f.enc} %)`).join(' · ')}</div>` : ''}
-    <div class="taula-scroll"><table><tr><th>Tema</th><th>Vistes</th><th>Encerts</th><th>Fallades</th><th></th></tr>
-    ${files.map(f => `<tr><td><a href="#/temari/${f.t.fitxer}">${esc(f.t.codi)}</a> ${esc(f.t.titol)}</td><td>${f.vistes}/${f.total}</td>
-      <td>${f.n ? f.enc + ' %' : '–'}<div class="barra-tema"><div style="width:${f.enc}%;background:var(${f.enc >= 50 ? '--verd' : '--vermell'})"></div></div></td>
-      <td>${f.fall}</td><td>${f.fall ? `<button class="boto" data-fall="${f.t.codi}">Repassar</button>` : ''}</td></tr>`).join('')}
-    </table></div>
-    <div class="botons"><a class="boto" href="#/ajustos">Còpia del progrés</a></div>`;
-  document.querySelectorAll('[data-fall]').forEach(b => b.addEventListener('click', () => {
+    <h2>Per temes</h2>
+    <div class="temes-progres">${files.map(f => `<a class="tema-progres" href="#" data-fall="${f.t.codi}" data-n="${f.fall}">
+      <span class="codi">${esc(f.t.codi)}</span><span class="nom">${esc(f.t.titol)}</span>
+      <span class="xifres">${f.n ? `<b>${f.enc} %</b>` : '–'} · ${f.vistes}/${f.total}${f.fall ? ` · ${f.fall} ✗` : ''}</span>
+      <div class="barra-tema"><div style="width:${f.enc}%;background:var(${f.enc >= 50 ? '--verd' : '--vermell'})"></div></div></a>`).join('')}</div>
+    <p class="suau">Toca un tema per repassar-ne les fallades (o practicar-lo si no en tens).</p>`;
+  document.querySelectorAll('[data-fall]').forEach(b => b.addEventListener('click', e => {
+    e.preventDefault();
     const t = b.dataset.fall;
-    comenca(barreja(D.preguntes.filter(x => x.t === t && q[x.id] && q[x.id].u === 0 && vigent(x))), 'practica', 'Fallades ' + t);
+    if (+b.dataset.n) comenca(barreja(D.preguntes.filter(x => x.t === t && q[x.id] && q[x.id].u === 0 && vigent(x))), 'practica', 'Fallades ' + t);
+    else comenca(barreja(D.preguntes.filter(x => x.t === t && vigent(x))).slice(0, aj('nPractica') || 20), 'practica', nomTema(t));
   }));
 }
 
@@ -603,14 +628,41 @@ function graficaSims(sims) {
 
 // ---------------------------------------------------------------- ajustos
 function vistaAjustos() {
-  $('#app').innerHTML = `<h1>Ajustos</h1>
-    <div class="targeta"><h2 style="margin-top:0">Còpia del progrés</h2>
-      <p>El progrés es desa només en aquest dispositiu. Descarrega'n una còpia per guardar-la o per passar-la a un altre dispositiu.</p>
-      <div class="botons"><button class="boto principal" id="exp">Descarregar còpia</button>
-      <label class="boto">Importar còpia<input type="file" id="imp" accept="application/json,.json" hidden></label></div></div>
-    <div class="targeta"><h2 style="margin-top:0">Esborrar</h2><p>Esborra totes les respostes i simulacres d'aquest dispositiu.</p>
-      <button class="boto perill" id="del">Esborrar el progrés</button></div>
-    <p class="suau">Versió de les dades: ${D.preguntes.length} preguntes, ${D.temes.length} temes.</p>`;
+  const seg = (k, ops) => `<div class="segmentat" role="radiogroup">${ops.map(([v, t]) => `<label><input type="radio" name="${k}" value="${v}" ${String(aj(k)) === String(v) ? 'checked' : ''}><span>${t}</span></label>`).join('')}</div>`;
+  const int = k => `<input type="checkbox" class="interruptor" name="${k}" ${aj(k) ? 'checked' : ''}>`;
+  const fila = (t, d, ctl) => `<div class="ajust"><div><div>${t}</div>${d ? `<div class="desc">${d}</div>` : ''}</div>${ctl}</div>`;
+  const nq = Object.keys(P.tots()).length, ns = P.sims().length;
+  $('#app').innerHTML = `<h1>Ajustos</h1><div id="ajustos">
+    <div class="seccio-ajustos"><h2>Aparença</h2><div class="targeta">
+      ${fila('Tema', '', seg('tema', [['auto', 'Automàtic'], ['light', 'Clar'], ['dark', 'Fosc']]))}
+      ${fila('Mida del text', '', seg('text', [['petit', 'A−'], ['normal', 'A'], ['gran', 'A+'], ['molt-gran', 'A++']]))}
+    </div></div>
+    <div class="seccio-ajustos"><h2>Pràctica</h2><div class="targeta">
+      ${fila('Barrejar l\'ordre de les opcions', 'Per no memoritzar la lletra. No s\'aplica als exàmens oficials sencers.', int('barrejaOp'))}
+      ${fila('Passar sol a la següent quan encertes', 'Si falles, s\'atura perquè llegeixis l\'explicació.', int('avanca'))}
+      ${fila('Cita de la norma', '', seg('cita', [['plegada', 'Plegada'], ['oberta', 'Oberta']]))}
+      ${fila('Preguntes per sessió', '', seg('nPractica', [[10, '10'], [20, '20'], [40, '40'], [80, '80']]))}
+    </div></div>
+    <div class="seccio-ajustos"><h2>Simulacre</h2><div class="targeta">
+      ${fila('Mostrar el cronòmetre', 'El temps compta igualment.', int('simCrono'))}
+      ${fila('Saltar a la següent en respondre', '', int('simAvanca'))}
+    </div></div>
+    <div class="seccio-ajustos"><h2>Les teves dades</h2><div class="targeta">
+      ${fila('Còpia del progrés', `${nq} preguntes respostes i ${ns} simulacres, desats només en aquest dispositiu.`, '')}
+      <div class="botons" style="margin:0 0 .8rem"><button class="boto principal" id="exp">Descarregar còpia</button>
+        <label class="boto">Importar còpia<input type="file" id="imp" accept="application/json,.json" hidden></label></div>
+      ${fila('Esborrar el progrés', 'Esborra respostes, simulacres i espècies d\'aquest dispositiu. Els ajustos es mantenen.', '<button class="boto perill" id="del">Esborrar</button>')}
+    </div></div>
+    <div class="seccio-ajustos"><h2>Quant a</h2><div class="targeta">
+      ${fila('Agents Rurals · Estudi', `${D.preguntes.length} preguntes · ${D.temes.length} temes · ${D.especies.length} espècies · versió ${esc(D.versio || '')}`, '')}
+      ${fila('Has trobat un error?', 'Cada pregunta té el botó «Reportar un error».', `<a class="boto" href="${esc(D.repo)}/issues" target="_blank" rel="noopener">Veure'ls</a>`)}
+      ${fila('Fotos de les espècies', 'iNaturalist i altres fonts, amb llicències Creative Commons; l\'autor consta a cada fitxa del temari.', '')}
+    </div></div></div>`;
+  $('#ajustos').addEventListener('change', e => {
+    const el = e.target; if (!el.name || el.id === 'imp') return;
+    const v = el.type === 'checkbox' ? el.checked : (el.name === 'nPractica' ? +el.value : el.value);
+    posaAjust(el.name, v);
+  });
   $('#exp').addEventListener('click', () => {
     const blob = new Blob([P.exporta()], {type: 'application/json'});
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
@@ -621,7 +673,7 @@ function vistaAjustos() {
     const f = e.target.files[0]; if (!f) return;
     try { P.importa(await f.text()); alert('Progrés importat.'); navega(); } catch (err) { alert('No s\'ha pogut importar: ' + err.message); }
   });
-  $('#del').addEventListener('click', () => { if (confirm('Segur que vols esborrar tot el progrés?')) { P.esborra(); alert('Progrés esborrat.'); } });
+  $('#del').addEventListener('click', () => { if (confirm('Segur que vols esborrar tot el progrés?')) { P.esborra(); navega(); } });
 }
 
 // ---------------------------------------------------------------- arrencada

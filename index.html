@@ -10,17 +10,24 @@
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="stylesheet" href="style.css">
+<script>
+// Aplica el tema i la mida del text abans de pintar (evita el parpelleig)
+try { const a = (JSON.parse(localStorage.getItem('agents-rurals.progres.v1')) || {}).pref?.ajustos || {};
+  if (a.tema && a.tema !== 'auto') document.documentElement.dataset.theme = a.tema;
+  if (a.text && a.text !== 'normal') document.documentElement.dataset.text = a.text; } catch (e) {}
+</script>
 </head>
 <body>
 <header class="barra">
   <a href="#/" class="marca"><img src="icons/icon-192.png" alt="" width="28" height="28"><span>Agents Rurals</span></a>
   <nav class="menu">
-    <a href="#/practica">Practicar</a>
-    <a href="#/simulacre">Simulacre</a>
-    <a href="#/repas">Repàs</a>
-    <a href="#/temari">Temari</a>
-    <a href="#/progres">Progrés</a>
+    <a href="#/"><svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Inici</span></a>
+    <a href="#/practica"><svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11l2 2 4-4"/><rect x="4" y="4" width="16" height="16" rx="3"/></svg><span>Practicar</span></a>
+    <a href="#/simulacre"><svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg><span>Simulacre</span></a>
+    <a href="#/temari"><svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 19V5M8 7h7"/></svg><span>Temari</span></a>
+    <a href="#/progres"><svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Progrés</span></a>
   </nav>
+  <a href="#/ajustos" class="engranatge" aria-label="Ajustos" title="Ajustos"><svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg></a>
 </header>
 <main id="app"><p class="carregant">Carregant…</p></main>
 <div id="tornar" hidden><button type="button" class="boto principal">← Tornar a la pregunta</button></div>
