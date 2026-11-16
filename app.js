@@ -11,7 +11,23 @@ const CLAU = 'agents-rurals.progres.v1';
 
 let D = null;            // dades
 let PER_ID = new Map();
-let SESSIO = null;       // test en curs
+let SESSIO = null;       // test en curs (es desa a cada resposta per poder-lo reprendre si es tanca l'app)
+const CLAU_SESSIO = 'agents-rurals.sessio.v1';
+function desaSessio() {
+  try {
+    if (SESSIO && !SESSIO.acabada) localStorage.setItem(CLAU_SESSIO, JSON.stringify(SESSIO));
+    else localStorage.removeItem(CLAU_SESSIO);
+  } catch {}
+}
+function recuperaSessio() {
+  try {
+    const s = JSON.parse(localStorage.getItem(CLAU_SESSIO));
+    if (!s || s.acabada || !Array.isArray(s.ids)) return null;
+    s.ids = s.ids.filter(id => PER_ID.has(id));
+    return s.ids.length ? s : null;
+  } catch { return null; }
+}
+addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') desaSessio(); });
 let instalPrompt = null;
 let ESP = null;           // joc d'espècies en curs
 
@@ -322,6 +338,35 @@ $('#tornar button').addEventListener('click', () => { location.hash = TORNAR || 
 document.addEventListener('click', e => { if (e.target.closest('[data-apunts]')) TORNAR = location.hash; });
 
 // ---------------------------------------------------------------- inici
+function testAMitges() {
+  const S = SESSIO;
+  if (!S || S.acabada) return '';
+  const fets = Object.keys(S.resp).length, sim = S.mode === 'simulacre';
+  const queden = sim ? Math.round((S.fi - ara()) / 60e3) : null;
+  return `<div class="targeta a-mitges"><div><b>Tens ${sim ? 'un simulacre' : 'un test'} a mitges</b>
+    <div class="suau">${esc(S.titol)} · pregunta ${S.i + 1} de ${S.ids.length} · ${fets} ${fets === 1 ? 'resposta' : 'respostes'}${sim ? (queden > 0 ? ` · queden ${queden} min` : ' · el temps s\'ha acabat') : ''}</div></div>
+    <div class="botons"><a class="boto principal" href="#/test">${sim && queden <= 0 ? 'Veure la nota' : 'Continuar'}</a><button class="boto" id="descarta">Descartar</button></div></div>`;
+}
+// Avisos de l'inici: còpia del progrés (cada 7 dies) i instal·lació a iPhone
+const esIOS = () => /iPhone|iPad|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+const esApp = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+function avisosInici() {
+  const out = [], q = P.tots(), resp = Object.values(q).reduce((a, r) => a + r.n, 0), set = 7 * DIA;
+  const ajornat = P.pref('copiaAvis') && ara() - P.pref('copiaAvis') < set;
+  if (resp >= 50 && !ajornat && (!P.copia() || ara() - P.copia() > set))
+    out.push(`<div class="targeta avis-copia"><div><b>Fes una còpia del progrés</b><div class="suau">${P.copia() ? `La darrera és del ${dataCa(P.copia())}.` : 'Encara no n\'has fet cap.'} El progrés només es desa en aquest dispositiu: si es buiden les dades del navegador o canvies de mòbil, es perdria.</div></div>
+      <div class="botons"><button class="boto principal" id="copia-ara">Descarregar còpia</button><button class="boto" id="copia-no">Ara no</button></div></div>`);
+  if (esIOS() && !esApp() && !P.pref('iosAvis'))
+    out.push(`<div class="targeta avis-ios"><div><b>Instal·la l'app a l'iPhone</b><div class="suau">Toca el botó <b>Compartir</b> de Safari (el quadrat amb la fletxa) i després <b>«Afegir a la pantalla d'inici»</b>. Així funciona sense connexió i a pantalla completa.</div></div>
+      <button class="boto" id="ios-no">Entesos</button></div>`);
+  return out.join('');
+}
+function descarregaCopia() {
+  const blob = new Blob([P.exporta()], {type: 'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `agents-rurals-progres-${new Date().toISOString().slice(0, 10)}.json`; a.click(); P.marcaCopia();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
 function vistaInici() {
   const q = P.tots(); const ids = Object.keys(q);
   const vistes = ids.length, enc = ids.reduce((s, i) => s + q[i].c, 0), tot = ids.reduce((s, i) => s + q[i].n, 0);
@@ -333,6 +378,8 @@ function vistaInici() {
     ${instalPrompt ? `<div class="targeta avis-instal"><span>Instal·la l'app per fer-la servir sense connexió.</span><button class="boto principal" id="instal">Instal·lar</button></div>` : ''}
     <h1>${aj('nom') ? `Hola, ${esc(aj('nom'))}` : 'Oposició d\'agent rural'}</h1>
     ${novetatsPendents()}
+    ${testAMitges()}
+    ${avisosInici()}
     ${(() => {
       const fets = P.dies()[avui()]?.n || 0, meta = aj('meta'), fetAvui = fet(avui()), rt = ratxa(), rep = P.reptes()[avui()];
       return `<div class="constancia">
@@ -357,6 +404,10 @@ function vistaInici() {
       <div><div class="xifra-petita" ${sim ? `style="color:var(${sim.Q >= D.examen.minim ? '--verd' : '--vermell'})"` : ''}>${sim ? sim.Q.toFixed(2) : '–'}</div><div class="suau">darrer simulacre</div></div>
     </div>`;
   $('#repte')?.addEventListener('click', comencaRepte);
+  $('#descarta')?.addEventListener('click', () => { if (confirm('Vols descartar el test a mitges? Les respostes ja corregides es mantenen al progrés.')) { SESSIO = null; desaSessio(); navega(); } });
+  $('#copia-ara')?.addEventListener('click', () => { descarregaCopia(); navega(); });
+  $('#copia-no')?.addEventListener('click', () => { P.pref('copiaAvis', ara()); navega(); });
+  $('#ios-no')?.addEventListener('click', () => { P.pref('iosAvis', 1); navega(); });
   $('#continua').addEventListener('click', () => llancaPractica(darrera));
   $('#instal')?.addEventListener('click', async () => { instalPrompt.prompt(); await instalPrompt.userChoice; instalPrompt = null; navega(); });
   $('#fallades')?.addEventListener('click', () => {
@@ -569,6 +620,7 @@ const lletra = (q, k) => LLETRES[ordreOp(q).indexOf(k)];
 let pas = null;
 function vistaTest() {
   clearTimeout(pas);
+  desaSessio();
   clearInterval(rellotge);
   if (!SESSIO) { location.hash = '#/practica'; return; }
   const S = SESSIO, sim = S.mode === 'simulacre';
@@ -706,7 +758,7 @@ function enllacaApunts() { /* els enllaços ja porten la ruta; el botó de torna
 
 function acaba() {
   clearInterval(rellotge);
-  const S = SESSIO; S.acabada = true;
+  const S = SESSIO; S.acabada = true; desaSessio();
   if (S.mode === 'simulacre') {
     let A = 0, E = 0;
     for (const id of S.ids) {
@@ -1086,12 +1138,7 @@ function vistaAjustos([cat] = []) {
     const v = el.type === 'checkbox' ? el.checked : (['nPractica', 'meta'].includes(el.name) ? +el.value : (el.name === 'nom' ? el.value.trim() : el.value));
     posaAjust(el.name, v);
   });
-  $('#exp').addEventListener('click', () => {
-    const blob = new Blob([P.exporta()], {type: 'application/json'});
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-    a.download = `agents-rurals-progres-${new Date().toISOString().slice(0, 10)}.json`; a.click(); P.marcaCopia();
-    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-  });
+  $('#exp').addEventListener('click', () => { descarregaCopia(); navega(); });
   $('#imp').addEventListener('change', async e => {
     const f = e.target.files[0]; if (!f) return;
     try { P.importa(await f.text()); alert('Progrés importat.'); navega(); } catch (err) { alert('No s\'ha pogut importar: ' + err.message); }
@@ -1117,5 +1164,6 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
 fetch('data/dades.json').then(r => r.json()).then(d => {
   D = d;
   PER_ID = new Map(D.preguntes.map(q => [q.id, q]));
+  SESSIO = recuperaSessio();
   navega();
 }).catch(err => { $('#app').innerHTML = `<p>No s'han pogut carregar les dades (${esc(err.message)}).</p>`; });

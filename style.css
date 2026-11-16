@@ -331,3 +331,10 @@ button.xip-est { cursor: pointer; } .xip-est.sel { outline: 2px solid var(--blau
 .m-riu.ctx { stroke: #2a7cc4; stroke-width: 1.2; opacity: .9; pointer-events: none; }
 .m-cim.ctx { pointer-events: none; } .m-cim.ctx path { fill: #5b4636; stroke: #fff; stroke-width: .8; }
 .mapa-joc.fons-fisic, .mapa-joc.fons-mixt { background: #dce9f2; }
+
+/* Avisos de l'inici */
+.a-mitges, .avis-copia, .avis-ios { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: center; justify-content: space-between; }
+.a-mitges .botons, .avis-copia .botons { margin: 0; }
+.a-mitges { border-color: var(--blau); background: var(--blau-clar); }
+.avis-copia { border-color: var(--ambre); background: var(--ambre-clar); }
+.a-mitges > div:first-child, .avis-copia > div:first-child, .avis-ios > div:first-child { flex: 1 1 14rem; }
