@@ -66,6 +66,7 @@ const P = (() => {
       if (encert) { r.c++; r.b = Math.min(r.b + 1, CAIXES.length - 1); r.u = 1; if (r.sd !== avui()) { r.s++; r.sd = avui(); } }
       else { r.w++; r.b = 1; r.u = 0; r.s = 0; r.sd = null; }
       r.d = Date.now() + CAIXES[r.b] * DIA;
+      r.h = [...(r.h || []), [Date.now(), encert ? 1 : 0]].slice(-10); // historial per a l'encert recent
       s.q[id] = r; desa();
     },
     esp: () => s.esp,
@@ -96,7 +97,7 @@ const P = (() => {
 })();
 
 // ---------------------------------------------------------------- ajustos de l'usuari
-const AJ_DEF = {nom: '', meta: 40, tema: 'auto', text: 'normal', barrejaOp: false, avanca: false, cita: 'oberta', nPractica: 20, simCrono: true, simAvanca: true};
+const AJ_DEF = {nom: '', mescla: true, meta: 40, tema: 'auto', text: 'normal', barrejaOp: false, avanca: false, cita: 'oberta', nPractica: 20, simCrono: true, simAvanca: true};
 // Només es desen els ajustos que l'usuari ha canviat; així un canvi de valor per defecte arriba a tothom
 (() => { const a = P.pref('ajustos'); if (a && !a.v) { const n = {v: 2}; for (const k in a) if (k !== 'cita' && a[k] !== AJ_DEF[k]) n[k] = a[k]; P.pref('ajustos', n); } })();
 const aj = k => ({...AJ_DEF, ...(P.pref('ajustos') || {})})[k];
@@ -434,17 +435,35 @@ function descripcioFiltres(s) {
   if (s.desact) p.push('amb desactualitzades');
   if (s.dif.length < 4) p.push('dificultat ' + s.dif.map(d => ['', 'bàsica', 'mitjana', 'avançada', 'experta'][d]).join(', '));
   if (s.mode !== 'totes') p.push(s.mode === 'noves' ? 'només no vistes' : 'només fallades');
-  p.push(s.ordre ? 'en ordre del temari' : 'barrejades');
+  p.push(s.ordre ? 'en ordre del temari' : s.mode === 'totes' && aj('mescla') ? 'noves, repàs i punts febles' : 'barrejades');
   return p.join(' · ');
 }
 // Quants filtres són diferents dels de per defecte (per mostrar-ho al plegable «Filtres»)
 const filtresActius = s => [s.temes.length > 0, !!s.epi, !!s.origen, s.dif.length < 4, s.origen !== 'g' && s.cat.length < 3, s.desact, s.mode !== 'totes', s.ordre].filter(Boolean).length;
+// Barreja de la pràctica: unes 70 % de no vistes, 20 % del repàs pendent i 10 % dels epígrafs més febles
+// (dins dels filtres triats). Si d'un grup no n'hi ha prou, s'omple amb els altres.
+function barrejaIntelligent(llista, N) {
+  const q = P.tots(), usats = new Set(), out = [];
+  const febles = new Set(epigrafsFebles(3).filter(o => o.enc < .7).slice(0, 8).map(o => o.e));
+  const grups = [
+    [Math.round(N * .7), barreja(llista.filter(x => !q[x.id]))],
+    [Math.round(N * .2), barreja(llista.filter(x => q[x.id] && q[x.id].d <= ara()))],
+    [N, barreja(llista.filter(x => q[x.id] && febles.has(x.e) && seguits(q[x.id]) < 2))],
+  ];
+  for (const [quota, g] of grups) {
+    let k = 0;
+    for (const x of g) { if (out.length >= N || k >= quota) break; if (!usats.has(x.id)) { usats.add(x.id); out.push(x); k++; } }
+  }
+  for (const x of [...barreja(llista.filter(x => !q[x.id])), ...barreja(llista)]) { if (out.length >= N) break; if (!usats.has(x.id)) { usats.add(x.id); out.push(x); } }
+  return barreja(out);
+}
 function llancaPractica(s) {
   let llista = filtraPreguntes(s);
   if (!llista.length) { alert('Cap pregunta compleix els filtres.'); return; }
-  if (s.ordre) llista.sort((a, b) => ordreTema(a.t) - ordreTema(b.t) || a.e.localeCompare(b.e, 'ca', {numeric: true}));
-  else { const noves = barreja(llista.filter(q => !P.get(q.id))), vistes = barreja(llista.filter(q => P.get(q.id))); llista = [...noves, ...vistes]; } // primer les no vistes
-  llista = llista.slice(0, s.n || aj('nPractica') || 20);
+  const N = s.n || aj('nPractica') || 20;
+  if (s.ordre) llista = llista.sort((a, b) => ordreTema(a.t) - ordreTema(b.t) || a.e.localeCompare(b.e, 'ca', {numeric: true})).slice(0, N);
+  else if (s.mode === 'totes' && aj('mescla')) llista = barrejaIntelligent(llista, N);
+  else { const noves = barreja(llista.filter(q => !P.get(q.id))), vistes = barreja(llista.filter(q => P.get(q.id))); llista = [...noves, ...vistes].slice(0, N); } // primer les no vistes
   P.pref('darrera', s);
   comenca(llista, 'practica', s.temes.length === 1 ? nomTema(s.temes[0]) : 'Pràctica');
 }
@@ -957,15 +976,28 @@ function epigrafsFebles(minim = 4) {
   const q = P.tots(), per = {};
   for (const x of D.preguntes) {
     if (!vigent(x)) continue;
-    const o = per[x.e] = per[x.e] || {t: x.t, e: x.e, total: 0, n: 0, c: 0, fall: 0};
-    o.total++;
-    const r = q[x.id]; if (!r) continue;
-    o.n += r.n; o.c += r.c; if (esFallada(r)) o.fall++;
+    const o = per[x.e] = per[x.e] || {t: x.t, e: x.e, total: 0, fall: 0, ps: []};
+    o.total++; o.ps.push(x);
+    const r = q[x.id]; if (r && esFallada(r)) o.fall++;
   }
+  for (const o of Object.values(per)) Object.assign(o, encertDe(o.ps));
   const perTema = {};
   for (const o of Object.values(per)) perTema[o.t] = (perTema[o.t] || 0) + o.total;
   return Object.values(per).filter(o => o.n >= minim).map(o => ({...o, enc: o.c / o.n,
     perdua: (1 - o.c / o.n) * (D.pes[o.t] || 0) * o.total / perTema[o.t]})).sort((a, b) => b.perdua - a.perdua);
+}
+// Encert d'un conjunt de preguntes: amb les respostes dels darrers 30 dies si n'hi ha prou (5 o més);
+// si no, amb tot l'historial. Així els errors antics no pesen per sempre.
+const DIES_RECENT = 30;
+function encertDe(preguntes) {
+  const q = P.tots(), lim = ara() - DIES_RECENT * DIA;
+  let n = 0, c = 0, rn = 0, rc = 0;
+  for (const x of preguntes) {
+    const r = q[x.id]; if (!r) continue;
+    n += r.n; c += r.c;
+    for (const [t, ok] of r.h || []) if (t >= lim) { rn++; rc += ok; }
+  }
+  return rn >= 5 ? {n: rn, c: rc, recent: true} : {n, c, recent: false};
 }
 const practicaEpigraf = (t, e) => llancaPractica({...FILTRES_DEF, temes: [t], epi: e, n: 10});
 function vistaFallades([tema]) {
@@ -994,9 +1026,9 @@ function vistaProgres() {
   const files = D.temes.map(t => {
     const ps = D.preguntes.filter(x => x.t === t.codi);
     const vistes = ps.filter(x => q[x.id]);
-    const n = vistes.reduce((s, x) => s + q[x.id].n, 0), c = vistes.reduce((s, x) => s + q[x.id].c, 0);
+    const {n, c, recent} = encertDe(vistes);
     const fall = vistes.filter(x => esFallada(q[x.id]) && vigent(x)).length;
-    return {t, total: ps.length, vistes: vistes.length, enc: pct(c, n), n, fall};
+    return {t, total: ps.length, vistes: vistes.length, enc: pct(c, n), n, fall, recent};
   });
   const febles = files.filter(f => f.n >= 5).sort((a, b) => a.enc - b.enc).slice(0, 5);
   const E = D.examen, sims = P.sims().slice().reverse();
@@ -1024,7 +1056,7 @@ function vistaProgres() {
       return `<h2>On pots guanyar més nota</h2>
         <p class="suau">Epígrafs on més falles, ordenats pel que pesen a l'examen.</p>
         <div class="epigrafs-febles">${ep.map(o => `<div class="targeta epi-feble">
-          <div class="txt"><b>${esc(o.e)}</b> ${esc(nomEpigraf(o.t, o.e))}<div class="suau">${Math.round(100 * o.enc)} % d'encert · ${o.n} respostes${o.fall ? ` · ${o.fall} fallades` : ''}</div>
+          <div class="txt"><b>${esc(o.e)}</b> ${esc(nomEpigraf(o.t, o.e))}<div class="suau">${Math.round(100 * o.enc)} % d'encert${o.recent ? ' (darrers 30 dies)' : ''} · ${o.n} respostes${o.fall ? ` · ${o.fall} fallades` : ''}</div>
           <div class="barra-tema"><div style="width:${Math.round(100 * o.enc)}%;background:var(${o.enc >= .5 ? '--ambre' : '--vermell'})"></div></div></div>
           <button class="boto" data-epi="${esc(o.t)}|${esc(o.e)}">Practicar</button></div>`).join('')}</div>`;
     })()}
@@ -1032,9 +1064,9 @@ function vistaProgres() {
     <h2>Per temes</h2>
     <div class="temes-progres">${files.map(f => `<a class="tema-progres" href="#" data-fall="${f.t.codi}" data-n="${f.fall}">
       <span class="codi">${esc(f.t.codi)}</span><span class="nom">${esc(f.t.titol)}</span>
-      <span class="xifres">${f.n ? `<b>${f.enc} %</b>` : '–'} · ${f.vistes}/${f.total}${f.fall ? ` · ${f.fall} fallades` : ''}</span>
+      <span class="xifres">${f.n ? `<b>${f.enc} %</b>${f.recent ? '<sup title="darrers 30 dies">*</sup>' : ''}` : '–'} · ${f.vistes}/${f.total}${f.fall ? ` · ${f.fall} fallades` : ''}</span>
       <div class="barra-tema"><div style="width:${f.enc}%;background:var(${f.enc >= 50 ? '--verd' : '--vermell'})"></div></div></a>`).join('')}</div>
-    <p class="suau">Toca un tema per repassar-ne les fallades (o practicar-lo si no en tens).</p>
+    <p class="suau">Toca un tema per repassar-ne les fallades (o practicar-lo si no en tens). <sup>*</sup> Encert dels darrers 30 dies, quan n'hi ha prou respostes; si no, de tot l'historial.</p>
     <h2>Logros <span class="suau">${logros().filter(l => l.ok).length}/${logros().length}</span></h2>
     <div class="logros">${logros().sort((a, b) => (b.ok - a.ok) || (b.val / b.obj - a.val / a.obj)).map(l => `<div class="logro ${l.ok ? 'ok' : ''}" title="${esc(l.desc)}"><div class="ico">${l.ico}</div>
       <div><b>${esc(l.nom)}</b><div class="suau">${esc(l.desc)}</div>${l.ok ? '' : `<div class="barra-tema"><div style="width:${pct(l.val, l.obj)}%;background:var(--verd)"></div></div><div class="suau petit">${l.val.toLocaleString('ca')} / ${l.obj.toLocaleString('ca')}</div>`}</div></div>`).join('')}</div>`;
@@ -1122,6 +1154,7 @@ function vistaAjustos([cat] = []) {
       ${fila('Meta diària', 'Preguntes al dia per mantenir la ratxa. Compten les preguntes de pràctica, repàs, simulacres i el repte del dia; els jocs no. Un dia per setmana sense fer-la no trenca la ratxa.', seg('meta', [[20, '20'], [30, '30'], [40, '40'], [60, '60']]))}
     </div></div>
     <div class="seccio-ajustos"><h2>Pràctica</h2><div class="targeta">
+      ${fila('Barrejar repàs i punts febles', 'A la pràctica (i a «Continuar»), a més de preguntes noves, en surten unes quantes del repàs pendent i dels epígrafs on més falles.', int('mescla'))}
       ${fila('Barrejar l\'ordre de les opcions', 'Per no memoritzar la lletra. No s\'aplica als exàmens oficials sencers.', int('barrejaOp'))}
       ${fila('Passar sol a la següent quan encertes', 'Si falles, s\'atura perquè llegeixis l\'explicació.', int('avanca'))}
       ${fila('Cita de la norma', 'El text literal de la norma sota l\'explicació.', seg('cita', [['oberta', 'Visible'], ['plegada', 'Plegada']]))}
