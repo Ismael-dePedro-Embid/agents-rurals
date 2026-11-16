@@ -397,3 +397,19 @@ button.xip-est { cursor: pointer; } .xip-est.sel { outline: 2px solid var(--blau
 .m-zoom { top: auto; bottom: .45rem; right: .45rem; flex-direction: row; }
 .amb-res .m-riu:not(.res):not(.mal) { stroke: #8db8dc; stroke-width: 1.3; }
 .amb-res .m-cim:not(.res) path { opacity: .55; }
+
+/* Pàgina d'un minijoc: desplegable de mode, format i «Jugar» */
+.tria-joc { display: flex; flex-direction: column; gap: .5rem; }
+.camp-joc { display: flex; flex-direction: column; gap: .3rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--suau); }
+.camp-joc select { text-transform: none; letter-spacing: 0; font-size: 1rem; color: var(--text); padding: .65rem .6rem; width: 100%; }
+.desc-mode { margin: 0 0 .4rem; font-size: .9rem; }
+.segment { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--vora); border-radius: 10px; overflow: hidden; }
+.segment button { font: inherit; text-transform: none; letter-spacing: 0; font-size: .95rem; padding: .6rem .4rem; background: var(--superficie); color: var(--text); border: 0; cursor: pointer; }
+.segment button + button { border-left: 1px solid var(--vora); }
+.segment button[aria-checked="true"] { background: var(--verd); color: var(--sobre-verd); font-weight: 600; }
+.tria-joc #desc-format { margin: 0; }
+.tria-joc .boto-jugar { display: block; justify-content: center; text-align: center; font-size: 1.1rem; padding: .8rem; margin-top: .4rem; }
+.explora-mapa { display: flex; align-items: center; gap: .75rem; text-decoration: none; color: var(--text); }
+.explora-mapa .txt { flex: 1; display: flex; flex-direction: column; } .explora-mapa .chevron { color: var(--suau); width: 1.1rem; height: 1.1rem; }
+.joc-sortida { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: .4rem; }
+.joc-sortida a { color: var(--verd); text-decoration: none; }

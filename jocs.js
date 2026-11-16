@@ -321,19 +321,44 @@ async function vistaJocs([id]) {
     <p class="suau petit">${esc(GEO.font)}</p>`;
 }
 
-// Pàgina d'un joc: «Jugar» (una mica de tot), la llista de modes i la contrarellotge
+// Pàgina d'un joc: tries el mode (desplegable) i el format (partida o contrarellotge) i prems «Jugar».
+// «Explorar el mapa» és al costat, sense haver de jugar abans. L'elecció es recorda per joc.
+const CLAU_TRIA_JOC = 'agents-rurals.jocs-tria.v1';
+function triaJoc(id, nou) {
+  let t = {};
+  try { t = JSON.parse(localStorage.getItem(CLAU_TRIA_JOC)) || {}; } catch {}
+  if (nou) { t[id] = nou; try { localStorage.setItem(CLAU_TRIA_JOC, JSON.stringify(t)); } catch {} }
+  return t[id] || {mode: 'barrejat', cr: false};
+}
 function vistaJoc(joc) {
   const s = P.jocs()[joc.id], capa = {comarques: 'comarques', rius: 'rius', muntanyes: 'muntanyes', enp: 'enp', relleu: 'relleu'}[joc.id];
+  const modes = [['barrejat', 'Tot barrejat', 'Una mica de cada mode. Les que falles tornen fins que les domines.'], ...joc.modes];
+  let t = triaJoc(joc.id);
+  if (!modes.some(m => m[0] === t.mode)) t = {...t, mode: 'barrejat'};
   $('#app').innerHTML = `<h1>Practicar</h1>${navPractica('jocs')}<a class="tornar-ajustos" href="#/jocs">← Jocs</a>
     <h2 class="joc-titol">${joc.ic} ${esc(joc.nom)}</h2>
     ${barraDomini(joc.id, joc.plural)}
-    <button class="targeta joc-jugar" data-mode="barrejat"><span><b>Jugar</b><span class="suau">${PREGUNTES_PARTIDA} preguntes de tots els modes. Les que falles tornen fins que les domines.</span></span><span class="joc-play">▶</span></button>
-    <h3 class="modes-titol">Practicar un mode</h3>
-    <div class="targeta llista-modes">${joc.modes.map(([m, t, d]) => `<button data-mode="${m}"><span><b>${esc(t)}</b><span class="suau">${esc(d)}</span></span>${ico('fletxa', 'chevron')}</button>`).join('')}
-      <button data-cr="1"><span><b>⏱️ Contrarellotge</b><span class="suau">Tantes com puguis en ${SEGONS_CR} segons${s?.rec ? ` · el teu rècord: ${s.rec}` : ''}</span></span>${ico('fletxa', 'chevron')}</button></div>
-    <div class="botons"><a class="boto" href="#/mapa/${capa}">${ico('obre')} ${joc.id === 'relleu' ? 'Repassar les unitats' : 'Veure al mapa'}</a></div>`;
-  document.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click', () => comencaJoc(joc.id, b.dataset.mode)));
-  $('[data-cr]').addEventListener('click', () => comencaJoc(joc.id, 'barrejat', true));
+    <div class="targeta tria-joc">
+      <label class="camp-joc"><span>Mode de joc</span>
+        <select id="mode-joc">${modes.map(([m, n]) => `<option value="${m}" ${m === t.mode ? 'selected' : ''}>${esc(n)}</option>`).join('')}</select></label>
+      <p class="suau desc-mode" id="desc-mode"></p>
+      <div class="camp-joc"><span>Format</span>
+        <div class="segment" role="radiogroup" aria-label="Format">
+          <button role="radio" data-cr="0" aria-checked="${!t.cr}">${PREGUNTES_PARTIDA} preguntes</button>
+          <button role="radio" data-cr="1" aria-checked="${!!t.cr}">⏱️ Contrarellotge</button></div></div>
+      <p class="suau petit" id="desc-format"></p>
+      <button class="boto principal boto-jugar" id="jugar">▶ Jugar</button>
+    </div>
+    <a class="targeta explora-mapa" href="#/mapa/${capa}"><span class="joc-ic">🗺️</span><span class="txt"><b>${joc.id === 'relleu' ? 'Repassar les unitats al mapa' : 'Explorar el mapa'}</b><span class="suau">Mira-te-les i toca-les per veure'n la fitxa, sense preguntes.</span></span>${ico('fletxa', 'chevron')}</a>`;
+  const pinta = () => {
+    $('#desc-mode').textContent = modes.find(m => m[0] === t.mode)[2];
+    $('#desc-format').textContent = t.cr ? `Tantes com puguis en ${SEGONS_CR} segons${s?.rec ? ` · el teu rècord: ${s.rec}` : ''}.` : `Amb l'explicació de cada resposta.`;
+    document.querySelectorAll('.segment [data-cr]').forEach(b => b.setAttribute('aria-checked', String((b.dataset.cr === '1') === !!t.cr)));
+  };
+  pinta();
+  $('#mode-joc').addEventListener('change', e => { t = {...t, mode: e.target.value}; triaJoc(joc.id, t); pinta(); });
+  document.querySelectorAll('.segment [data-cr]').forEach(b => b.addEventListener('click', () => { t = {...t, cr: b.dataset.cr === '1'}; triaJoc(joc.id, t); pinta(); }));
+  $('#jugar').addEventListener('click', () => comencaJoc(joc.id, t.mode, t.cr));
 }
 
 // ---------------------------------------------------------------- Temari → Mapa
@@ -474,6 +499,7 @@ function pintaPregunta() {
   if (mo && !mo.fons && (G.id === 'muntanyes' || G.id === 'rius' || G.id === 'relleu')) mo = {...mo, fons: 'mixt'};
   const s = Math.max(0, Math.ceil((G.fi - Date.now()) / 1000));
   $('#app').innerHTML = `
+    <div class="joc-sortida"><a href="#/jocs/${G.id}">← Sortir</a><a href="#/mapa/${G.id}">🗺️ Explorar el mapa</a></div>
     <div class="capcalera-test"><b>${joc.ic} ${esc(joc.nom)}</b><span>${G.cr ? `<span class="temps" id="t-cr">${s} s</span> · ${G.resp.filter(x => x && x.ok).length} encerts` : `${G.i + 1} / ${G.preg.length}`}</span></div>
     <div class="progres-barra"><div style="width:${G.cr ? 100 * s / SEGONS_CR : pct(G.i + (respost ? 1 : 0), G.preg.length)}%"></div></div>
     <div class="targeta">
@@ -528,7 +554,7 @@ function resultatJoc() {
         : `${quadres(G.resp.map(r => (r && r.ok ? 1 : 0)))}<p><b>${enc}/${G.preg.length}</b></p>`}
       ${barraDomini(G.id, joc.plural)}
       <div class="botons"><button class="boto principal" id="altra">${G.cr ? 'Una altra contrarellotge' : 'Una altra partida'}</button>
-        ${G.cr ? '<button class="boto" id="comp-cr">Compartir</button>' : ''}<a class="boto" href="#/mapa/${G.id}">Veure al mapa</a></div></div>
+        ${G.cr ? '<button class="boto" id="comp-cr">Compartir</button>' : ''}<a class="boto" href="#/jocs/${G.id}">Canviar de mode</a><a class="boto" href="#/mapa/${G.id}">Explorar el mapa</a></div></div>
     ${fallades.length ? `<h2>Per repassar</h2>${fallades.map(q => `<div class="targeta"><p>${q.text.replace(/^Toca al mapa: /, 'On és ').replace(/^Toca al mapa el riu /, 'On és el riu ').replace(/ Toca el mapa$/, '')}</p><div class="explicacio">${q.explica}</div></div>`).join('')}` : ''}`;
   $('#altra').addEventListener('click', () => comencaJoc(G.id, G.mode, G.cr));
   $('#comp-cr')?.addEventListener('click', async () => {
