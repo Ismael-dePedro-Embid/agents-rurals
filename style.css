@@ -258,3 +258,13 @@ details.filtres[open] { padding-bottom: 1rem; } details.filtres fieldset { backg
 .pestanyes a { flex: 1; text-align: center; padding: .55rem .5rem; border-radius: 9px; text-decoration: none; color: var(--suau); font-weight: 600; font-size: .95rem; }
 .pestanyes a.actiu { background: var(--superficie); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
 .petit-boto { padding: .3rem .8rem; font-size: .88rem; }
+
+/* Ajustos per categories */
+.llista-ajustos { padding: .2rem 0; }
+.llista-ajustos a { display: flex; align-items: center; gap: .8rem; padding: .75rem 1rem; text-decoration: none; color: var(--text); border-bottom: 1px solid var(--vora); }
+.llista-ajustos a:last-child { border-bottom: 0; }
+.llista-ajustos .ic { width: 2.1rem; height: 2.1rem; border-radius: 9px; background: var(--verd-clar); color: var(--verd); display: grid; place-items: center; flex-shrink: 0; }
+.llista-ajustos .txt { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.llista-ajustos .txt .suau { font-size: .83rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.llista-ajustos .chevron { color: var(--suau); width: 1.1rem; height: 1.1rem; }
+.tornar-ajustos { display: inline-block; margin: .2rem 0 .2rem; text-decoration: none; font-weight: 600; }

@@ -128,6 +128,13 @@ const ICONES = {
   pujada: '<path d="M3 17l6-6 4 4 7-7"/><path d="M14 8h6v6"/>',
   obre: '<path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 19V5M8 7h7M8 11h5"/>',
   bandera: '<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',
+  sol: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  rellotge: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/>',
+  persona: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6"/>',
+  descarrega: '<path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 17v3h16v-3"/>',
+  etiqueta: '<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/>',
+  info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>',
+  fletxa: '<path d="M9 5l7 7-7 7"/>',
   escut: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>'
 };
 const ico = (n, cls = '') => `<svg class="icona ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONES[n]}</svg>`;
@@ -933,27 +940,29 @@ function dispositiu() {
   return {so, nav, app};
 }
 const dataCa = d => new Date(d).toLocaleDateString('ca', {day: 'numeric', month: 'long', year: 'numeric'});
-function vistaAjustos() {
+// Categories d'Ajustos: llista com als ajustos del mòbil; en tocar-ne una, s'hi entra
+const CATEGORIES_AJUSTOS = [
+  ['aparenca', 'Aparença', 'sol', () => `${{auto: 'Automàtic', light: 'Clar', dark: 'Fosc'}[aj('tema')]} · text ${{petit: 'petit', normal: 'normal', gran: 'gran', 'molt-gran': 'molt gran'}[aj('text')]}`],
+  ['constancia', 'Constància', 'flama', () => `Meta: ${aj('meta')} preguntes al dia`],
+  ['practica', 'Pràctica', 'check', () => `${aj('nPractica')} preguntes per sessió${aj('barrejaOp') ? ' · opcions barrejades' : ''}`],
+  ['simulacre', 'Simulacre', 'rellotge', () => `Cronòmetre ${aj('simCrono') ? 'visible' : 'amagat'}`],
+  ['perfil', 'Perfil', 'persona', () => aj('nom') ? `${aj('nom')} · ${dispositiu().so}` : `Nom, dispositiu i on es desa el progrés`],
+  ['copia', 'Còpia del progrés', 'descarrega', () => P.copia() ? `Darrera còpia: ${dataCa(P.copia())}` : 'Encara no n\'has fet cap còpia'],
+  ['versio', 'Versió', 'etiqueta', () => `${D.app?.novetats?.[0]?.versio || ''} · historial de novetats`],
+  ['quant-a', 'Quant a', 'info', () => 'Contingut, autor i drets'],
+];
+function vistaAjustos([cat] = []) {
   const seg = (k, ops) => `<div class="segmentat" role="radiogroup">${ops.map(([v, t]) => `<label><input type="radio" name="${k}" value="${v}" ${String(aj(k)) === String(v) ? 'checked' : ''}><span>${t}</span></label>`).join('')}</div>`;
   const int = k => `<input type="checkbox" class="interruptor" name="${k}" ${aj(k) ? 'checked' : ''}>`;
   const fila = (t, d, ctl) => `<div class="ajust"><div><div>${t}</div>${d ? `<div class="desc">${d}</div>` : ''}</div>${ctl}</div>`;
   const nq = Object.keys(P.tots()).length, ns = P.sims().length;
   const dv = dispositiu(), primer = Object.keys(P.dies()).sort()[0];
   const nov = D.app?.novetats || [], act = nov[0];
-  $('#app').innerHTML = `<h1>Ajustos</h1><div id="ajustos">
-    <div class="seccio-ajustos"><h2>Tu i aquest dispositiu</h2><div class="targeta">
-      ${fila('El teu nom', 'Opcional. Surt a la salutació de l\'inici i al resultat del repte que comparteixes.', `<input type="text" name="nom" class="camp-text" maxlength="30" placeholder="Nom" value="${esc(aj('nom') || '')}">`)}
-      ${fila('Dispositiu', `${dv.so} · ${dv.nav} · ${dv.app ? 'instal·lada com a app' : 'oberta al navegador'}`, '')}
-      ${fila('On es desa el progrés', `Només en aquest dispositiu i navegador${dv.app ? '' : ' (si instal·les l\'app, fes-hi una còpia i importa-la)'}. No s'envia enlloc.`, '')}
-      ${fila('Espai ocupat', '<span id="espai">calculant…</span>', '<button class="boto" id="protegeix" hidden>Protegir</button>')}
-      ${fila('Estudiant des de', primer ? dataCa(primer + 'T12:00') : 'avui', '')}
-    </div></div>
-    <div class="seccio-ajustos"><h2>Còpia del progrés</h2><div class="targeta">
-      ${fila('Les teves dades', `${nq} preguntes respostes i ${ns} simulacres. ${P.copia() ? `Darrera còpia: ${dataCa(P.copia())}.` : 'Encara no n\'has fet cap còpia.'}`, '')}
-      <div class="botons" style="margin:0 0 .8rem"><button class="boto principal" id="exp">Descarregar còpia</button>
-        <label class="boto">Importar còpia<input type="file" id="imp" accept="application/json,.json" hidden></label></div>
-      ${fila('Esborrar el progrés', 'Esborra respostes, simulacres, ratxa i logros d\'aquest dispositiu. Els ajustos es mantenen.', '<button class="boto perill" id="del">Esborrar</button>')}
-    </div></div>
+  const C = CATEGORIES_AJUSTOS.find(c => c[0] === cat);
+  $('#app').innerHTML = `${C ? `<a class="tornar-ajustos" href="#/ajustos">← Ajustos</a><h1>${esc(C[1])}</h1>` : '<h1>Ajustos</h1>'}
+    ${C ? '' : `<div class="targeta llista-ajustos">${CATEGORIES_AJUSTOS.map(([id, nom, ic, sub]) => `<a href="#/ajustos/${id}">
+      <span class="ic">${ico(ic)}</span><span class="txt"><b>${esc(nom)}</b><span class="suau">${esc(sub())}</span></span>${ico('fletxa', 'chevron')}</a>`).join('')}</div>`}
+    <div id="ajustos">
     <div class="seccio-ajustos"><h2>Aparença</h2><div class="targeta">
       ${fila('Tema', '', seg('tema', [['auto', 'Automàtic'], ['light', 'Clar'], ['dark', 'Fosc']]))}
       ${fila('Mida del text', '', seg('text', [['petit', 'A−'], ['normal', 'A'], ['gran', 'A+'], ['molt-gran', 'A++']]))}
@@ -970,6 +979,19 @@ function vistaAjustos() {
     <div class="seccio-ajustos"><h2>Simulacre</h2><div class="targeta">
       ${fila('Mostrar el cronòmetre', 'El temps compta igualment.', int('simCrono'))}
       ${fila('Saltar a la següent en respondre', '', int('simAvanca'))}
+    </div></div>
+    <div class="seccio-ajustos"><h2>Perfil</h2><div class="targeta">
+      ${fila('El teu nom', 'Opcional. Surt a la salutació de l\'inici i al resultat del repte que comparteixes.', `<input type="text" name="nom" class="camp-text" maxlength="30" placeholder="Nom" value="${esc(aj('nom') || '')}">`)}
+      ${fila('Dispositiu', `${dv.so} · ${dv.nav} · ${dv.app ? 'instal·lada com a app' : 'oberta al navegador'}`, '')}
+      ${fila('On es desa el progrés', `Només en aquest dispositiu i navegador${dv.app ? '' : ' (si instal·les l\'app, fes-hi una còpia i importa-la)'}. No s'envia enlloc.`, '')}
+      ${fila('Espai ocupat', '<span id="espai">calculant…</span>', '<button class="boto" id="protegeix" hidden>Protegir</button>')}
+      ${fila('Estudiant des de', primer ? dataCa(primer + 'T12:00') : 'avui', '')}
+    </div></div>
+    <div class="seccio-ajustos"><h2>Còpia del progrés</h2><div class="targeta">
+      ${fila('Les teves dades', `${nq} preguntes respostes i ${ns} simulacres. ${P.copia() ? `Darrera còpia: ${dataCa(P.copia())}.` : 'Encara no n\'has fet cap còpia.'}`, '')}
+      <div class="botons" style="margin:0 0 .8rem"><button class="boto principal" id="exp">Descarregar còpia</button>
+        <label class="boto">Importar còpia<input type="file" id="imp" accept="application/json,.json" hidden></label></div>
+      ${fila('Esborrar el progrés', 'Esborra respostes, simulacres, ratxa i logros d\'aquest dispositiu. Els ajustos es mantenen.', '<button class="boto perill" id="del">Esborrar</button>')}
     </div></div>
     <div class="seccio-ajustos"><h2>Versió</h2><div class="targeta">
       ${fila(`Versió ${esc(act?.versio || '')}`, `Darrera actualització: ${act ? dataCa(act.data + 'T12:00') : '–'}`, '<button class="boto" id="cerca-act">Buscar actualitzacions</button>')}
@@ -994,6 +1016,11 @@ function vistaAjustos() {
         Els textos normatius i els exàmens oficials són de les administracions que els publiquen. Les fotos de les espècies són dels seus autors,
         amb llicències Creative Commons indicades a cada fitxa del temari.</p>
     </div></div></div>`;
+  document.querySelectorAll('#ajustos .seccio-ajustos').forEach(sc => {
+    const nom = sc.querySelector('h2').textContent;
+    sc.hidden = !C || nom !== C[1];
+    sc.querySelector('h2').hidden = true;
+  });
   navigator.storage?.estimate?.().then(e => {
     const el = $('#espai'); if (!el) return;
     el.textContent = `${(e.usage / 1e6).toFixed(1)} MB (temari, imatges i preguntes desats per funcionar sense connexió)`;
