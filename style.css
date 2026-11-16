@@ -338,3 +338,11 @@ button.xip-est { cursor: pointer; } .xip-est.sel { outline: 2px solid var(--blau
 .a-mitges { border-color: var(--blau); background: var(--blau-clar); }
 .avis-copia { border-color: var(--ambre); background: var(--ambre-clar); }
 .a-mitges > div:first-child, .avis-copia > div:first-child, .avis-ios > div:first-child { flex: 1 1 14rem; }
+
+/* Punts febles per epígraf i fallades per llegir */
+.epigrafs-febles { display: grid; gap: .45rem; }
+.epi-feble { display: flex; gap: .75rem; align-items: center; margin: 0; padding: .7rem .85rem; }
+.epi-feble .txt { flex: 1; min-width: 0; font-size: .93rem; } .epi-feble .barra-tema { margin-top: .35rem; }
+.epi-cap { font-size: 1rem; margin-top: 1.4rem; }
+.fallada-llegir .enunciat { font-size: 1rem; margin-bottom: .5rem; }
+.resposta-bona { color: var(--verd); font-weight: 600; margin: .3rem 0; } .resposta-bona .icona { width: 1.1rem; height: 1.1rem; vertical-align: -.2rem; }

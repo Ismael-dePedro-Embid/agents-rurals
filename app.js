@@ -319,12 +319,12 @@ const flama = (activa, mida = 52) => `<svg viewBox="0 0 48 56" width="${mida * 4
 // ---------------------------------------------------------------- encaminament
 const rutes = {
   '': vistaInici, practica: vistaPractica, simulacre: vistaSimulacre, repas: vistaRepas,
-  test: vistaTest, resultat: vistaResultat, especies: vistaEspecies, temari: vistaTemari, progres: vistaProgres, ajustos: vistaAjustos,
+  test: vistaTest, resultat: vistaResultat, fallades: vistaFallades, especies: vistaEspecies, temari: vistaTemari, progres: vistaProgres, ajustos: vistaAjustos,
 };
 function navega() {
   const parts = location.hash.replace(/^#\/?/, '').split('/');
   const r = rutes[parts[0]] || vistaInici;
-  const seccio = {test: SESSIO && SESSIO.mode === 'simulacre' ? 'simulacre' : 'practica', resultat: 'practica', repas: '', especies: 'practica', jocs: 'practica'}[parts[0]] ?? parts[0];
+  const seccio = {test: SESSIO && SESSIO.mode === 'simulacre' ? 'simulacre' : 'practica', resultat: 'practica', repas: '', especies: 'practica', jocs: 'practica', fallades: 'progres'}[parts[0]] ?? parts[0];
   document.querySelectorAll('.menu a, .engranatge').forEach(a => a.classList.toggle('actiu', a.getAttribute('href') === '#/' + seccio));
   if (parts[0] !== 'temari') TORNAR = null;
   $('#tornar').hidden = !(parts[0] === 'temari' && TORNAR);
@@ -397,7 +397,7 @@ function vistaInici() {
       <div class="txt"><b>Minijoc del dia: ${esc(j.nom)}</b><div class="suau">${esc(j.desc)}</div></div><button class="boto" data-minijoc="${j.id}">Jugar</button></div>`; })() : ''}
     ${pendents || fallades ? `<div class="targeta pendent"><b>Pendent</b><div class="botons">
       ${pendents ? `<a class="boto" href="#/repas">Repassar ${pendents} ${pendents === 1 ? 'pregunta' : 'preguntes'}</a>` : ''}
-      ${fallades ? `<button class="boto" id="fallades">Tornar a les fallades (${fallades})</button>` : ''}</div></div>` : ''}
+      ${fallades ? `<button class="boto" id="fallades">Tornar a les fallades (${fallades})</button><a class="boto" href="#/fallades">Llegir-les</a>` : ''}</div></div>` : ''}
     <div class="targeta resum-inici">
       <div><div class="xifra-petita">${vistes.toLocaleString('ca')}<span class="suau"> / ${D.preguntes.length.toLocaleString('ca')}</span></div><div class="suau">preguntes vistes</div></div>
       <div><div class="xifra-petita">${tot ? pct(enc, tot) + ' %' : '–'}</div><div class="suau">d'encert</div></div>
@@ -702,6 +702,7 @@ function panellCorreccio(q, r) {
     <details class="plega" ${aj('cita') === 'oberta' ? 'open' : ''}><summary><b>${esc(q.n)}</b>${q.art ? `, art. ${esc(q.art)}` : ''} · cita</summary>
       <div class="cita">${esc(q.c)}</div></details>
     <div class="botons"><a class="boto" data-apunts href="#/temari/${encodeURIComponent(q.f)}/${encodeURIComponent(q.a)}">${ico('obre')} Obrir als apunts</a>
+      ${r !== undefined && r !== q.ok && SESSIO && !SESSIO.acabada && SESSIO.mode !== 'simulacre' ? `<button type="button" class="boto" data-epi-test="${esc(q.t)}|${esc(q.e)}">Practicar l'epígraf ${esc(q.e)}</button>` : ''}
       <button type="button" class="boto" data-report="${esc(q.id)}" data-r="${r ?? ''}">${ico('bandera')} Reportar un error</button></div>`;
 }
 // ---------------------------------------------------------------- reportar un error
@@ -713,6 +714,11 @@ const TIPUS_ERROR = [
   ['desactualitzada', 'La norma ha canviat (dada desactualitzada)'],
   ['altre', 'Una altra cosa'],
 ];
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-epi-test]'); if (!b) return;
+  const [t, ep] = b.dataset.epiTest.split('|');
+  if (confirm(`Començar una pràctica de 10 preguntes de l'epígraf ${ep}? Deixaràs aquesta pràctica.`)) practicaEpigraf(t, ep);
+});
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-report]'); if (!b) return;
   obreReport(PER_ID.get(b.dataset.report), b.dataset.r === '' ? undefined : +b.dataset.r);
@@ -941,6 +947,48 @@ async function vistaTemari([fitxer, ancora]) {
 }
 
 // ---------------------------------------------------------------- progrés
+// Nom d'un epígraf (p. ex. «E3.5») a partir de l'índex del tema
+function nomEpigraf(t, e) {
+  const h = temaDe(t)?.index.find(h => h.t.startsWith(e + '.') || h.t.startsWith(e + ' '));
+  return h ? h.t.replace(/\s+/g, ' ').replace(/^[GE]\d+(\.\d+)*\.?\s*/, '') : '';
+}
+// Estadística per epígraf. Punts que s'hi perden ≈ (1 − encert) × pes del tema a l'examen × part del tema que és l'epígraf.
+function epigrafsFebles(minim = 4) {
+  const q = P.tots(), per = {};
+  for (const x of D.preguntes) {
+    if (!vigent(x)) continue;
+    const o = per[x.e] = per[x.e] || {t: x.t, e: x.e, total: 0, n: 0, c: 0, fall: 0};
+    o.total++;
+    const r = q[x.id]; if (!r) continue;
+    o.n += r.n; o.c += r.c; if (esFallada(r)) o.fall++;
+  }
+  const perTema = {};
+  for (const o of Object.values(per)) perTema[o.t] = (perTema[o.t] || 0) + o.total;
+  return Object.values(per).filter(o => o.n >= minim).map(o => ({...o, enc: o.c / o.n,
+    perdua: (1 - o.c / o.n) * (D.pes[o.t] || 0) * o.total / perTema[o.t]})).sort((a, b) => b.perdua - a.perdua);
+}
+const practicaEpigraf = (t, e) => llancaPractica({...FILTRES_DEF, temes: [t], epi: e, n: 10});
+function vistaFallades([tema]) {
+  const q = P.tots();
+  const ll = D.preguntes.filter(x => esFallada(q[x.id]) && vigent(x) && (!tema || x.t === tema))
+    .sort((a, b) => ordreTema(a.t) - ordreTema(b.t) || a.e.localeCompare(b.e, 'ca', {numeric: true}));
+  const temes = [...new Set(D.preguntes.filter(x => esFallada(q[x.id]) && vigent(x)).map(x => x.t))].sort((a, b) => ordreTema(a) - ordreTema(b));
+  const grups = {};
+  for (const x of ll) (grups[x.e] = grups[x.e] || []).push(x);
+  $('#app').innerHTML = `<h1>Fallades per llegir</h1>
+    <p class="suau">Les preguntes que tens fallades, amb la resposta correcta i l'explicació. Llegeix-les i després fes-ne un test.</p>
+    <div class="targeta comenca"><div><b>${ll.length} ${ll.length === 1 ? 'pregunta' : 'preguntes'}</b>
+      <div class="suau"><label>Tema <select id="tema-f"><option value="">Tots</option>${temes.map(t => `<option value="${t}" ${t === tema ? 'selected' : ''}>${esc(nomTema(t))}</option>`).join('')}</select></label></div></div>
+      ${ll.length ? '<button class="boto principal" id="test-f">Fer-ne un test</button>' : ''}</div>
+    ${ll.length ? Object.entries(grups).map(([e, xs]) => `<h2 class="epi-cap">${esc(e)} ${esc(nomEpigraf(xs[0].t, e))}</h2>
+      ${xs.map(x => `<div class="targeta fallada-llegir"><p class="enunciat">${esc(x.q)}</p>
+        <p class="resposta-bona">${ico('check')} ${esc(x.op[x.ok])}</p>
+        <div class="suau">${esc(x.x)}</div>
+        <div class="botons"><a class="boto" data-apunts href="#/temari/${encodeURIComponent(x.f)}/${encodeURIComponent(x.a)}">${ico('obre')} Apunts</a></div></div>`).join('')}`).join('')
+      : '<p>No tens cap pregunta fallada' + (tema ? ' en aquest tema' : '') + '. 👏</p>'}`;
+  $('#tema-f').addEventListener('change', e => { location.hash = '#/fallades' + (e.target.value ? '/' + e.target.value : ''); });
+  $('#test-f')?.addEventListener('click', () => comenca(barreja(ll).slice(0, 40), 'practica', 'Fallades'));
+}
 function vistaProgres() {
   const q = P.tots();
   const files = D.temes.map(t => {
@@ -970,7 +1018,17 @@ function vistaProgres() {
     </div>
     <h2>Aquesta setmana</h2>${resumSetmana()}
     ${sims.length ? `<h2>Evolució dels simulacres</h2><div class="targeta">${graficaSims(sims)}</div>` : ''}
-    ${febles.length ? `<div class="targeta"><b>Punts febles:</b> ${febles.map(f => `${f.t.codi} (${f.enc} %)`).join(' · ')}</div>` : ''}
+    ${(() => {
+      const ep = epigrafsFebles().filter(o => o.enc < .85).slice(0, 6);
+      if (!ep.length) return febles.length ? `<div class="targeta"><b>Punts febles:</b> ${febles.map(f => `${f.t.codi} (${f.enc} %)`).join(' · ')}</div>` : '';
+      return `<h2>On pots guanyar més nota</h2>
+        <p class="suau">Epígrafs on més falles, ordenats pel que pesen a l'examen.</p>
+        <div class="epigrafs-febles">${ep.map(o => `<div class="targeta epi-feble">
+          <div class="txt"><b>${esc(o.e)}</b> ${esc(nomEpigraf(o.t, o.e))}<div class="suau">${Math.round(100 * o.enc)} % d'encert · ${o.n} respostes${o.fall ? ` · ${o.fall} fallades` : ''}</div>
+          <div class="barra-tema"><div style="width:${Math.round(100 * o.enc)}%;background:var(${o.enc >= .5 ? '--ambre' : '--vermell'})"></div></div></div>
+          <button class="boto" data-epi="${esc(o.t)}|${esc(o.e)}">Practicar</button></div>`).join('')}</div>`;
+    })()}
+    ${Object.values(P.tots()).some(r => esFallada(r)) ? '<div class="botons"><a class="boto" href="#/fallades">Llegir les fallades</a></div>' : ''}
     <h2>Per temes</h2>
     <div class="temes-progres">${files.map(f => `<a class="tema-progres" href="#" data-fall="${f.t.codi}" data-n="${f.fall}">
       <span class="codi">${esc(f.t.codi)}</span><span class="nom">${esc(f.t.titol)}</span>
@@ -980,6 +1038,7 @@ function vistaProgres() {
     <h2>Logros <span class="suau">${logros().filter(l => l.ok).length}/${logros().length}</span></h2>
     <div class="logros">${logros().sort((a, b) => (b.ok - a.ok) || (b.val / b.obj - a.val / a.obj)).map(l => `<div class="logro ${l.ok ? 'ok' : ''}" title="${esc(l.desc)}"><div class="ico">${l.ico}</div>
       <div><b>${esc(l.nom)}</b><div class="suau">${esc(l.desc)}</div>${l.ok ? '' : `<div class="barra-tema"><div style="width:${pct(l.val, l.obj)}%;background:var(--verd)"></div></div><div class="suau petit">${l.val.toLocaleString('ca')} / ${l.obj.toLocaleString('ca')}</div>`}</div></div>`).join('')}</div>`;
+  document.querySelectorAll('[data-epi]').forEach(b => b.addEventListener('click', () => { const [t, e] = b.dataset.epi.split('|'); practicaEpigraf(t, e); }));
   document.querySelectorAll('[data-fall]').forEach(b => b.addEventListener('click', e => {
     e.preventDefault();
     const t = b.dataset.fall;
