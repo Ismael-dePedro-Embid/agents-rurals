@@ -69,7 +69,7 @@ const P = (() => {
 })();
 
 // ---------------------------------------------------------------- ajustos de l'usuari
-const AJ_DEF = {meta: 20, tema: 'auto', text: 'normal', barrejaOp: false, avanca: false, cita: 'oberta', nPractica: 20, simCrono: true, simAvanca: true};
+const AJ_DEF = {meta: 40, tema: 'auto', text: 'normal', barrejaOp: false, avanca: false, cita: 'oberta', nPractica: 20, simCrono: true, simAvanca: true};
 // Només es desen els ajustos que l'usuari ha canviat; així un canvi de valor per defecte arriba a tothom
 (() => { const a = P.pref('ajustos'); if (a && !a.v) { const n = {v: 2}; for (const k in a) if (k !== 'cita' && a[k] !== AJ_DEF[k]) n[k] = a[k]; P.pref('ajustos', n); } })();
 const aj = k => ({...AJ_DEF, ...(P.pref('ajustos') || {})})[k];
@@ -106,6 +106,7 @@ const punts = d => '●'.repeat(d) + '○'.repeat(4 - d);
 
 // ---------------------------------------------------------------- constància: ratxa, repte del dia i logros
 const fet = dia => (P.dies()[dia]?.n || 0) >= aj('meta');
+const fraccioMeta = dia => (P.dies()[dia]?.n || 0) / aj('meta');
 // Ratxa: dies seguits complint la meta. Un dia sense complir-la per setmana no la trenca (dia de descans).
 function ratxa() {
   // Es recorre cap enrere des d'avui (o des d'ahir si avui encara no s'ha fet la meta)
@@ -248,10 +249,10 @@ function vistaInici() {
     ${instalPrompt ? `<div class="targeta avis-instal"><span>Instal·la l'app per fer-la servir sense connexió.</span><button class="boto principal" id="instal">Instal·lar</button></div>` : ''}
     <h1>Oposició d'agent rural</h1>
     ${(() => {
-      const fets = P.dies()[avui()]?.n || 0, meta = aj('meta'), rt = ratxa(), rep = P.reptes()[avui()];
+      const fets = P.dies()[avui()]?.n || 0, meta = aj('meta'), fetAvui = fet(avui()), rt = ratxa(), rep = P.reptes()[avui()];
       return `<div class="constancia">
-        <div class="targeta meta-dia">${anell(fets, meta)}<div><div class="xifra-petita">${Math.min(fets, meta)}/${meta}</div><div class="suau">${fets >= meta ? 'meta feta 🎉' : 'meta d\'avui'}</div></div></div>
-        <div class="targeta ratxa ${rt ? 'activa' : ''}"><div class="foc">🔥</div><div><div class="xifra-petita">${rt} ${rt === 1 ? 'dia' : 'dies'}</div><div class="suau">${rt ? (fets >= meta ? 'de ratxa' : 'de ratxa · fes la meta d\'avui') : 'comença la ratxa avui'}</div></div></div>
+        <div class="targeta meta-dia">${anell(fraccioMeta(avui()), 1)}<div><div class="xifra-petita">${fetAvui ? 'Feta 🎉' : 'Meta d\'avui'}</div><div class="suau">${Math.min(fets, meta)}/${meta} preguntes</div></div></div>
+        <div class="targeta ratxa ${rt ? 'activa' : ''}"><div class="foc">🔥</div><div><div class="xifra-petita">${rt} ${rt === 1 ? 'dia' : 'dies'}</div><div class="suau">${rt ? (fetAvui ? 'de ratxa' : 'de ratxa · fes la meta d\'avui') : 'comença la ratxa avui'}</div></div></div>
         <div class="targeta repte">${rep ? `<div class="quadres">${rep.r.map(x => `<span class="q${x}"></span>`).join('')}</div><div class="suau">Repte #${numRepte(avui())}: ${rep.r.filter(x => x === 1).length}/10</div><button class="boto" data-comparteix="${avui()}">Compartir</button>`
           : `<div><b>Repte del dia #${numRepte(avui())}</b><div class="suau">10 preguntes, les mateixes per a tothom</div></div><button class="boto principal" id="repte">Fer-lo</button>`}</div>
       </div>`;
@@ -805,8 +806,7 @@ function resumSetmana() {
   const set = [...Array(7)].map((_, k) => diaAbans(avui(), 6 - k)), ant = [...Array(7)].map((_, k) => diaAbans(avui(), 13 - k));
   const suma = ll => ll.reduce((a, d) => { const x = ds[d]; if (x) { a.n += x.n; a.c += x.c; for (const [t, [n, c]] of Object.entries(x.t || {})) { const o = a.t[t] = a.t[t] || [0, 0]; o[0] += n; o[1] += c; } } return a; }, {n: 0, c: 0, t: {}});
   const A = suma(set), B = suma(ant);
-  const max = Math.max(meta, ...set.map(d => ds[d]?.n || 0));
-  const barres = set.map(d => { const n = ds[d]?.n || 0; return `<div class="dia-barra ${n >= meta ? 'fet' : ''}"><div class="col"><div style="height:${Math.round(100 * n / max)}%"></div></div><span>${['dg', 'dl', 'dt', 'dc', 'dj', 'dv', 'ds'][new Date(d + 'T12:00').getDay()]}</span></div>`; }).join('');
+  const barres = set.map(d => { const f = Math.min(1, fraccioMeta(d)); return `<div class="dia-barra ${fet(d) ? 'fet' : ''}" title="${ds[d]?.n || 0} preguntes"><div class="col"><div style="height:${Math.round(100 * f)}%"></div></div><span>${['dg', 'dl', 'dt', 'dc', 'dj', 'dv', 'ds'][new Date(d + 'T12:00').getDay()]}</span></div>`; }).join('');
   const temes = Object.entries(A.t).filter(([t, [n]]) => t !== 'esp' && n >= 5).map(([t, [n, c]]) => ({t, p: c / n, d: B.t[t] && B.t[t][0] >= 5 ? c / n - B.t[t][1] / B.t[t][0] : null}));
   const millora = temes.filter(x => x.d !== null).sort((a, b) => b.d - a.d)[0];
   const fluix = temes.filter(x => x !== millora || temes.length === 1).sort((a, b) => a.p - b.p)[0];
@@ -817,7 +817,7 @@ function resumSetmana() {
       <div><b>${A.n ? pct(A.c, A.n) + ' %' : '–'}</b> <span class="suau">d'encert${B.n && A.n ? ` (abans ${pct(B.c, B.n)} %)` : ''}</span></div>
       ${millora && millora.d > 0 ? `<div>📈 <span class="suau">Més millora:</span> ${esc(nomTema(millora.t))} (+${Math.round(100 * millora.d)} punts)</div>` : ''}
       ${fluix && fluix !== millora && fluix.p < .7 ? `<div>🎯 <span class="suau">A reforçar:</span> ${esc(nomTema(fluix.t))} (${Math.round(100 * fluix.p)} %)</div>` : ''}
-      <div class="suau petit">Les barres verdes són els dies que has complert la meta (${meta} preguntes). Millor ratxa: ${millorRatxa()} dies.</div>
+      <div class="suau petit">Cada barra és el que has fet de la meta del dia (${meta} preguntes); en verd, els dies complerts. Millor ratxa: ${millorRatxa()} dies.</div>
     </div></div>`;
 }
 function graficaSims(sims) {
@@ -846,7 +846,7 @@ function vistaAjustos() {
       ${fila('Mida del text', '', seg('text', [['petit', 'A−'], ['normal', 'A'], ['gran', 'A+'], ['molt-gran', 'A++']]))}
     </div></div>
     <div class="seccio-ajustos"><h2>Constància</h2><div class="targeta">
-      ${fila('Meta diària', 'Preguntes al dia per mantenir la ratxa. Compten totes: pràctica, repàs, simulacres, repte i espècies. Un dia per setmana sense fer-la no trenca la ratxa.', seg('meta', [[10, '10'], [20, '20'], [30, '30'], [50, '50']]))}
+      ${fila('Meta diària', 'Preguntes al dia per mantenir la ratxa. Compten totes: pràctica, repàs, simulacres, repte i espècies. Un dia per setmana sense fer-la no trenca la ratxa.', seg('meta', [[20, '20'], [30, '30'], [40, '40'], [60, '60']]))}
     </div></div>
     <div class="seccio-ajustos"><h2>Pràctica</h2><div class="targeta">
       ${fila('Barrejar l\'ordre de les opcions', 'Per no memoritzar la lletra. No s\'aplica als exàmens oficials sencers.', int('barrejaOp'))}
