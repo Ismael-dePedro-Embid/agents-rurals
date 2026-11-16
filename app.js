@@ -377,14 +377,57 @@ function panellCorreccio(q, r) {
     <details class="plega" ${aj('cita') === 'oberta' ? 'open' : ''}><summary><b>${esc(q.n)}</b>${q.art ? `, art. ${esc(q.art)}` : ''} · cita</summary>
       <div class="cita">${esc(q.c)}</div></details>
     <div class="botons"><a class="boto" data-apunts href="#/temari/${encodeURIComponent(q.f)}/${encodeURIComponent(q.a)}">📖 Obrir als apunts</a>
-      <a class="boto" target="_blank" rel="noopener" href="${esc(urlReport(q, r))}">⚑ Reportar un error</a></div>`;
+      <button type="button" class="boto" data-report="${esc(q.id)}" data-r="${r ?? ''}">⚑ Reportar un error</button></div>`;
 }
-function urlReport(q, r) {
-  const cos = [`**Pregunta:** ${q.id} (${q.t} · ${q.e})`, '', `> ${q.q}`, '',
-    ...q.op.map((o, k) => `- ${LLETRES[k]}) ${o}${k === q.ok ? '  ← marcada com a correcta' : ''}${k === r ? '  ← la meva resposta' : ''}`), '',
-    `**Font:** ${q.n}${q.art ? ', art. ' + q.art : ''}`, '', '**Què hi falla?**', '', '(Explica-ho aquí. Si pots, indica la norma o l\'apartat del temari.)', '',
+// ---------------------------------------------------------------- reportar un error
+const TIPUS_ERROR = [
+  ['resposta', 'La resposta marcada com a correcta no ho és'],
+  ['explicacio', 'L\'explicació o la cita són incorrectes'],
+  ['apunts', '«Obrir als apunts» no porta al lloc correcte'],
+  ['redaccio', 'Pregunta ambigua, mal redactada o amb dues respostes possibles'],
+  ['desactualitzada', 'La norma ha canviat (dada desactualitzada)'],
+  ['altre', 'Una altra cosa'],
+];
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-report]'); if (!b) return;
+  obreReport(PER_ID.get(b.dataset.report), b.dataset.r === '' ? undefined : +b.dataset.r);
+});
+function obreReport(q, r) {
+  document.getElementById('dlg-report')?.remove();
+  const d = document.createElement('dialog'); d.id = 'dlg-report'; d.className = 'dialeg';
+  d.innerHTML = `<form method="dialog" id="fr">
+    <h2>Reportar un error</h2>
+    <p class="suau">${esc(q.id)} · ${esc(q.q.length > 110 ? q.q.slice(0, 110) + '…' : q.q)}</p>
+    <fieldset><legend>Què hi falla?</legend>
+      ${TIPUS_ERROR.map(([v, t], k) => `<label class="fila"><input type="radio" name="tipus" value="${v}" ${k === 0 ? 'checked' : ''}> ${t}</label>`).join('')}
+    </fieldset>
+    <label class="fila" id="fr-bona">Quina creus que és la correcta?
+      <select name="bona"><option value="">No ho sé</option>${q.op.map((o, k) => k === q.ok ? '' : `<option value="${k}">${lletra(q, k)}) ${esc(o.length > 50 ? o.slice(0, 50) + '…' : o)}</option>`).join('')}</select></label>
+    <label class="camp">Explica-ho <span class="suau">(si pots, indica la norma, l'article o l'apartat del temari)</span>
+      <textarea name="text" rows="5" required placeholder="Per exemple: segons l'art. 33.2 de la Llei 22/2009 el màxim són 8 nanses, no 6."></textarea></label>
+    <p class="suau">S'obrirà GitHub amb l'informe ja emplenat; només cal prémer «Create». Cal tenir-hi un compte (és gratuït).</p>
+    <div class="botons"><button class="boto principal" value="envia">Enviar</button><button class="boto" value="cancel" formnovalidate>Cancel·lar</button></div>
+  </form>`;
+  document.body.appendChild(d);
+  const f = d.querySelector('form');
+  const bona = () => { d.querySelector('#fr-bona').hidden = f.tipus.value !== 'resposta'; };
+  f.addEventListener('change', bona); bona();
+  d.addEventListener('close', () => {
+    if (d.returnValue === 'envia') {
+      const tipus = TIPUS_ERROR.find(t => t[0] === f.tipus.value);
+      window.open(urlReport(q, r, tipus, f.bona.value === '' ? null : +f.bona.value, f.text.value.trim()), '_blank', 'noopener');
+    }
+    d.remove();
+  });
+  d.showModal();
+}
+function urlReport(q, r, tipus, bona, text) {
+  const cos = [`**Tipus:** ${tipus[1]}`, '', `**Pregunta:** ${q.id} (${q.t} · ${q.e})`, '', `> ${q.q}`, '',
+    ...q.op.map((o, k) => `- ${lletra(q, k)}) ${o}${k === q.ok ? '  ← marcada com a correcta' : ''}${k === r ? '  ← la meva resposta' : ''}${k === bona ? '  ← la que crec correcta' : ''}`), '',
+    `**Font:** ${q.n}${q.art ? ', art. ' + q.art : ''}`, '', '**Explicació:**', '', text || '(sense text)', '',
     `<sub>Versió de les dades: ${D.versio || '?'}</sub>`].join('\n');
-  return `${D.repo}/issues/new?labels=error-pregunta&title=${encodeURIComponent(`Error a la pregunta ${q.id}`)}&body=${encodeURIComponent(cos)}`;
+  const titol = `[${tipus[0]}] ${q.id}: ${tipus[1]}`;
+  return `${D.repo}/issues/new?labels=error-pregunta&title=${encodeURIComponent(titol)}&body=${encodeURIComponent(cos)}`;
 }
 function enllacaApunts() { /* els enllaços ja porten la ruta; el botó de tornar apareix sol */ }
 

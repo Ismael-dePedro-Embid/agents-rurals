@@ -182,3 +182,14 @@ details.plega > summary::-webkit-details-marker { display: none; }
   #tornar, .avis-versio { bottom: calc(4.5rem + env(safe-area-inset-bottom)); }
   .ajust { flex-wrap: wrap; }
 }
+
+/* Diàleg de reportar un error */
+.dialeg { border: 1px solid var(--vora); border-radius: 14px; background: var(--superficie); color: var(--text); padding: 1rem 1.1rem; width: min(560px, calc(100% - 1.5rem)); max-height: calc(100% - 2rem); box-shadow: 0 10px 40px rgba(0,0,0,.35); }
+.dialeg::backdrop { background: rgba(0,0,0,.45); }
+.dialeg h2 { margin-top: 0; }
+.dialeg fieldset { padding: .4rem .8rem .6rem; }
+.dialeg label.fila { align-items: flex-start; font-size: .95rem; } .dialeg label.fila input { margin-top: .3rem; }
+.dialeg select { max-width: 100%; }
+#fr-bona { flex-wrap: wrap; }
+.camp { display: block; margin: .6rem 0; }
+textarea { display: block; width: 100%; margin-top: .35rem; font: inherit; padding: .5rem .6rem; border: 1px solid var(--vora); border-radius: 8px; background: var(--fons); color: var(--text); resize: vertical; }
