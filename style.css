@@ -193,3 +193,29 @@ details.plega > summary::-webkit-details-marker { display: none; }
 #fr-bona { flex-wrap: wrap; }
 .camp { display: block; margin: .6rem 0; }
 textarea { display: block; width: 100%; margin-top: .35rem; font: inherit; padding: .5rem .6rem; border: 1px solid var(--vora); border-radius: 8px; background: var(--fons); color: var(--text); resize: vertical; }
+
+/* Constància: meta, ratxa, repte, logros, setmana */
+.constancia { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin-bottom: .75rem; }
+.constancia .targeta { margin: 0; display: flex; align-items: center; gap: .75rem; }
+.constancia .repte { grid-column: 1 / -1; justify-content: space-between; flex-wrap: wrap; }
+.xifra-petita { font-size: 1.35rem; font-weight: 700; line-height: 1.2; }
+.anell { flex-shrink: 0; } .a-fons { fill: none; stroke: var(--vora); stroke-width: 7; }
+.a-val { fill: none; stroke: var(--blau); stroke-width: 7; stroke-linecap: round; transition: stroke-dasharray .4s; } .a-val.ple { stroke: var(--verd); }
+.ratxa .foc { font-size: 2.2rem; filter: grayscale(1); opacity: .45; } .ratxa.activa .foc { filter: none; opacity: 1; }
+.quadres { display: flex; gap: 3px; } .quadres span { width: 1.1rem; height: 1.1rem; border-radius: 3px; background: var(--vora); }
+.quadres .q1 { background: #4a9c5d; } .quadres .q0 { background: #c9483f; }
+.repte-fet { text-align: center; } .repte-fet .quadres { justify-content: center; } .repte-fet .quadres span { width: 1.6rem; height: 1.6rem; } .repte-fet .botons { justify-content: center; }
+.logros { display: grid; gap: .5rem; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); }
+.logro { display: flex; gap: .5rem; align-items: flex-start; padding: .6rem .65rem; line-height: 1.3; border: 1px solid var(--vora); border-radius: 10px; background: var(--superficie); font-size: .92rem; }
+.logro .suau { font-size: .8rem; }
+.logro .ico { font-size: 1.4rem; filter: grayscale(1); opacity: .4; } .logro.ok .ico { filter: none; opacity: 1; }
+.logro.ok { border-color: var(--verd); background: var(--verd-clar); } .logro > div:last-child { flex: 1; min-width: 0; }
+.logro .barra-tema { margin-top: .3rem; } .petit { font-size: .78rem; }
+.setmana { display: flex; gap: .4rem; align-items: flex-end; height: 90px; margin-bottom: .75rem; }
+.dia-barra { flex: 1; display: flex; flex-direction: column; align-items: center; gap: .2rem; height: 100%; }
+.dia-barra .col { flex: 1; width: 100%; max-width: 2.2rem; background: var(--fons); border-radius: 5px; display: flex; align-items: flex-end; overflow: hidden; }
+.dia-barra .col div { width: 100%; background: var(--blau); border-radius: 5px; min-height: 2px; } .dia-barra.fet .col div { background: var(--verd); }
+.dia-barra span { font-size: .72rem; color: var(--suau); text-transform: uppercase; }
+.resum-xifres { display: grid; gap: .3rem; }
+.toast { position: fixed; left: 50%; top: calc(4rem + env(safe-area-inset-top)); transform: translateX(-50%); z-index: 40; background: var(--text); color: var(--fons); padding: .6rem 1rem; border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,.3); text-decoration: none; max-width: calc(100% - 2rem); width: max-content; transition: opacity .4s; }
+.toast.fora { opacity: 0; }

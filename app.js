@@ -19,14 +19,23 @@ let ESP = null;           // joc d'espècies en curs
 const P = (() => {
   let s;
   try { s = JSON.parse(localStorage.getItem(CLAU)) || {}; } catch { s = {}; }
-  s.q = s.q || {}; s.sims = s.sims || []; s.pref = s.pref || {}; s.esp = s.esp || {};
+  s.q = s.q || {}; s.sims = s.sims || []; s.pref = s.pref || {}; s.esp = s.esp || {}; s.dies = s.dies || {}; s.reptes = s.reptes || {}; s.logros = s.logros || {};
   const desa = () => { try { localStorage.setItem(CLAU, JSON.stringify(s)); } catch (e) { alert('No s\'ha pogut desar el progrés: ' + e.message); } };
   return {
     get: id => s.q[id],
     tots: () => s.q,
     sims: () => s.sims,
     pref: (k, v) => { if (v === undefined) return s.pref[k]; s.pref[k] = v; desa(); },
-    respon(id, encert) {
+    dies: () => s.dies, reptes: () => s.reptes, logros: () => s.logros,
+    dia(tema, encert) { // activitat diària: total i per tema (per a la ratxa i el resum setmanal)
+      const d = s.dies[avui()] = s.dies[avui()] || {n: 0, c: 0, t: {}};
+      d.n++; if (encert) d.c++;
+      if (tema) { const t = d.t[tema] = d.t[tema] || [0, 0]; t[0]++; if (encert) t[1]++; }
+    },
+    desaRepte(dia, res) { if (!s.reptes[dia]) { s.reptes[dia] = res; desa(); } },
+    desbloqueja(id) { s.logros[id] = Date.now(); desa(); },
+    respon(id, encert, tema) {
+      this.dia(tema, encert);
       const r = s.q[id] || {n: 0, c: 0, w: 0, b: 0};
       r.n++; r.l = Date.now();
       if (encert) { r.c++; r.b = Math.min(r.b + 1, CAIXES.length - 1); r.u = 1; }
@@ -35,7 +44,7 @@ const P = (() => {
       s.q[id] = r; desa();
     },
     esp: () => s.esp,
-    respEsp(lat, encert) { const r = s.esp[lat] || {n: 0, c: 0}; r.n++; if (encert) r.c++; r.u = encert ? 1 : 0; r.l = Date.now(); s.esp[lat] = r; desa(); },
+    respEsp(lat, encert) { this.dia('esp', encert); const r = s.esp[lat] || {n: 0, c: 0}; r.n++; if (encert) r.c++; r.u = encert ? 1 : 0; r.l = Date.now(); s.esp[lat] = r; desa(); },
     afegeixSim(sim) { s.sims.unshift(sim); s.sims = s.sims.slice(0, 50); desa(); },
     exporta: () => JSON.stringify({app: 'agents-rurals', versio: 1, data: new Date().toISOString(), progres: s}),
     importa(txt) {
@@ -50,14 +59,17 @@ const P = (() => {
       for (const x of nou.sims || []) if (!vistes.has(x.data)) s.sims.push(x);
       s.sims.sort((a, b) => (b.data > a.data ? 1 : -1));
       for (const [k, r] of Object.entries(nou.esp || {})) if (!s.esp[k] || (r.l || 0) > (s.esp[k].l || 0)) s.esp[k] = r;
+      for (const [k, r] of Object.entries(nou.dies || {})) if (!s.dies[k] || r.n > s.dies[k].n) s.dies[k] = r;
+      for (const [k, r] of Object.entries(nou.reptes || {})) if (!s.reptes[k]) s.reptes[k] = r;
+      for (const [k, r] of Object.entries(nou.logros || {})) if (!s.logros[k]) s.logros[k] = r;
       desa();
     },
-    esborra() { s = {q: {}, sims: [], esp: {}, pref: s.pref}; desa(); },
+    esborra() { s = {q: {}, sims: [], esp: {}, dies: {}, reptes: {}, logros: {}, pref: s.pref}; desa(); },
   };
 })();
 
 // ---------------------------------------------------------------- ajustos de l'usuari
-const AJ_DEF = {tema: 'auto', text: 'normal', barrejaOp: false, avanca: false, cita: 'oberta', nPractica: 20, simCrono: true, simAvanca: true};
+const AJ_DEF = {meta: 20, tema: 'auto', text: 'normal', barrejaOp: false, avanca: false, cita: 'oberta', nPractica: 20, simCrono: true, simAvanca: true};
 // Només es desen els ajustos que l'usuari ha canviat; així un canvi de valor per defecte arriba a tothom
 (() => { const a = P.pref('ajustos'); if (a && !a.v) { const n = {v: 2}; for (const k in a) if (k !== 'cita' && a[k] !== AJ_DEF[k]) n[k] = a[k]; P.pref('ajustos', n); } })();
 const aj = k => ({...AJ_DEF, ...(P.pref('ajustos') || {})})[k];
@@ -73,6 +85,9 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', aplicaAj
 aplicaAjustos();
 
 // ---------------------------------------------------------------- utilitats
+const dataLocal = t => { const d = new Date(t); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+const avui = () => dataLocal(Date.now());
+const diaAbans = (dia, n = 1) => { const [y, m, d] = dia.split('-').map(Number); return dataLocal(new Date(y, m - 1, d - n, 12)); };
 const barreja = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const ordreTema = t => (t[0] === 'G' ? 0 : 100) + parseInt(t.slice(1), 10);
 const temaDe = codi => D.temes.find(t => t.codi === codi);
@@ -89,6 +104,117 @@ function origenEtiqueta(q) {
 }
 const punts = d => '●'.repeat(d) + '○'.repeat(4 - d);
 
+// ---------------------------------------------------------------- constància: ratxa, repte del dia i logros
+const fet = dia => (P.dies()[dia]?.n || 0) >= aj('meta');
+// Ratxa: dies seguits complint la meta. Un dia sense complir-la per setmana no la trenca (dia de descans).
+function ratxa() {
+  // Es recorre cap enrere des d'avui (o des d'ahir si avui encara no s'ha fet la meta)
+  let dia = fet(avui()) ? avui() : diaAbans(avui()), n = 0, descans = null;
+  while (n < 5000) {
+    if (fet(dia)) n++;
+    else if (fet(diaAbans(dia)) && (!descans || dies(descans, dia) >= 7)) descans = dia; // dia de descans
+    else break;
+    dia = diaAbans(dia);
+  }
+  return n;
+}
+const dies = (a, b) => Math.round((new Date(a) - new Date(b)) / DIA);
+function millorRatxa() {
+  const ds = Object.keys(P.dies()).filter(fet).sort();
+  if (!ds.length) return 0;
+  let millor = 1, act = 1, descans = null;
+  for (let i = 1; i < ds.length; i++) {
+    const g = dies(ds[i], ds[i - 1]);
+    if (g === 1) act++;
+    else if (g === 2 && (!descans || dies(ds[i], descans) >= 7)) { act++; descans = ds[i]; }
+    else { act = 1; descans = null; }
+    millor = Math.max(millor, act);
+  }
+  return Math.max(millor, ratxa());
+}
+
+// Repte del dia: 10 preguntes iguals per a tothom (llavor = data), una de cada tema més present
+const INICI_REPTES = '2026-11-16';
+const numRepte = dia => dies(dia, INICI_REPTES) + 1;
+function llavor(txt) { let h = 2166136261; for (const c of txt) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return () => { h = Math.imul(h ^ (h >>> 15), 2246822507); h = Math.imul(h ^ (h >>> 13), 3266489909); return ((h ^= h >>> 16) >>> 0) / 4294967296; }; }
+function preguntesRepte(dia) {
+  const rnd = llavor('repte-' + dia);
+  const pool = D.preguntes.filter(q => vigent(q) && q.d >= 2).sort((a, b) => (a.id < b.id ? -1 : 1));
+  const temes = [...new Set(pool.map(q => q.t))].sort();
+  for (let i = temes.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [temes[i], temes[j]] = [temes[j], temes[i]]; }
+  return temes.slice(0, 10).map(t => { const c = pool.filter(q => q.t === t); return c[Math.floor(rnd() * c.length)]; })
+    .sort((a, b) => ordreTema(a.t) - ordreTema(b.t));
+}
+function textRepte(dia) {
+  const r = P.reptes()[dia]; if (!r) return '';
+  const enc = r.r.filter(x => x === 1).length;
+  return `Agents Rurals · repte #${numRepte(dia)} · ${enc}/10\n${r.r.map(x => ['🟥', '🟩', '⬜'][x]).join('')}\n${location.origin + location.pathname}`;
+}
+function blocRepte(dia) {
+  const r = P.reptes()[dia]; if (!r) return '';
+  return `<div class="targeta repte-fet"><div class="quadres">${r.r.map(x => `<span class="q${x}"></span>`).join('')}</div>
+    <p><b>${r.r.filter(x => x === 1).length}/10</b> al repte #${numRepte(dia)}. Comparteix-ho i pica't amb els companys.</p>
+    <div class="botons"><button class="boto principal" data-comparteix="${dia}">Compartir el resultat</button></div></div>`;
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-comparteix]'); if (!b) return;
+  const txt = textRepte(b.dataset.comparteix);
+  try {
+    if (navigator.share) await navigator.share({text: txt});
+    else { await navigator.clipboard.writeText(txt); avis('Resultat copiat. Enganxa\'l on vulguis.'); }
+  } catch (err) { if (err.name !== 'AbortError') { try { await navigator.clipboard.writeText(txt); avis('Resultat copiat.'); } catch { prompt('Copia el resultat:', txt); } } }
+});
+function comencaRepte() {
+  const dia = avui();
+  comenca(preguntesRepte(dia), 'repte', `Repte #${numRepte(dia)}`, {dia});
+}
+
+// Logros: es calculen a partir del progrés; quan se n'aconsegueix un de nou, surt un avís
+function logros() {
+  const q = P.tots(), ids = Object.keys(q), sims = P.sims(), esp = P.esp(), rep = P.reptes();
+  const respostes = ids.reduce((s, i) => s + q[i].n, 0);
+  const temesComplets = D.temes.filter(t => D.preguntes.every(x => x.t !== t.codi || q[x.id])).length;
+  const millorSim = sims.filter(x => !x.ex && (x.n || 80) >= 80).reduce((m, x) => Math.max(m, x.Q), 0);
+  const examensFets = new Set(sims.filter(x => x.ex).map(x => x.ex)).size;
+  const especiesBe = D.especies.filter(e => esp[e.lat]?.c > 0).length;
+  const mr = millorRatxa(), nRep = Object.keys(rep).length, perfecte = Object.values(rep).some(r => r.r.every(x => x === 1));
+  const L = (id, ico, nom, desc, val, obj) => ({id, ico, nom, desc, val: Math.min(val, obj), obj, ok: val >= obj});
+  return [
+    L('primer', '🌱', 'Primeres passes', 'Respon la primera pregunta', respostes, 1),
+    L('cent', '📚', 'Cent respostes', 'Respon 100 preguntes', respostes, 100),
+    L('mil', '🏔️', 'Mil respostes', 'Respon 1.000 preguntes', respostes, 1000),
+    L('cinc-mil', '🌲', 'Cinc mil', 'Respon 5.000 preguntes', respostes, 5000),
+    L('tema', '✅', 'Tema complet', 'Respon totes les preguntes d\'un tema', temesComplets, 1),
+    L('cinc-temes', '🗂️', 'Cinc temes complets', 'Respon totes les preguntes de 5 temes', temesComplets, 5),
+    L('temari', '🎓', 'Tot el banc', 'Respon totes les preguntes dels 25 temes', temesComplets, 25),
+    L('aprovat', '📝', 'Aprovat', 'Treu un 11 o més en un simulacre de 80 preguntes', millorSim >= 11 ? 1 : 0, 1),
+    L('notable', '⭐', 'Nota alta', 'Treu un 15 o més en un simulacre', millorSim >= 15 ? 1 : 0, 1),
+    L('excel', '🏅', 'Excel·lent', 'Treu un 19 o més en un simulacre', millorSim >= 19 ? 1 : 0, 1),
+    L('oficials', '🏛️', 'Historiador', `Fes els ${D.examens.length} exàmens oficials sencers`, examensFets, D.examens.length),
+    L('especies', '🦉', 'Naturalista', `Encerta les ${D.especies.length} espècies almenys un cop`, especiesBe, D.especies.length),
+    L('ratxa7', '🔥', 'Una setmana', 'Ratxa de 7 dies', mr, 7),
+    L('ratxa30', '🔥', 'Un mes', 'Ratxa de 30 dies', mr, 30),
+    L('ratxa100', '💯', 'Cent dies', 'Ratxa de 100 dies', mr, 100),
+    L('repte7', '🎯', 'Reptador', 'Fes 7 reptes del dia', nRep, 7),
+    L('perfecte', '🎯', 'Repte perfecte', 'Treu 10/10 en un repte del dia', perfecte ? 1 : 0, 1),
+  ];
+}
+function comprovaLogros() {
+  const ja = P.logros(); const nous = logros().filter(l => l.ok && !ja[l.id]);
+  for (const l of nous) P.desbloqueja(l.id);
+  if (nous.length) avis(`${nous[0].ico} Logro aconseguit: <b>${esc(nous[0].nom)}</b>${nous.length > 1 ? ` i ${nous.length - 1} més` : ''}`, '#/progres');
+}
+function avis(html, enllac) {
+  document.querySelector('.toast')?.remove();
+  const t = document.createElement(enllac ? 'a' : 'div'); t.className = 'toast'; t.innerHTML = html;
+  if (enllac) t.href = enllac;
+  document.body.appendChild(t); setTimeout(() => t.classList.add('fora'), 3500); setTimeout(() => t.remove(), 4000);
+}
+const anell = (val, obj, mida = 64) => {
+  const r = 26, c = 2 * Math.PI * r, f = Math.min(1, obj ? val / obj : 0);
+  return `<svg viewBox="0 0 64 64" width="${mida}" height="${mida}" class="anell" aria-hidden="true"><circle cx="32" cy="32" r="${r}" class="a-fons"/>${f > 0 ? `<circle cx="32" cy="32" r="${r}" class="a-val ${f >= 1 ? 'ple' : ''}" stroke-dasharray="${c * f} ${c}" transform="rotate(-90 32 32)"/>` : ''}</svg>`;
+};
+
 // ---------------------------------------------------------------- encaminament
 const rutes = {
   '': vistaInici, practica: vistaPractica, simulacre: vistaSimulacre, repas: vistaRepas,
@@ -102,6 +228,7 @@ function navega() {
   if (parts[0] !== 'temari') TORNAR = null;
   $('#tornar').hidden = !(parts[0] === 'temari' && TORNAR);
   r(parts.slice(1).map(decodeURIComponent));
+  if (D && parts[0] !== 'test') comprovaLogros();
   if (parts[0] !== 'temari') window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', navega);
@@ -120,6 +247,15 @@ function vistaInici() {
   $('#app').innerHTML = `
     ${instalPrompt ? `<div class="targeta avis-instal"><span>Instal·la l'app per fer-la servir sense connexió.</span><button class="boto principal" id="instal">Instal·lar</button></div>` : ''}
     <h1>Oposició d'agent rural</h1>
+    ${(() => {
+      const fets = P.dies()[avui()]?.n || 0, meta = aj('meta'), rt = ratxa(), rep = P.reptes()[avui()];
+      return `<div class="constancia">
+        <div class="targeta meta-dia">${anell(fets, meta)}<div><div class="xifra-petita">${Math.min(fets, meta)}/${meta}</div><div class="suau">${fets >= meta ? 'meta feta 🎉' : 'meta d\'avui'}</div></div></div>
+        <div class="targeta ratxa ${rt ? 'activa' : ''}"><div class="foc">🔥</div><div><div class="xifra-petita">${rt} ${rt === 1 ? 'dia' : 'dies'}</div><div class="suau">${rt ? (fets >= meta ? 'de ratxa' : 'de ratxa · fes la meta d\'avui') : 'comença la ratxa avui'}</div></div></div>
+        <div class="targeta repte">${rep ? `<div class="quadres">${rep.r.map(x => `<span class="q${x}"></span>`).join('')}</div><div class="suau">Repte #${numRepte(avui())}: ${rep.r.filter(x => x === 1).length}/10</div><button class="boto" data-comparteix="${avui()}">Compartir</button>`
+          : `<div><b>Repte del dia #${numRepte(avui())}</b><div class="suau">10 preguntes, les mateixes per a tothom</div></div><button class="boto principal" id="repte">Fer-lo</button>`}</div>
+      </div>`;
+    })()}
     <div class="graella">
       <div class="targeta"><div class="xifra">${vistes}<span class="suau"> / ${D.preguntes.length}</span></div><div class="suau">preguntes vistes</div></div>
       <div class="targeta"><div class="xifra">${pct(enc, tot)} %</div><div class="suau">d'encerts (${tot} respostes)</div></div>
@@ -135,6 +271,7 @@ function vistaInici() {
       <a class="boto" href="#/temari">Temari</a>
     </div>
     <p class="suau">${D.preguntes.length} preguntes: ${D.preguntes.length - nOf} generades a partir del temari i ${nOf} d'exàmens oficials (agent, agent major i sotsinspector). El progrés es desa en aquest dispositiu; a <a href="#/ajustos">Ajustos</a> en pots fer una còpia.</p>`;
+  $('#repte')?.addEventListener('click', comencaRepte);
   $('#instal')?.addEventListener('click', async () => { instalPrompt.prompt(); await instalPrompt.userChoice; instalPrompt = null; navega(); });
   $('#fallades')?.addEventListener('click', () => {
     comenca(barreja(D.preguntes.filter(x => q[x.id] && q[x.id].u === 0 && vigent(x))).slice(0, 40), 'practica', 'Fallades');
@@ -289,7 +426,7 @@ function triaSimulacre(origen, noves) {
 
 // ---------------------------------------------------------------- sessió de test
 function comenca(llista, mode, titol, opc = {}) {
-  SESSIO = {mode, titol, ids: llista.map(q => q.id), resp: {}, i: 0, inici: ara(), acabada: false, ex: opc.ex || null, perm: {}};
+  SESSIO = {dia: opc.dia, mode, titol, ids: llista.map(q => q.id), resp: {}, i: 0, inici: ara(), acabada: false, ex: opc.ex || null, perm: {}};
   // Ordre de les opcions: el de la pregunta, o barrejat si l'usuari ho ha triat (mai als exàmens oficials sencers)
   if (aj('barrejaOp') && !opc.ex) for (const q of llista) SESSIO.perm[q.id] = barreja([0, 1, 2, 3]);
   if (mode === 'simulacre') SESSIO.fi = ara() + (opc.minuts || D.examen.minuts) * 60e3;
@@ -338,7 +475,7 @@ function vistaTest() {
     const k = +b.dataset.k;
     if (sim) { S.resp[q.id] = k; if (aj('simAvanca') && S.i < S.ids.length - 1) S.i++; vistaTest(); return; }
     if (respost) return;
-    S.resp[q.id] = k; P.respon(q.id, k === q.ok); vistaTest();
+    S.resp[q.id] = k; P.respon(q.id, k === q.ok, q.t); vistaTest();
     if (k === q.ok && aj('avanca') && S.i < S.ids.length - 1) pas = setTimeout(() => { if (location.hash === '#/test' && SESSIO === S) { S.i++; vistaTest(); window.scrollTo(0, 0); } }, 1200);
   }));
   $('#ant')?.addEventListener('click', () => { S.i--; vistaTest(); });
@@ -440,7 +577,7 @@ function acaba() {
       const q = PER_ID.get(id), r = S.resp[id];
       if (r === undefined) continue;
       if (r === q.ok) A++; else E++;
-      P.respon(id, r === q.ok);
+      P.respon(id, r === q.ok, q.t);
     }
     const B = S.ids.length - A - E;
     const Q = Math.max(0, (A - E * D.examen.penalitzacio) * D.examen.max / S.ids.length);
@@ -448,6 +585,7 @@ function acaba() {
     P.afegeixSim({data: new Date().toISOString(), A, E, B, Q: Math.round(Q * 100) / 100, minuts: Math.round((ara() - S.inici) / 60e3),
       n: S.ids.length, ...(S.ex ? {ex: S.ex, nom: S.titol} : {})});
   }
+  if (S.mode === 'repte') P.desaRepte(S.dia, {r: S.ids.map(id => S.resp[id] === undefined ? 2 : (S.resp[id] === PER_ID.get(id).ok ? 1 : 0)), min: Math.max(1, Math.round((ara() - S.inici) / 60e3))});
   location.hash = '#/resultat';
 }
 
@@ -466,7 +604,8 @@ function vistaResultat() {
   }
   const fallades = S.ids.filter(id => S.resp[id] !== PER_ID.get(id).ok);
   $('#app').innerHTML = `
-    <h1>${sim ? 'Resultat del simulacre' : 'Resultat'}</h1>
+    <h1>${sim ? 'Resultat del simulacre' : S.mode === 'repte' ? 'Repte del dia' : 'Resultat'}</h1>
+    ${S.mode === 'repte' ? blocRepte(S.dia) : ''}
     <div class="graella">
       ${sim ? `<div class="targeta"><div class="xifra" style="color:var(${S.nota.Q >= D.examen.minim ? '--verd' : '--vermell'})">${S.nota.Q.toFixed(2)}</div><div class="suau">sobre ${D.examen.max} · ${S.nota.Q >= D.examen.minim ? 'aprovat' : 'suspès'} (mínim ${D.examen.minim})</div></div>` : ''}
       <div class="targeta"><div class="xifra">${A}</div><div class="suau">encerts (${pct(A, S.ids.length)} %)</div></div>
@@ -641,6 +780,7 @@ function vistaProgres() {
       <div class="targeta"><div class="xifra">${mitjana !== null ? mitjana.toFixed(1) : '–'}</div><div class="suau">${mitjana !== null ? `mitjana dels darrers ${darrers.length} simulacres` : 'encara no has fet cap simulacre'}</div></div>
       <div class="targeta"><div class="xifra">${espN ? pct(espC, espN) + ' %' : '–'}</div><div class="suau">${espN ? `encert identificant espècies (${Object.keys(esp).length} de ${D.especies.length} vistes)` : '<a href="#/especies">identificació d\'espècies</a> encara sense fer'}</div></div>
     </div>
+    <h2>Aquesta setmana</h2>${resumSetmana()}
     ${sims.length ? `<h2>Evolució dels simulacres</h2><div class="targeta">${graficaSims(sims)}</div>` : ''}
     ${febles.length ? `<div class="targeta"><b>Punts febles:</b> ${febles.map(f => `${f.t.codi} (${f.enc} %)`).join(' · ')}</div>` : ''}
     <h2>Per temes</h2>
@@ -648,7 +788,10 @@ function vistaProgres() {
       <span class="codi">${esc(f.t.codi)}</span><span class="nom">${esc(f.t.titol)}</span>
       <span class="xifres">${f.n ? `<b>${f.enc} %</b>` : '–'} · ${f.vistes}/${f.total}${f.fall ? ` · ${f.fall} ✗` : ''}</span>
       <div class="barra-tema"><div style="width:${f.enc}%;background:var(${f.enc >= 50 ? '--verd' : '--vermell'})"></div></div></a>`).join('')}</div>
-    <p class="suau">Toca un tema per repassar-ne les fallades (o practicar-lo si no en tens).</p>`;
+    <p class="suau">Toca un tema per repassar-ne les fallades (o practicar-lo si no en tens).</p>
+    <h2>Logros <span class="suau">${logros().filter(l => l.ok).length}/${logros().length}</span></h2>
+    <div class="logros">${logros().sort((a, b) => (b.ok - a.ok) || (b.val / b.obj - a.val / a.obj)).map(l => `<div class="logro ${l.ok ? 'ok' : ''}" title="${esc(l.desc)}"><div class="ico">${l.ico}</div>
+      <div><b>${esc(l.nom)}</b><div class="suau">${esc(l.desc)}</div>${l.ok ? '' : `<div class="barra-tema"><div style="width:${pct(l.val, l.obj)}%;background:var(--verd)"></div></div><div class="suau petit">${l.val.toLocaleString('ca')} / ${l.obj.toLocaleString('ca')}</div>`}</div></div>`).join('')}</div>`;
   document.querySelectorAll('[data-fall]').forEach(b => b.addEventListener('click', e => {
     e.preventDefault();
     const t = b.dataset.fall;
@@ -657,6 +800,26 @@ function vistaProgres() {
   }));
 }
 
+function resumSetmana() {
+  const ds = P.dies(), meta = aj('meta');
+  const set = [...Array(7)].map((_, k) => diaAbans(avui(), 6 - k)), ant = [...Array(7)].map((_, k) => diaAbans(avui(), 13 - k));
+  const suma = ll => ll.reduce((a, d) => { const x = ds[d]; if (x) { a.n += x.n; a.c += x.c; for (const [t, [n, c]] of Object.entries(x.t || {})) { const o = a.t[t] = a.t[t] || [0, 0]; o[0] += n; o[1] += c; } } return a; }, {n: 0, c: 0, t: {}});
+  const A = suma(set), B = suma(ant);
+  const max = Math.max(meta, ...set.map(d => ds[d]?.n || 0));
+  const barres = set.map(d => { const n = ds[d]?.n || 0; return `<div class="dia-barra ${n >= meta ? 'fet' : ''}"><div class="col"><div style="height:${Math.round(100 * n / max)}%"></div></div><span>${['dg', 'dl', 'dt', 'dc', 'dj', 'dv', 'ds'][new Date(d + 'T12:00').getDay()]}</span></div>`; }).join('');
+  const temes = Object.entries(A.t).filter(([t, [n]]) => t !== 'esp' && n >= 5).map(([t, [n, c]]) => ({t, p: c / n, d: B.t[t] && B.t[t][0] >= 5 ? c / n - B.t[t][1] / B.t[t][0] : null}));
+  const millora = temes.filter(x => x.d !== null).sort((a, b) => b.d - a.d)[0];
+  const fluix = temes.filter(x => x !== millora || temes.length === 1).sort((a, b) => a.p - b.p)[0];
+  const dif = B.n ? Math.round(100 * (A.n - B.n) / B.n) : null;
+  return `<div class="targeta"><div class="setmana">${barres}</div>
+    <div class="resum-xifres">
+      <div><b>${A.n}</b> <span class="suau">respostes${dif !== null ? ` (${dif >= 0 ? '+' : ''}${dif} % vs. setmana anterior)` : ''}</span></div>
+      <div><b>${A.n ? pct(A.c, A.n) + ' %' : '–'}</b> <span class="suau">d'encert${B.n && A.n ? ` (abans ${pct(B.c, B.n)} %)` : ''}</span></div>
+      ${millora && millora.d > 0 ? `<div>📈 <span class="suau">Més millora:</span> ${esc(nomTema(millora.t))} (+${Math.round(100 * millora.d)} punts)</div>` : ''}
+      ${fluix && fluix !== millora && fluix.p < .7 ? `<div>🎯 <span class="suau">A reforçar:</span> ${esc(nomTema(fluix.t))} (${Math.round(100 * fluix.p)} %)</div>` : ''}
+      <div class="suau petit">Les barres verdes són els dies que has complert la meta (${meta} preguntes). Millor ratxa: ${millorRatxa()} dies.</div>
+    </div></div>`;
+}
 function graficaSims(sims) {
   const E = D.examen, ll = sims.slice(-30), W = 600, H = 220, m = {e: 34, d: 12, s: 12, i: 26};
   const x = k => m.e + (ll.length === 1 ? (W - m.e - m.d) / 2 : k * (W - m.e - m.d) / (ll.length - 1));
@@ -682,6 +845,9 @@ function vistaAjustos() {
       ${fila('Tema', '', seg('tema', [['auto', 'Automàtic'], ['light', 'Clar'], ['dark', 'Fosc']]))}
       ${fila('Mida del text', '', seg('text', [['petit', 'A−'], ['normal', 'A'], ['gran', 'A+'], ['molt-gran', 'A++']]))}
     </div></div>
+    <div class="seccio-ajustos"><h2>Constància</h2><div class="targeta">
+      ${fila('Meta diària', 'Preguntes al dia per mantenir la ratxa. Compten totes: pràctica, repàs, simulacres, repte i espècies. Un dia per setmana sense fer-la no trenca la ratxa.', seg('meta', [[10, '10'], [20, '20'], [30, '30'], [50, '50']]))}
+    </div></div>
     <div class="seccio-ajustos"><h2>Pràctica</h2><div class="targeta">
       ${fila('Barrejar l\'ordre de les opcions', 'Per no memoritzar la lletra. No s\'aplica als exàmens oficials sencers.', int('barrejaOp'))}
       ${fila('Passar sol a la següent quan encertes', 'Si falles, s\'atura perquè llegeixis l\'explicació.', int('avanca'))}
@@ -705,7 +871,7 @@ function vistaAjustos() {
     </div></div></div>`;
   $('#ajustos').addEventListener('change', e => {
     const el = e.target; if (!el.name || el.id === 'imp') return;
-    const v = el.type === 'checkbox' ? el.checked : (el.name === 'nPractica' ? +el.value : el.value);
+    const v = el.type === 'checkbox' ? el.checked : (['nPractica', 'meta'].includes(el.name) ? +el.value : el.value);
     posaAjust(el.name, v);
   });
   $('#exp').addEventListener('click', () => {
