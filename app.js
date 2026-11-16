@@ -951,13 +951,21 @@ function vistaAjustos() {
     </div></div>
     <div class="seccio-ajustos"><h2>Versió</h2><div class="targeta">
       ${fila(`Versió ${esc(act?.versio || '')}`, `Darrera actualització: ${act ? dataCa(act.data + 'T12:00') : '–'}`, '<button class="boto" id="cerca-act">Buscar actualitzacions</button>')}
-      ${fila('Contingut', `${D.preguntes.length} preguntes · ${D.temes.length} temes · ${D.examens.length} exàmens oficials · ${D.especies.length} espècies · dades ${esc(D.versio || '')}`, '')}
+      ${fila('Versió de les dades', `${esc(D.versio || '–')} (preguntes i temari)`, '')}
       <details class="plega novetats"><summary>Historial de novetats</summary>
         ${nov.map(v => `<div class="versio"><b>${esc(v.versio)}</b> <span class="suau">· ${dataCa(v.data + 'T12:00')}</span><ul>${v.canvis.map(c => `<li>${esc(c)}</li>`).join('')}</ul></div>`).join('')}
       </details>
     </div></div>
     <div class="seccio-ajustos"><h2>Quant a</h2><div class="targeta">
       ${fila('Agents Rurals · Estudi', 'Temari, banc de preguntes i app per preparar l\'oposició d\'agent rural (escala bàsica) del Cos d\'Agents Rurals de la Generalitat de Catalunya. App no oficial.', '')}
+      ${fila('Contingut', (() => {
+        const of = D.preguntes.filter(q => q.o === 'o'), cat = k => of.filter(q => q.ex.k === k).length, n = x => x.toLocaleString('ca');
+        return `<ul class="contingut">
+          <li><b>${n(D.temes.length)} temes</b>: ${D.temes.filter(t => t.codi[0] === 'G').length} generals i ${D.temes.filter(t => t.codi[0] === 'E').length} específics</li>
+          <li><b>${n(D.preguntes.length)} preguntes</b>: ${n(D.preguntes.length - of.length)} generades a partir del temari i ${n(of.length)} d'exàmens oficials (${n(cat('agent'))} d'agent, ${n(cat('agent major'))} d'agent major i ${n(cat('sotsinspector'))} de sotsinspector)</li>
+          <li><b>${n(D.examens.length)} exàmens oficials</b> sencers, del ${Math.min(...D.examens.map(e => e.y))} al ${Math.max(...D.examens.map(e => e.y))}</li>
+          <li><b>${n(D.especies.length)} espècies</b> amb foto</li></ul>`;
+      })(), '')}
       ${fila('Autor', 'Ismael de Pedro', '')}
       ${fila('Has trobat un error?', 'Cada pregunta té el botó «Reportar un error».', `<a class="boto" href="${esc(D.repo)}/issues" target="_blank" rel="noopener">Veure'ls</a>`)}
       <p class="suau drets">© ${new Date().getFullYear()} Ismael de Pedro. Tots els drets reservats sobre el temari, les preguntes generades i l'app.
