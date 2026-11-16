@@ -199,9 +199,14 @@ textarea { display: block; width: 100%; margin-top: .35rem; font: inherit; paddi
 .constancia .targeta { margin: 0; display: flex; align-items: center; gap: .75rem; }
 .constancia .repte { grid-column: 1 / -1; justify-content: space-between; flex-wrap: wrap; }
 .xifra-petita { font-size: 1.35rem; font-weight: 700; line-height: 1.2; }
-.anell { flex-shrink: 0; } .a-fons { fill: none; stroke: var(--vora); stroke-width: 7; }
-.a-val { fill: none; stroke: var(--blau); stroke-width: 7; stroke-linecap: round; transition: stroke-dasharray .4s; } .a-val.ple { stroke: var(--verd); }
-.ratxa .foc { font-size: 2.2rem; filter: grayscale(1); opacity: .45; } .ratxa.activa .foc { filter: none; opacity: 1; }
+.anell { flex-shrink: 0; } .a-fons { fill: none; stroke: var(--vora); stroke-width: 8; }
+.a-val { fill: none; stroke-width: 8; stroke-linecap: round; transition: stroke-dasharray .4s; }
+.a-num { font-size: 19px; font-weight: 700; fill: var(--text); } .a-de { font-size: 10px; fill: var(--suau); }
+.a-ple { fill: #3f9a5a; } .a-check { fill: none; stroke: #fff; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.ratxa .foc { line-height: 0; }
+.flama .f-ext { fill: var(--vora); } .flama .f-int { fill: var(--fons); }
+.flama.activa .f-ext { fill: url(#g-flama); } .flama.activa .f-int { fill: url(#g-cor); }
+.flama.activa { filter: drop-shadow(0 2px 4px rgba(226, 67, 31, .35)); }
 .quadres { display: flex; gap: 4px; flex-wrap: wrap; } .quadres span { width: 1.25rem; height: 1.25rem; border-radius: 50%; border: 1.5px solid var(--vora); display: grid; place-items: center; }
 .quadres svg { width: 70%; height: 70%; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .quadres .q1 { border-color: var(--verd); background: var(--verd-clar); } .quadres .q1 svg { stroke: var(--verd); }

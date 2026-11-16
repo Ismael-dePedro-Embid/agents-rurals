@@ -247,10 +247,26 @@ function novetatsPendents() {
 }
 document.addEventListener('click', e => { if (e.target.id === 'vist') { P.pref('versioVista', D.app.novetats[0].versio); e.target.closest('.novetats-inici').remove(); } });
 const quadres = r => `<div class="quadres">${r.map(x => `<span class="q${x}">${x === 2 ? '' : `<svg viewBox="0 0 12 12" aria-hidden="true"><path d="${x ? 'M3 6.5l2 2 4-5' : 'M3.5 3.5l5 5M8.5 3.5l-5 5'}"/></svg>`}</span>`).join('')}</div>`;
-const anell = (val, obj, mida = 64) => {
-  const r = 26, c = 2 * Math.PI * r, f = Math.min(1, obj ? val / obj : 0);
-  return `<svg viewBox="0 0 64 64" width="${mida}" height="${mida}" class="anell" aria-hidden="true"><circle cx="32" cy="32" r="${r}" class="a-fons"/>${f > 0 ? `<circle cx="32" cy="32" r="${r}" class="a-val ${f >= 1 ? 'ple' : ''}" stroke-dasharray="${c * f} ${c}" transform="rotate(-90 32 32)"/>` : ''}</svg>`;
+// Anell de la meta: degradat blau→verd, xifra al centre i marca quan es completa
+const anell = (fets, meta, mida = 76) => {
+  const r = 30, c = 2 * Math.PI * r, f = Math.min(1, meta ? fets / meta : 0), ple = f >= 1;
+  return `<svg viewBox="0 0 76 76" width="${mida}" height="${mida}" class="anell" aria-hidden="true">
+    <defs><linearGradient id="g-anell" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f8fc7"/><stop offset="1" stop-color="#3f9a5a"/></linearGradient></defs>
+    <circle cx="38" cy="38" r="${r}" class="a-fons"/>
+    ${f > 0 ? `<circle cx="38" cy="38" r="${r}" class="a-val" stroke="url(#g-anell)" stroke-dasharray="${c * f} ${c}" transform="rotate(-90 38 38)"/>` : ''}
+    ${ple ? `<circle cx="38" cy="38" r="20" class="a-ple"/><path d="M29 38.5l6 6 12-13" class="a-check"/>`
+      : `<text x="38" y="37" class="a-num" text-anchor="middle">${fets}</text><text x="38" y="51" class="a-de" text-anchor="middle">de ${meta}</text>`}
+  </svg>`;
 };
+// Flama de la ratxa: dues capes amb degradat; grisa si la ratxa està aturada
+const flama = (activa, mida = 52) => `<svg viewBox="0 0 48 56" width="${mida * 48 / 56}" height="${mida}" class="flama ${activa ? 'activa' : ''}" aria-hidden="true">
+  <defs>
+    <linearGradient id="g-flama" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#e2431f"/><stop offset=".55" stop-color="#f27a1a"/><stop offset="1" stop-color="#f7b733"/></linearGradient>
+    <linearGradient id="g-cor" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffd23f"/><stop offset="1" stop-color="#fff3b0"/></linearGradient>
+  </defs>
+  <path class="f-ext" d="M24 2c2 9 12 14 15 24 3 10-2 26-15 28C11 52 5 42 7 32c1-6 5-9 6-15 3 3 4 7 4 10 3-8 6-15 7-25z"/>
+  <path class="f-int" d="M24 26c1 5 7 8 8 14 1 7-3 12-8 12s-9-4-8-10c0-4 3-6 4-10 1 2 2 4 2 6 1-4 2-8 2-12z"/>
+</svg>`;
 
 // ---------------------------------------------------------------- encaminament
 const rutes = {
@@ -288,8 +304,8 @@ function vistaInici() {
     ${(() => {
       const fets = P.dies()[avui()]?.n || 0, meta = aj('meta'), fetAvui = fet(avui()), rt = ratxa(), rep = P.reptes()[avui()];
       return `<div class="constancia">
-        <div class="targeta meta-dia">${anell(fraccioMeta(avui()), 1)}<div><div class="xifra-petita">${fetAvui ? 'Meta feta' : 'Meta d\'avui'}</div><div class="suau">${Math.min(fets, meta)}/${meta} preguntes</div></div></div>
-        <div class="targeta ratxa ${rt ? 'activa' : ''}"><div class="foc">🔥</div><div><div class="xifra-petita">${rt} ${rt === 1 ? 'dia' : 'dies'}</div><div class="suau">${rt ? (fetAvui ? 'de ratxa' : 'de ratxa · fes la meta d\'avui') : 'comença la ratxa avui'}</div></div></div>
+        <div class="targeta meta-dia">${anell(fets, meta)}<div><div class="xifra-petita">${fetAvui ? 'Meta feta' : 'Meta d\'avui'}</div><div class="suau">${fetAvui ? `${fets} preguntes avui` : `en falten ${meta - fets}`}</div></div></div>
+        <div class="targeta ratxa ${rt ? 'activa' : ''}"><div class="foc">${flama(rt > 0)}</div><div><div class="xifra-petita">${rt} ${rt === 1 ? 'dia' : 'dies'}</div><div class="suau">${rt ? (fetAvui ? 'de ratxa' : 'de ratxa · fes la meta d\'avui') : 'comença la ratxa avui'}</div></div></div>
         <div class="targeta repte">${rep ? `${quadres(rep.r)}<div class="suau">Repte #${numRepte(avui())}: ${rep.r.filter(x => x === 1).length}/10</div><button class="boto" data-comparteix="${avui()}">Compartir</button>`
           : `<div><b>Repte del dia #${numRepte(avui())}</b><div class="suau">10 preguntes, les mateixes per a tothom</div></div><button class="boto principal" id="repte">Fer-lo</button>`}</div>
       </div>`;
