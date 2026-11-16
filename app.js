@@ -204,29 +204,29 @@ function logros() {
   const mr = millorRatxa(), nRep = Object.keys(rep).length, perfecte = Object.values(rep).some(r => r.r.every(x => x === 1));
   const L = (id, ico, nom, desc, val, obj) => ({id, ico, nom, desc, val: Math.min(val, obj), obj, ok: val >= obj});
   return [
-    L('primer', 'brot', 'Primeres passes', 'Respon la primera pregunta', respostes, 1),
-    L('cent', 'llibre', 'Cent respostes', 'Respon 100 preguntes', respostes, 100),
-    L('mil', 'muntanya', 'Mil respostes', 'Respon 1.000 preguntes', respostes, 1000),
-    L('cinc-mil', 'arbre', 'Cinc mil', 'Respon 5.000 preguntes', respostes, 5000),
-    L('tema', 'check', 'Tema complet', 'Respon totes les preguntes d\'un tema', temesComplets, 1),
-    L('cinc-temes', 'carpeta', 'Cinc temes complets', 'Respon totes les preguntes de 5 temes', temesComplets, 5),
-    L('temari', 'birret', 'Tot el banc', 'Respon totes les preguntes dels 25 temes', temesComplets, 25),
-    L('aprovat', 'document', 'Aprovat', 'Treu un 11 o més en un simulacre de 80 preguntes', millorSim >= 11 ? 1 : 0, 1),
-    L('notable', 'estrella', 'Nota alta', 'Treu un 15 o més en un simulacre', millorSim >= 15 ? 1 : 0, 1),
-    L('excel', 'medalla', 'Excel·lent', 'Treu un 19 o més en un simulacre', millorSim >= 19 ? 1 : 0, 1),
-    L('oficials', 'columnes', 'Historiador', `Fes els ${D.examens.length} exàmens oficials sencers`, examensFets, D.examens.length),
-    L('especies', 'fulla', 'Naturalista', `Encerta les ${D.especies.length} espècies almenys un cop`, especiesBe, D.especies.length),
-    L('ratxa7', 'flama', 'Una setmana', 'Ratxa de 7 dies', mr, 7),
-    L('ratxa30', 'flama', 'Un mes', 'Ratxa de 30 dies', mr, 30),
-    L('ratxa100', 'cent', 'Cent dies', 'Ratxa de 100 dies', mr, 100),
-    L('repte7', 'diana', 'Reptador', 'Fes 7 reptes del dia', nRep, 7),
-    L('perfecte', 'diana', 'Repte perfecte', 'Treu 10/10 en un repte del dia', perfecte ? 1 : 0, 1),
+    L('primer', '🌱', 'Primeres passes', 'Respon la primera pregunta', respostes, 1),
+    L('cent', '📚', 'Cent respostes', 'Respon 100 preguntes', respostes, 100),
+    L('mil', '🏔️', 'Mil respostes', 'Respon 1.000 preguntes', respostes, 1000),
+    L('cinc-mil', '🌲', 'Cinc mil', 'Respon 5.000 preguntes', respostes, 5000),
+    L('tema', '✅', 'Tema complet', 'Respon totes les preguntes d\'un tema', temesComplets, 1),
+    L('cinc-temes', '🗂️', 'Cinc temes complets', 'Respon totes les preguntes de 5 temes', temesComplets, 5),
+    L('temari', '🎓', 'Tot el banc', 'Respon totes les preguntes dels 25 temes', temesComplets, 25),
+    L('aprovat', '📝', 'Aprovat', 'Treu un 11 o més en un simulacre de 80 preguntes', millorSim >= 11 ? 1 : 0, 1),
+    L('notable', '⭐', 'Nota alta', 'Treu un 15 o més en un simulacre', millorSim >= 15 ? 1 : 0, 1),
+    L('excel', '🏅', 'Excel·lent', 'Treu un 19 o més en un simulacre', millorSim >= 19 ? 1 : 0, 1),
+    L('oficials', '🏛️', 'Historiador', `Fes els ${D.examens.length} exàmens oficials sencers`, examensFets, D.examens.length),
+    L('especies', '🦉', 'Naturalista', `Encerta les ${D.especies.length} espècies almenys un cop`, especiesBe, D.especies.length),
+    L('ratxa7', '🔥', 'Una setmana', 'Ratxa de 7 dies', mr, 7),
+    L('ratxa30', '🔥', 'Un mes', 'Ratxa de 30 dies', mr, 30),
+    L('ratxa100', '💯', 'Cent dies', 'Ratxa de 100 dies', mr, 100),
+    L('repte7', '🎯', 'Reptador', 'Fes 7 reptes del dia', nRep, 7),
+    L('perfecte', '🎯', 'Repte perfecte', 'Treu 10/10 en un repte del dia', perfecte ? 1 : 0, 1),
   ];
 }
 function comprovaLogros() {
   const ja = P.logros(); const nous = logros().filter(l => l.ok && !ja[l.id]);
   for (const l of nous) P.desbloqueja(l.id);
-  if (nous.length) avis(`${ico(nous[0].ico)} Logro aconseguit: <b>${esc(nous[0].nom)}</b>${nous.length > 1 ? ` i ${nous.length - 1} més` : ''}`, '#/progres');
+  if (nous.length) avis(`${nous[0].ico} Logro aconseguit: <b>${esc(nous[0].nom)}</b>${nous.length > 1 ? ` i ${nous.length - 1} més` : ''}`, '#/progres');
 }
 function avis(html, enllac) {
   document.querySelector('.toast')?.remove();
@@ -289,7 +289,7 @@ function vistaInici() {
       const fets = P.dies()[avui()]?.n || 0, meta = aj('meta'), fetAvui = fet(avui()), rt = ratxa(), rep = P.reptes()[avui()];
       return `<div class="constancia">
         <div class="targeta meta-dia">${anell(fraccioMeta(avui()), 1)}<div><div class="xifra-petita">${fetAvui ? 'Meta feta' : 'Meta d\'avui'}</div><div class="suau">${Math.min(fets, meta)}/${meta} preguntes</div></div></div>
-        <div class="targeta ratxa ${rt ? 'activa' : ''}"><div class="foc">${ico('flama')}</div><div><div class="xifra-petita">${rt} ${rt === 1 ? 'dia' : 'dies'}</div><div class="suau">${rt ? (fetAvui ? 'de ratxa' : 'de ratxa · fes la meta d\'avui') : 'comença la ratxa avui'}</div></div></div>
+        <div class="targeta ratxa ${rt ? 'activa' : ''}"><div class="foc">🔥</div><div><div class="xifra-petita">${rt} ${rt === 1 ? 'dia' : 'dies'}</div><div class="suau">${rt ? (fetAvui ? 'de ratxa' : 'de ratxa · fes la meta d\'avui') : 'comença la ratxa avui'}</div></div></div>
         <div class="targeta repte">${rep ? `${quadres(rep.r)}<div class="suau">Repte #${numRepte(avui())}: ${rep.r.filter(x => x === 1).length}/10</div><button class="boto" data-comparteix="${avui()}">Compartir</button>`
           : `<div><b>Repte del dia #${numRepte(avui())}</b><div class="suau">10 preguntes, les mateixes per a tothom</div></div><button class="boto principal" id="repte">Fer-lo</button>`}</div>
       </div>`;
@@ -841,7 +841,7 @@ function vistaProgres() {
       <div class="barra-tema"><div style="width:${f.enc}%;background:var(${f.enc >= 50 ? '--verd' : '--vermell'})"></div></div></a>`).join('')}</div>
     <p class="suau">Toca un tema per repassar-ne les fallades (o practicar-lo si no en tens).</p>
     <h2>Logros <span class="suau">${logros().filter(l => l.ok).length}/${logros().length}</span></h2>
-    <div class="logros">${logros().sort((a, b) => (b.ok - a.ok) || (b.val / b.obj - a.val / a.obj)).map(l => `<div class="logro ${l.ok ? 'ok' : ''}" title="${esc(l.desc)}"><div class="ico">${ico(l.ico)}</div>
+    <div class="logros">${logros().sort((a, b) => (b.ok - a.ok) || (b.val / b.obj - a.val / a.obj)).map(l => `<div class="logro ${l.ok ? 'ok' : ''}" title="${esc(l.desc)}"><div class="ico">${l.ico}</div>
       <div><b>${esc(l.nom)}</b><div class="suau">${esc(l.desc)}</div>${l.ok ? '' : `<div class="barra-tema"><div style="width:${pct(l.val, l.obj)}%;background:var(--verd)"></div></div><div class="suau petit">${l.val.toLocaleString('ca')} / ${l.obj.toLocaleString('ca')}</div>`}</div></div>`).join('')}</div>`;
   document.querySelectorAll('[data-fall]').forEach(b => b.addEventListener('click', e => {
     e.preventDefault();
