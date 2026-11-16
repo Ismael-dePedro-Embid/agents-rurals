@@ -66,10 +66,14 @@ const barraDomini = (id, nomPlural) => {
 function mapa(o = {}) {
   const G = GEO, res = new Set(o.comarques || []);
   const est = (prefix, nom) => (o.domini ? ' e-' + estat(o.domini, prefix + nom) : '');
-  return `<div class="mapa-joc ${o.toc ? 'toc toc-' + o.toc : ''}"><svg viewBox="0 0 ${G.w} ${G.h}" role="img" aria-label="Mapa de Catalunya">
+  const fons = o.fons || 'politic', ctx = fons !== 'politic';
+  return `<div class="mapa-joc fons-${fons} ${o.toc ? 'toc toc-' + o.toc : ''}"><svg viewBox="0 0 ${G.w} ${G.h}" role="img" aria-label="Mapa de Catalunya">
+    ${ctx ? `<image href="data/relleu.webp" x="0" y="0" width="${G.w}" height="${G.h}" preserveAspectRatio="none" class="m-relleu"/>` : ''}
     <path d="${G.contorn}" class="m-contorn"/>
     ${G.comarques.map((c, i) => `<path d="${c.d}" data-i="${i}" class="m-com${res.has(c.nom) ? ' res' : ''}${o.bona === c.nom ? ' bona' : ''}${o.dolenta === c.nom ? ' dolenta' : ''}${o.domini === 'comarques' ? est('com:', c.nom) : ''}"/>`).join('')}
     ${(o.rius || []).map((r, i) => `<polyline points="${r.pts}" class="m-riu${r.res ? ' res' : ''}${r.mal ? ' mal' : ''}${o.domini === 'rius' ? est('riu:', r.nom) : ''}"/>${o.toc === 'riu' || o.explora ? `<polyline points="${r.pts}" class="m-riu-toc" data-r="${i}"/>` : ''}`).join('')}
+    ${ctx && !o.rius ? G.rius.map(r => `<polyline points="${r.pts}" class="m-riu ctx"/>`).join('') : ''}
+    ${ctx && !o.cims ? G.cims.map(c => `<g class="m-cim ctx" transform="translate(${c.x} ${c.y})"><path d="M0 -6 L5 3.5 L-5 3.5 Z"/></g>`).join('') : ''}
     ${o.capital ? `<circle cx="${o.capital.capx}" cy="${o.capital.capy}" r="5" class="m-cap"/>` : ''}
     ${(o.cims || []).map(c => `<g class="m-cim${c.res ? ' res' : ''}${o.domini === 'muntanyes' ? est('cim:', c.nom) : ''}" data-c="${GEO.cims.indexOf(c.ref || c)}" transform="translate(${c.x} ${c.y})"><circle r="13" class="m-cim-toc"/><path d="M0 -11 L9 6 L-9 6 Z"/></g>`).join('')}
     ${o.punt ? `<g transform="translate(${o.punt.x} ${o.punt.y})" class="m-punt"><circle r="7"/><path d="M-4 -4 L4 4 M4 -4 L-4 4"/></g>` : ''}
@@ -316,8 +320,10 @@ function vistaJoc(joc) {
 function explora(id) {
   const box = $('#explora'), fitxa = h => { const f = $('#fitxa'); f.innerHTML = h; f.hidden = false; };
   if (id === 'comarques' || id === 'rius' || id === 'muntanyes') {
-    box.innerHTML = mapa({domini: id, explora: true, rius: id === 'rius' ? GEO.rius : null, cims: id === 'muntanyes' ? GEO.cims : null}) +
-      `<p class="suau petit">Toca ${id === 'comarques' ? 'una comarca' : id === 'rius' ? 'un riu' : 'un cim'} per veure'n la fitxa. Zoom amb dos dits o amb els botons.</p>`;
+    const fons = P.pref('mapaFons') || (id === 'comarques' ? 'politic' : 'mixt');
+    box.innerHTML = selectorFons(fons) + mapa({fons, domini: id, explora: true, rius: id === 'rius' ? GEO.rius : null, cims: id === 'muntanyes' ? GEO.cims : null}) +
+      `<p class="suau petit">Toca ${id === 'comarques' ? 'una comarca' : id === 'rius' ? 'un riu' : 'un cim'} per veure'n la fitxa. Zoom amb dos dits o amb els botons.${fons !== 'politic' ? ' Relleu: ICGC (model d\'elevacions).' : ''}</p>`;
+    box.querySelectorAll('[name=fons]').forEach(i => i.addEventListener('change', () => { P.pref('mapaFons', i.value); explora(id); }));
     const m = box.querySelector('.mapa-joc'); zoomMapa(m);
     const marca = el => { box.querySelectorAll('.sel').forEach(x => x.classList.remove('sel')); el.classList.add('sel'); };
     if (id === 'comarques') m.querySelectorAll('.m-com').forEach(p => p.addEventListener('click', () => { marca(p); fitxa(fitxaComarca(GEO.comarques[+p.dataset.i]) + estatTxt(id, 'com:' + GEO.comarques[+p.dataset.i].nom)); }));
@@ -331,19 +337,23 @@ function explora(id) {
     return;
   }
   if (id === 'enp') {
-    box.innerHTML = mapa({}) + `<div class="targeta llista-explora">${[['Parc nacional', [GEO.enp.pn]], ['Parcs naturals', GEO.enp.parcs], ["Paratges naturals d'interès nacional", GEO.enp.pnin]].map(([t, ll]) =>
+    const fons = P.pref('mapaFons') || 'mixt';
+    box.innerHTML = selectorFons(fons) + mapa({fons}) + `<div class="targeta llista-explora">${[['Parc nacional', [GEO.enp.pn]], ['Parcs naturals', GEO.enp.parcs], ["Paratges naturals d'interès nacional", GEO.enp.pnin]].map(([t, ll]) =>
       `<div class="grup"><b>${t}</b><div>${ll.map(e => `<button type="button" class="xip-est e-${estat(id, 'enp:' + e.nom)}" data-e="${esc(e.nom)}">${esc(e.nom.replace(/^Parc Natural (de la |del |dels |de les |de l'|de )/, ''))}</button>`).join('')}</div></div>`).join('')}</div>`;
     zoomMapa(box.querySelector('.mapa-joc'));
+    box.querySelectorAll('[name=fons]').forEach(i => i.addEventListener('change', () => { P.pref('mapaFons', i.value); explora(id); }));
     box.querySelectorAll('[data-e]').forEach(b => b.addEventListener('click', () => {
       const e = totsEspais().find(x => x.nom === b.dataset.e);
       box.querySelector('.mapa-joc').outerHTML; // (es redibuixa a sota)
-      const nou = document.createElement('div'); nou.innerHTML = mapa({comarques: e.comarques});
+      const nou = document.createElement('div'); nou.innerHTML = mapa({fons: P.pref('mapaFons') || 'mixt', comarques: e.comarques});
       box.querySelector('.mapa-joc').replaceWith(nou.firstElementChild); zoomMapa(box.querySelector('.mapa-joc'));
       box.querySelectorAll('.sel').forEach(x => x.classList.remove('sel')); b.classList.add('sel');
       fitxa(fitxaEspai(e) + estatTxt(id, 'enp:' + e.nom));
     }));
   }
 }
+const selectorFons = f => `<div class="segmentat fons-sel" role="radiogroup" aria-label="Tipus de mapa">${[['politic', 'Polític'], ['fisic', 'Físic'], ['mixt', 'Mixt']].map(([v, t]) =>
+  `<label><input type="radio" name="fons" value="${v}" ${v === f ? 'checked' : ''}><span>${t}</span></label>`).join('')}</div>`;
 const estatTxt = (id, key) => { const f = JOCS.find(j => j.id === id).fem, a = f ? 'ada' : 'at';
   return ({nou: '<br><span class="suau">Encara no t\'ha sortit en cap partida.</span>', domina: `<br><span class="est-txt e-domina">Domin${a}</span>`,
     dubte: `<br><span class="est-txt e-dubte">Encert${a}, però encara no domin${a}</span>`, falla: `<br><span class="est-txt e-falla">Fall${a} la darrera vegada</span>`})[estat(id, key)]; };

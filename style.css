@@ -317,3 +317,17 @@ button.xip-est { cursor: pointer; } .xip-est.sel { outline: 2px solid var(--blau
 .xip-est.e-domina { background: #d9eedd; border-color: #4f9e62; } .xip-est.e-dubte { background: #f9ecc9; border-color: #e7b04a; } .xip-est.e-falla { background: #f6d6d3; border-color: #d0675f; }
 .est-txt { font-size: .82rem; font-weight: 600; } .est-txt.e-domina { color: #3f8f53; } .est-txt.e-dubte { color: #b07c13; } .est-txt.e-falla { color: #c4473e; }
 :root[data-theme="dark"] .xip-est.e-domina, :root[data-theme="dark"] .xip-est.e-dubte, :root[data-theme="dark"] .xip-est.e-falla { color: #1e2420; }
+
+/* Mapa físic i mixt (relleu de l'ICGC) */
+.fons-sel { margin: 0 0 .6rem; }
+.fons-fisic .m-com { fill: transparent; stroke: rgba(255,255,255,.45); stroke-width: .6; }
+.fons-mixt .m-com { fill: rgba(255,255,255,.28); stroke: rgba(255,255,255,.95); stroke-width: .9; }
+.fons-fisic .m-com.e-domina, .fons-mixt .m-com.e-domina { fill: rgba(79,158,98,.55); }
+.fons-fisic .m-com.e-dubte, .fons-mixt .m-com.e-dubte { fill: rgba(231,176,74,.6); }
+.fons-fisic .m-com.e-falla, .fons-mixt .m-com.e-falla { fill: rgba(208,103,95,.6); }
+.fons-fisic .m-com.res, .fons-mixt .m-com.res { fill: rgba(231,163,60,.75); }
+.fons-fisic .m-contorn, .fons-mixt .m-contorn { stroke: #4b4b4b; }
+.fons-fisic .m-riu, .fons-mixt .m-riu { stroke: #1f6fb2; }
+.m-riu.ctx { stroke: #2a7cc4; stroke-width: 1.2; opacity: .9; pointer-events: none; }
+.m-cim.ctx { pointer-events: none; } .m-cim.ctx path { fill: #5b4636; stroke: #fff; stroke-width: .8; }
+.mapa-joc.fons-fisic, .mapa-joc.fons-mixt { background: #dce9f2; }
