@@ -57,9 +57,11 @@ const P = (() => {
 })();
 
 // ---------------------------------------------------------------- ajustos de l'usuari
-const AJ_DEF = {tema: 'auto', text: 'normal', barrejaOp: false, avanca: false, cita: 'plegada', nPractica: 20, simCrono: true, simAvanca: true};
+const AJ_DEF = {tema: 'auto', text: 'normal', barrejaOp: false, avanca: false, cita: 'oberta', nPractica: 20, simCrono: true, simAvanca: true};
+// Només es desen els ajustos que l'usuari ha canviat; així un canvi de valor per defecte arriba a tothom
+(() => { const a = P.pref('ajustos'); if (a && !a.v) { const n = {v: 2}; for (const k in a) if (k !== 'cita' && a[k] !== AJ_DEF[k]) n[k] = a[k]; P.pref('ajustos', n); } })();
 const aj = k => ({...AJ_DEF, ...(P.pref('ajustos') || {})})[k];
-function posaAjust(k, v) { P.pref('ajustos', {...AJ_DEF, ...(P.pref('ajustos') || {}), [k]: v}); aplicaAjustos(); }
+function posaAjust(k, v) { const a = {...(P.pref('ajustos') || {}), v: 2}; if (v === AJ_DEF[k]) delete a[k]; else a[k] = v; P.pref('ajustos', a); aplicaAjustos(); }
 function aplicaAjustos() {
   const r = document.documentElement;
   if (aj('tema') === 'auto') delete r.dataset.theme; else r.dataset.theme = aj('tema');
@@ -640,7 +642,7 @@ function vistaAjustos() {
     <div class="seccio-ajustos"><h2>Pràctica</h2><div class="targeta">
       ${fila('Barrejar l\'ordre de les opcions', 'Per no memoritzar la lletra. No s\'aplica als exàmens oficials sencers.', int('barrejaOp'))}
       ${fila('Passar sol a la següent quan encertes', 'Si falles, s\'atura perquè llegeixis l\'explicació.', int('avanca'))}
-      ${fila('Cita de la norma', '', seg('cita', [['plegada', 'Plegada'], ['oberta', 'Oberta']]))}
+      ${fila('Cita de la norma', 'El text literal de la norma sota l\'explicació.', seg('cita', [['oberta', 'Visible'], ['plegada', 'Plegada']]))}
       ${fila('Preguntes per sessió', '', seg('nPractica', [[10, '10'], [20, '20'], [40, '40'], [80, '80']]))}
     </div></div>
     <div class="seccio-ajustos"><h2>Simulacre</h2><div class="targeta">
