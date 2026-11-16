@@ -111,5 +111,23 @@ details.index > summary { cursor: pointer; font-weight: 600; }
 
 #tornar { position: fixed; left: 0; right: 0; bottom: max(1rem, env(safe-area-inset-bottom)); text-align: center; z-index: 20; }
 #tornar .boto { box-shadow: 0 2px 10px rgba(0,0,0,.25); }
+.llista-examens .examen { display: flex; justify-content: space-between; align-items: center; gap: .75rem; margin-bottom: .5rem; padding: .7rem .9rem; }
+.foto-joc { display: block; width: 100%; max-height: 55vh; object-fit: contain; border-radius: 8px; background: #000; margin: .25rem 0 1rem; }
+.opcions-foto { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+.opcio-foto { padding: 0; border: 3px solid var(--vora); border-radius: 10px; overflow: hidden; background: var(--superficie); color: var(--text); cursor: pointer; font: inherit; font-size: .85rem; }
+.opcio-foto img { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+.opcio-foto span { display: block; padding: .3rem; }
+.opcio-foto.correcta { border-color: var(--verd); } .opcio-foto.errada { border-color: var(--vermell); }
+.opcio-foto:disabled { cursor: default; }
+.galeria-joc { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: .5rem; }
+.fitxa { display: flex; flex-direction: column; text-decoration: none; color: var(--text); background: var(--superficie); border: 1px solid var(--vora); border-radius: 8px; overflow: hidden; font-size: .85rem; }
+.fitxa img { width: 100%; aspect-ratio: 4/3; object-fit: cover; } .fitxa b, .fitxa i { padding: 0 .4rem; } .fitxa i { color: var(--suau); padding-bottom: .4rem; }
+.grafica { width: 100%; height: auto; display: block; }
+.g-reixa { stroke: var(--vora); stroke-width: 1; } .g-tall { stroke: var(--ambre); stroke-dasharray: 5 4; stroke-width: 1.5; }
+.g-text { fill: var(--suau); font-size: 12px; } .g-tall-text { fill: var(--ambre); }
+.g-linia { fill: none; stroke: var(--blau); stroke-width: 2; }
+.g-punt { stroke: var(--superficie); stroke-width: 2; } .g-punt.be { fill: var(--verd); } .g-punt.malament { fill: var(--vermell); }
+.avis-versio { position: fixed; left: 50%; transform: translateX(-50%); bottom: max(1rem, env(safe-area-inset-bottom)); z-index: 30; display: flex; gap: .75rem; align-items: center;
+  background: var(--superficie); border: 1px solid var(--vora); border-radius: 10px; padding: .5rem .5rem .5rem 1rem; box-shadow: 0 2px 12px rgba(0,0,0,.25); width: max-content; max-width: calc(100% - 2rem); }
 .avis-instal { display: flex; gap: .75rem; align-items: center; justify-content: space-between; flex-wrap: wrap; }
 @media (max-width: 520px) { .barra { padding: .4rem .6rem; } .menu { width: 100%; justify-content: space-between; } .menu a { padding: .3rem .4rem; font-size: .9rem; } main { padding: .75rem; } }
