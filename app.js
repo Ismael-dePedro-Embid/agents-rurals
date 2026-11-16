@@ -34,6 +34,12 @@ const P = (() => {
     },
     jocs: () => s.jocs,
     resJoc(id, enc, tot) { const j = s.jocs[id] = s.jocs[id] || {p: 0, n: 0, c: 0, millor: 0}; j.p++; j.n += tot; j.c += enc; j.millor = Math.max(j.millor, Math.round(100 * enc / tot)); j.l = Date.now(); desa(); },
+    // Domini de cada element d'un joc (comarca, riu, cim...): encerts seguits (s) i darrera resposta (u)
+    resElem(id, key, ok) {
+      const j = s.jocs[id] = s.jocs[id] || {p: 0, n: 0, c: 0, millor: 0}; j.e = j.e || {};
+      const r = j.e[key] = j.e[key] || {n: 0, c: 0, s: 0}; r.n++; if (ok) { r.c++; r.s++; } else r.s = 0; r.u = ok ? 1 : 0; r.l = Date.now(); desa();
+    },
+    recJoc(id, punts) { const j = s.jocs[id] = s.jocs[id] || {p: 0, n: 0, c: 0, millor: 0}; const nou = punts > (j.rec || 0); if (nou) j.rec = punts; j.l = Date.now(); desa(); return nou; },
     desaRepte(dia, res) { if (!s.reptes[dia]) { s.reptes[dia] = res; desa(); } },
     desbloqueja(id) { s.logros[id] = Date.now(); desa(); },
     respon(id, encert, tema) {
@@ -237,6 +243,16 @@ function logros() {
     L('ratxa100', '💯', 'Cent dies', 'Ratxa de 100 dies', mr, 100),
     L('repte7', '🎯', 'Reptador', 'Fes 7 reptes del dia', nRep, 7),
     L('perfecte', '🎯', 'Repte perfecte', 'Treu 10/10 en un repte del dia', perfecte ? 1 : 0, 1),
+    ...(() => {
+      const J = P.jocs(), dom = (id, pre) => Object.entries(J[id]?.e || {}).filter(([k, r]) => k.startsWith(pre) && r.s >= 2).length, T = D.jocsTot || {};
+      return [
+        L('cartograf', '🗺️', 'Cartògraf', `Domina les ${T.comarques || 43} comarques als jocs`, dom('comarques', 'com:'), T.comarques || 43),
+        L('rius', '🏞️', 'Riu avall', `Domina els ${T.rius || 19} rius`, dom('rius', 'riu:'), T.rius || 19),
+        L('cimera', '⛰️', 'Cimera', `Domina els ${T.cims || 39} cims`, dom('muntanyes', 'cim:'), T.cims || 39),
+        L('parcs', '🌳', 'Guarda del parc', `Domina els ${T.enp || 22} espais naturals`, dom('enp', 'enp:'), T.enp || 22),
+        L('rellotge', '⏱️', 'Contrarellotge', 'Fes 15 encerts en una contrarellotge de 60 s', Math.max(0, ...Object.values(J).map(j => j.rec || 0)), 15),
+      ];
+    })(),
   ];
 }
 function comprovaLogros() {
