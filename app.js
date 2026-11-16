@@ -38,8 +38,9 @@ const P = (() => {
       this.dia(tema, encert);
       const r = s.q[id] || {n: 0, c: 0, w: 0, b: 0};
       r.n++; r.l = Date.now();
-      if (encert) { r.c++; r.b = Math.min(r.b + 1, CAIXES.length - 1); r.u = 1; }
-      else { r.w++; r.b = 1; r.u = 0; }
+      if (r.s === undefined) r.s = r.u ? 1 : 0; // registres anteriors: l'últim encert compta com un
+      if (encert) { r.c++; r.b = Math.min(r.b + 1, CAIXES.length - 1); r.u = 1; if (r.sd !== avui()) { r.s++; r.sd = avui(); } }
+      else { r.w++; r.b = 1; r.u = 0; r.s = 0; r.sd = null; }
       r.d = Date.now() + CAIXES[r.b] * DIA;
       s.q[id] = r; desa();
     },
@@ -89,6 +90,11 @@ aplicaAjustos();
 const dataLocal = t => { const d = new Date(t); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
 const avui = () => dataLocal(Date.now());
 const diaAbans = (dia, n = 1) => { const [y, m, d] = dia.split('-').map(Number); return dataLocal(new Date(y, m - 1, d - n, 12)); };
+// Una pregunta és «fallada» si l'has fallat alguna vegada i encara no l'has encertat dues vegades seguides
+// en dies diferents (un sol encert pot ser sort).
+const ENCERTS_PER_SUPERAR = 2;
+const seguits = r => (r.s !== undefined ? r.s : (r.u ? 1 : 0));
+const esFallada = r => !!r && r.w > 0 && seguits(r) < ENCERTS_PER_SUPERAR;
 const barreja = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const ordreTema = t => (t[0] === 'G' ? 0 : 100) + parseInt(t.slice(1), 10);
 const temaDe = codi => D.temes.find(t => t.codi === codi);
@@ -294,7 +300,7 @@ function vistaInici() {
   const q = P.tots(); const ids = Object.keys(q);
   const vistes = ids.length, enc = ids.reduce((s, i) => s + q[i].c, 0), tot = ids.reduce((s, i) => s + q[i].n, 0);
   const pendents = D.preguntes.filter(x => q[x.id] && q[x.id].d <= ara() && vigent(x)).length;
-  const fallades = D.preguntes.filter(x => q[x.id] && q[x.id].u === 0 && vigent(x)).length;
+  const fallades = D.preguntes.filter(x => esFallada(q[x.id]) && vigent(x)).length;
   const sim = P.sims()[0];
   const darrera = {...FILTRES_DEF, ...(P.pref('darrera') || {})};
   $('#app').innerHTML = `
@@ -326,7 +332,7 @@ function vistaInici() {
   $('#continua').addEventListener('click', () => llancaPractica(darrera));
   $('#instal')?.addEventListener('click', async () => { instalPrompt.prompt(); await instalPrompt.userChoice; instalPrompt = null; navega(); });
   $('#fallades')?.addEventListener('click', () => {
-    comenca(barreja(D.preguntes.filter(x => q[x.id] && q[x.id].u === 0 && vigent(x))).slice(0, 40), 'practica', 'Fallades');
+    comenca(barreja(D.preguntes.filter(x => esFallada(q[x.id]) && vigent(x))).slice(0, 40), 'practica', 'Fallades');
   });
 }
 
@@ -337,7 +343,7 @@ const filtraPreguntes = s => D.preguntes.filter(q =>
   (!s.temes.length || s.temes.includes(q.t)) && (!s.epi || q.e === s.epi) &&
   (!s.origen || q.o === s.origen) && (q.o !== 'o' || s.cat.includes(q.ex.k)) &&
   s.dif.includes(q.d) && (s.desact || vigent(q)) &&
-  (s.mode !== 'noves' || !P.get(q.id)) && (s.mode !== 'fallades' || (P.get(q.id) && P.get(q.id).u === 0)));
+  (s.mode !== 'noves' || !P.get(q.id)) && (s.mode !== 'fallades' || esFallada(P.get(q.id))));
 function descripcioFiltres(s) {
   const p = [];
   p.push(!s.temes.length ? 'Tots els temes' : s.temes.length === 1 ? nomTema(s.temes[0]) + (s.epi ? ` · ${s.epi}` : '') : `${s.temes.length} temes (${s.temes.join(', ')})`);
@@ -574,6 +580,13 @@ function panellCorreccio(q, r) {
   const oficialAltra = q.o === 'o' && q.ex.r !== 'anul·lada' && LLETRES.indexOf(q.ex.r) !== q.ok;
   return `
     ${r !== undefined ? `<p class="resultat ${be ? 'be' : 'malament'}">${be ? 'Correcta' : `Incorrecta. La correcta és la ${lletra(q, q.ok)})`}</p>` : `<p class="resultat malament">En blanc. La correcta és la ${lletra(q, q.ok)})</p>`}
+    ${(() => {
+      const st = P.get(q.id); if (!st || !st.w || r === undefined) return '';
+      if (r !== q.ok) return `<p class="avis-fallada">Afegida a les fallades. En sortirà quan l'encertis ${ENCERTS_PER_SUPERAR} vegades seguides, en dies diferents.</p>`;
+      const n = seguits(st);
+      return n >= ENCERTS_PER_SUPERAR ? '<p class="avis-fallada be">Superada: ja no és a les fallades.</p>'
+        : `<p class="avis-fallada">Encert ${n} de ${ENCERTS_PER_SUPERAR}. Si l'encertes un altre dia, deixarà de ser fallada.</p>`;
+    })()}
     ${q.s === 'a' ? '<p class="suau">El tribunal va anul·lar aquesta pregunta. Es marca la resposta que avui es considera correcta.</p>' : ''}
     ${q.s === 'd' ? '<p class="suau">La norma ha canviat des de l\'examen: la resposta oficial és la marcada, però llegeix l\'explicació.</p>' : ''}
     ${oficialAltra ? `<p class="suau">Resposta de la plantilla oficial: ${esc(q.ex.r)}) de l'examen original</p>` : ''}
@@ -826,7 +839,7 @@ function vistaProgres() {
     const ps = D.preguntes.filter(x => x.t === t.codi);
     const vistes = ps.filter(x => q[x.id]);
     const n = vistes.reduce((s, x) => s + q[x.id].n, 0), c = vistes.reduce((s, x) => s + q[x.id].c, 0);
-    const fall = vistes.filter(x => q[x.id].u === 0 && vigent(x)).length;
+    const fall = vistes.filter(x => esFallada(q[x.id]) && vigent(x)).length;
     return {t, total: ps.length, vistes: vistes.length, enc: pct(c, n), n, fall};
   });
   const febles = files.filter(f => f.n >= 5).sort((a, b) => a.enc - b.enc).slice(0, 5);
@@ -862,7 +875,7 @@ function vistaProgres() {
   document.querySelectorAll('[data-fall]').forEach(b => b.addEventListener('click', e => {
     e.preventDefault();
     const t = b.dataset.fall;
-    if (+b.dataset.n) comenca(barreja(D.preguntes.filter(x => x.t === t && q[x.id] && q[x.id].u === 0 && vigent(x))), 'practica', 'Fallades ' + t);
+    if (+b.dataset.n) comenca(barreja(D.preguntes.filter(x => x.t === t && esFallada(q[x.id]) && vigent(x))), 'practica', 'Fallades ' + t);
     else comenca(barreja(D.preguntes.filter(x => x.t === t && vigent(x))).slice(0, aj('nPractica') || 20), 'practica', nomTema(t));
   }));
 }

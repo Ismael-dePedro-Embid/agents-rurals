@@ -249,3 +249,6 @@ details.filtres[open] { padding-bottom: 1rem; } details.filtres fieldset { backg
 .enllac-especies a { text-decoration: none; font-weight: 500; } .enllac-especies .icona { vertical-align: -.25rem; color: var(--verd); }
 
 .contingut { margin: .3rem 0 0; padding-left: 1.1rem; } .contingut li { margin: .15rem 0; }
+
+.avis-fallada { font-size: .88rem; color: var(--ambre); background: var(--ambre-clar); padding: .35rem .7rem; border-radius: 8px; margin: .4rem 0; }
+.avis-fallada.be { color: var(--verd); background: var(--verd-clar); }
