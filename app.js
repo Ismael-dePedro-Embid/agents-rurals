@@ -363,11 +363,15 @@ function descripcioFiltres(s) {
   const p = [];
   p.push(!s.temes.length ? 'Tots els temes' : s.temes.length === 1 ? nomTema(s.temes[0]) + (s.epi ? ` · ${s.epi}` : '') : `${s.temes.length} temes (${s.temes.join(', ')})`);
   if (s.origen) p.push(s.origen === 'o' ? 'només oficials' : 'només generades');
+  if (s.origen !== 'g' && s.cat.length < 3) p.push('oficials de ' + (s.cat.length ? s.cat.join(', ') : 'cap categoria'));
+  if (s.desact) p.push('amb desactualitzades');
   if (s.dif.length < 4) p.push('dificultat ' + s.dif.map(d => ['', 'bàsica', 'mitjana', 'avançada', 'experta'][d]).join(', '));
   if (s.mode !== 'totes') p.push(s.mode === 'noves' ? 'només no vistes' : 'només fallades');
   p.push(s.ordre ? 'en ordre del temari' : 'barrejades');
   return p.join(' · ');
 }
+// Quants filtres són diferents dels de per defecte (per mostrar-ho al plegable «Filtres»)
+const filtresActius = s => [s.temes.length > 0, !!s.epi, !!s.origen, s.dif.length < 4, s.origen !== 'g' && s.cat.length < 3, s.desact, s.mode !== 'totes', s.ordre].filter(Boolean).length;
 function llancaPractica(s) {
   let llista = filtraPreguntes(s);
   if (!llista.length) { alert('Cap pregunta compleix els filtres.'); return; }
@@ -389,7 +393,7 @@ function vistaPractica() {
         <div><b id="resum"></b><div class="suau" id="compte"></div></div>
         <button class="boto principal gran" type="submit">Començar</button>
       </div>
-      <details class="filtres targeta" id="det-filtres"><summary>Filtres</summary>
+      <details class="filtres targeta" id="det-filtres"><summary>Filtres <span class="suau" id="n-filtres"></span></summary>
       <fieldset><legend>Temes</legend>
         <div class="botons" style="margin:0 0 .5rem"><button type="button" class="boto petit-boto" data-tots="1">Tots</button><button type="button" class="boto petit-boto" data-tots="0">Cap</button></div>
         <div class="xips">${temes.map(c => xip('tema', c, c, true)).join('')}</div>
@@ -422,6 +426,15 @@ function vistaPractica() {
             desact: f.desact.checked, mode: f.mode.value, n: +f.n.value, ordre: f.ordre.checked,
             epi: f.epi ? f.epi.value : ''};
   };
+  // Restaura els darrers filtres (els mateixos que fa servir «Continuar practicant» a l'inici)
+  const s0 = {...FILTRES_DEF, ...(P.pref('darrera') || {})};
+  f.querySelectorAll('[name=tema]').forEach(i => { i.checked = !s0.temes.length || s0.temes.includes(i.value); });
+  f.querySelectorAll('[name=dif]').forEach(i => { i.checked = s0.dif.includes(+i.value); });
+  f.querySelectorAll('[name=cat]').forEach(i => { i.checked = s0.cat.includes(i.value); });
+  f.origen.value = s0.origen; f.desact.checked = s0.desact; f.ordre.checked = s0.ordre;
+  f.querySelector(`[name=mode][value="${s0.mode}"]`).checked = true;
+  if (s0.n) f.n.value = String(s0.n);
+  let primer = true;
   const actualitza = () => {
     const s = seleccio();
     $('#categories').hidden = s.origen === 'g';
@@ -431,11 +444,17 @@ function vistaPractica() {
       if (!f.epi || f.epi.dataset.t !== s.temes[0]) {
         box.innerHTML = `<label class="fila">Epígraf <select name="epi" data-t="${s.temes[0]}"><option value="">Tots</option>${epis.map(e => `<option>${e}</option>`).join('')}</select></label>`;
         f.epi.addEventListener('change', actualitza);
+        if (primer && s0.epi && s0.temes.length === 1 && s0.temes[0] === s.temes[0]) f.epi.value = s0.epi;
       }
     } else box.innerHTML = '';
-    const n = s.capTema ? 0 : filtraPreguntes(s).length;
-    $('#resum').textContent = s.capTema ? 'Cap tema triat' : descripcioFiltres(s);
-    $('#compte').textContent = s.capTema ? 'Marca almenys un tema a Filtres.' : `${n.toLocaleString('ca')} preguntes · en surten ${Math.min(n, s.n || 20)}`;
+    primer = false;
+    const sa = seleccio();
+    if (!sa.capTema) P.pref('darrera', sa); // es desa en canviar-los: l'inici mostra sempre els mateixos
+    const na = filtresActius(sa);
+    $('#n-filtres').textContent = na ? `· ${na} ${na === 1 ? 'actiu' : 'actius'}` : '';
+    const n = sa.capTema ? 0 : filtraPreguntes(sa).length;
+    $('#resum').textContent = s.capTema ? 'Cap tema triat' : descripcioFiltres(seleccio());
+    $('#compte').textContent = s.capTema ? 'Marca almenys un tema a Filtres.' : `${n.toLocaleString('ca')} preguntes · en surten ${Math.min(n, sa.n || 20)}`;
     f.querySelector('[type=submit]').disabled = !n;
   };
   f.addEventListener('change', actualitza);
