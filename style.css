@@ -268,3 +268,28 @@ details.filtres[open] { padding-bottom: 1rem; } details.filtres fieldset { backg
 .llista-ajustos .txt .suau { font-size: .83rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .llista-ajustos .chevron { color: var(--suau); width: 1.1rem; height: 1.1rem; }
 .tornar-ajustos { display: inline-block; margin: .2rem 0 .2rem; text-decoration: none; font-weight: 600; }
+
+/* Jocs de geografia */
+.jocs { display: grid; gap: .6rem; }
+.joc { display: flex; gap: .8rem; align-items: center; text-decoration: none; color: var(--text); margin: 0; }
+.joc:hover { border-color: var(--verd); }
+.joc-ic { font-size: 1.9rem; line-height: 1; flex-shrink: 0; width: 2.4rem; text-align: center; }
+.joc .txt, .minijoc .txt { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.joc .suau { font-size: .85rem; } .joc-st { font-size: .78rem; color: var(--verd); font-weight: 600; margin-top: .15rem; }
+.minijoc { display: flex; gap: .75rem; align-items: center; }
+.modes { display: flex; flex-wrap: wrap; gap: .4rem; margin: .6rem 0 .2rem; }
+.mapa-joc { position: relative; margin: .2rem 0 .8rem; border-radius: 10px; overflow: hidden; background: var(--blau-clar); touch-action: none; }
+.mapa-joc svg { display: block; width: 100%; height: auto; user-select: none; -webkit-user-select: none; }
+.m-contorn { fill: none; stroke: var(--suau); stroke-width: 1.2; }
+.m-com { fill: var(--superficie); stroke: var(--vora); stroke-width: .8; vector-effect: non-scaling-stroke; }
+.mapa-joc.toc .m-com { cursor: pointer; } .mapa-joc.toc .m-com:hover { fill: var(--ambre-clar); }
+.m-com.res { fill: #e7a33c; stroke: #a8650f; stroke-width: 1.4; }
+.m-com.bona { fill: #4f9e62; stroke: #2a6a3a; stroke-width: 1.4; } .m-com.dolenta { fill: #d0675f; stroke: #8f2f29; stroke-width: 1.4; }
+.m-riu { fill: none; stroke: #6aa7d8; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.m-riu.res { stroke: #0b5ea8; stroke-width: 4.5; }
+.m-cap { fill: #7a1f1f; stroke: #fff; stroke-width: 1.5; }
+.m-cim path { fill: #8a7a6a; stroke: #fff; stroke-width: 1.2; } .m-cim.res path { fill: #c0392b; transform: scale(1.5); }
+.m-etiq { font-size: 13px; font-weight: 700; fill: var(--text); paint-order: stroke; stroke: var(--superficie); stroke-width: 3px; }
+.m-zoom { position: absolute; right: .4rem; top: .4rem; display: flex; flex-direction: column; gap: .25rem; }
+.m-zoom button { width: 2.1rem; height: 2.1rem; border-radius: 8px; border: 1px solid var(--vora); background: var(--superficie); color: var(--text); font-size: 1.1rem; cursor: pointer; box-shadow: var(--ombra); }
+:root[data-theme="dark"] .m-com.res { fill: #b77a1f; }

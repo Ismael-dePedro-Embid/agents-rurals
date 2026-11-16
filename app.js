@@ -19,7 +19,7 @@ let ESP = null;           // joc d'espècies en curs
 const P = (() => {
   let s;
   try { s = JSON.parse(localStorage.getItem(CLAU)) || {}; } catch { s = {}; }
-  s.q = s.q || {}; s.sims = s.sims || []; s.pref = s.pref || {}; s.esp = s.esp || {}; s.dies = s.dies || {}; s.reptes = s.reptes || {}; s.logros = s.logros || {};
+  s.q = s.q || {}; s.sims = s.sims || []; s.pref = s.pref || {}; s.esp = s.esp || {}; s.dies = s.dies || {}; s.reptes = s.reptes || {}; s.logros = s.logros || {}; s.jocs = s.jocs || {};
   const desa = () => { try { localStorage.setItem(CLAU, JSON.stringify(s)); } catch (e) { alert('No s\'ha pogut desar el progrés: ' + e.message); } };
   return {
     get: id => s.q[id],
@@ -32,6 +32,8 @@ const P = (() => {
       d.n++; if (encert) d.c++;
       if (tema) { const t = d.t[tema] = d.t[tema] || [0, 0]; t[0]++; if (encert) t[1]++; }
     },
+    jocs: () => s.jocs,
+    resJoc(id, enc, tot) { const j = s.jocs[id] = s.jocs[id] || {p: 0, n: 0, c: 0, millor: 0}; j.p++; j.n += tot; j.c += enc; j.millor = Math.max(j.millor, Math.round(100 * enc / tot)); j.l = Date.now(); desa(); },
     desaRepte(dia, res) { if (!s.reptes[dia]) { s.reptes[dia] = res; desa(); } },
     desbloqueja(id) { s.logros[id] = Date.now(); desa(); },
     respon(id, encert, tema) {
@@ -64,9 +66,10 @@ const P = (() => {
       for (const [k, r] of Object.entries(nou.dies || {})) if (!s.dies[k] || r.n > s.dies[k].n) s.dies[k] = r;
       for (const [k, r] of Object.entries(nou.reptes || {})) if (!s.reptes[k]) s.reptes[k] = r;
       for (const [k, r] of Object.entries(nou.logros || {})) if (!s.logros[k]) s.logros[k] = r;
+      for (const [k, r] of Object.entries(nou.jocs || {})) if (!s.jocs[k] || (r.l || 0) > (s.jocs[k].l || 0)) s.jocs[k] = r;
       desa();
     },
-    esborra() { s = {q: {}, sims: [], esp: {}, dies: {}, reptes: {}, logros: {}, pref: s.pref}; desa(); },
+    esborra() { s = {q: {}, sims: [], esp: {}, dies: {}, reptes: {}, logros: {}, jocs: {}, pref: s.pref}; desa(); },
   };
 })();
 
@@ -289,7 +292,7 @@ const rutes = {
 function navega() {
   const parts = location.hash.replace(/^#\/?/, '').split('/');
   const r = rutes[parts[0]] || vistaInici;
-  const seccio = {test: SESSIO && SESSIO.mode === 'simulacre' ? 'simulacre' : 'practica', resultat: 'practica', repas: '', especies: 'practica'}[parts[0]] ?? parts[0];
+  const seccio = {test: SESSIO && SESSIO.mode === 'simulacre' ? 'simulacre' : 'practica', resultat: 'practica', repas: '', especies: 'practica', jocs: 'practica'}[parts[0]] ?? parts[0];
   document.querySelectorAll('.menu a, .engranatge').forEach(a => a.classList.toggle('actiu', a.getAttribute('href') === '#/' + seccio));
   if (parts[0] !== 'temari') TORNAR = null;
   $('#tornar').hidden = !(parts[0] === 'temari' && TORNAR);
@@ -327,6 +330,8 @@ function vistaInici() {
       <div><b>${P.pref('darrera') ? 'Continuar practicant' : 'Començar a practicar'}</b><div class="suau">${esc(descripcioFiltres(darrera))}</div></div>
       <div class="botons"><button class="boto principal gran" id="continua">${P.pref('darrera') ? 'Continuar' : 'Començar'}</button><a class="boto" href="#/practica">Canviar filtres</a></div>
     </div>
+    ${typeof minijocDelDia === 'function' ? (() => { const j = minijocDelDia(); return `<div class="targeta minijoc"><span class="joc-ic">${j.ic}</span>
+      <div class="txt"><b>Minijoc del dia: ${esc(j.nom)}</b><div class="suau">${esc(j.desc)}</div></div><button class="boto" data-minijoc="${j.id}">Jugar</button></div>`; })() : ''}
     ${pendents || fallades ? `<div class="targeta pendent"><b>Pendent</b><div class="botons">
       ${pendents ? `<a class="boto" href="#/repas">Repassar ${pendents} ${pendents === 1 ? 'pregunta' : 'preguntes'}</a>` : ''}
       ${fallades ? `<button class="boto" id="fallades">Tornar a les fallades (${fallades})</button>` : ''}</div></div>` : ''}
@@ -346,7 +351,7 @@ function vistaInici() {
 // ---------------------------------------------------------------- pràctica
 const navPractica = actiu => `<nav class="pestanyes" aria-label="Tipus de pràctica">
   <a href="#/practica" class="${actiu === 'preguntes' ? 'actiu' : ''}">Preguntes</a>
-  <a href="#/especies" class="${actiu === 'especies' ? 'actiu' : ''}">Espècies amb foto</a></nav>`;
+  <a href="#/jocs" class="${actiu === 'jocs' ? 'actiu' : ''}">Jocs</a></nav>`;
 // Filtres de pràctica. Per defecte: tots els temes barrejats, totes les dificultats i orígens.
 const FILTRES_DEF = {temes: [], epi: '', origen: '', cat: ['agent', 'agent major', 'sotsinspector'], dif: [1, 2, 3, 4], desact: false, mode: 'totes', n: 0, ordre: false};
 const filtraPreguntes = s => D.preguntes.filter(q =>
@@ -739,7 +744,7 @@ function vistaEspecies([pas]) {
   const st = P.esp(), pr = P.pref('especies') || {};
   const vistes = D.especies.filter(e => st[e.lat]);
   const fallades = D.especies.filter(e => st[e.lat] && st[e.lat].u === 0);
-  $('#app').innerHTML = `<h1>Practicar</h1>${navPractica('especies')}
+  $('#app').innerHTML = `<h1>Practicar</h1>${navPractica('jocs')}<a class="tornar-ajustos" href="#/jocs">← Jocs</a><h2 style="margin-top:.2rem">Espècies amb foto</h2>
     <p class="suau">${D.especies.length} espècies de les fitxes del temari (fauna protegida, pesca, invasores i flora). Has vist ${vistes.length}; ${fallades.length} fallades la darrera vegada.</p>
     <form id="f">
       <fieldset><legend>Temes</legend><div class="xips">${temes.map(t => `<label class="xip"><input type="checkbox" name="tema" value="${t}" ${!pr.temes || pr.temes.includes(t) ? 'checked' : ''}><span>${esc(nomTema(t))} (${D.especies.filter(e => e.t === t).length})</span></label>`).join('')}</div></fieldset>
