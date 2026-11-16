@@ -346,3 +346,15 @@ button.xip-est { cursor: pointer; } .xip-est.sel { outline: 2px solid var(--blau
 .epi-cap { font-size: 1rem; margin-top: 1.4rem; }
 .fallada-llegir .enunciat { font-size: 1rem; margin-bottom: .5rem; }
 .resposta-bona { color: var(--verd); font-weight: 600; margin: .3rem 0; } .resposta-bona .icona { width: 1.1rem; height: 1.1rem; vertical-align: -.2rem; }
+
+/* Lectura del temari */
+.temari-llista a { display: flex; align-items: center; gap: .75rem; justify-content: space-between; }
+.tl-txt { flex: 1; min-width: 0; }
+.tl-lect { font-size: .75rem; color: var(--suau); width: 3.6rem; flex-shrink: 0; text-align: right; }
+.tl-lect .barra-tema { display: block; height: 5px; min-width: 0; margin-top: .2rem; } .tl-lect .barra-tema span { display: block; height: 100%; background: var(--verd); }
+.tl-lect.fet { color: var(--verd); font-weight: 700; }
+.fi-epigraf { margin: 1rem 0 1.4rem; text-align: right; }
+.marca-llegit { font-size: .88rem; padding: .4rem .8rem; }
+.marca-llegit.fet { background: var(--verd-clar); border-color: var(--verd); color: var(--verd); font-weight: 600; }
+.marca-llegit .icona { width: 1rem; height: 1rem; vertical-align: -.15rem; }
+.index-tema a.llegit::after { content: ' ✓'; color: var(--verd); font-weight: 700; }

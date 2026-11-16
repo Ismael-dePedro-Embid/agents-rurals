@@ -35,7 +35,7 @@ let ESP = null;           // joc d'espècies en curs
 const P = (() => {
   let s;
   try { s = JSON.parse(localStorage.getItem(CLAU)) || {}; } catch { s = {}; }
-  s.q = s.q || {}; s.sims = s.sims || []; s.pref = s.pref || {}; s.esp = s.esp || {}; s.dies = s.dies || {}; s.reptes = s.reptes || {}; s.logros = s.logros || {}; s.jocs = s.jocs || {};
+  s.q = s.q || {}; s.sims = s.sims || []; s.pref = s.pref || {}; s.esp = s.esp || {}; s.dies = s.dies || {}; s.reptes = s.reptes || {}; s.logros = s.logros || {}; s.jocs = s.jocs || {}; s.lect = s.lect || {};
   const desa = () => { try { localStorage.setItem(CLAU, JSON.stringify(s)); } catch (e) { alert('No s\'ha pogut desar el progrés: ' + e.message); } };
   return {
     get: id => s.q[id],
@@ -49,6 +49,9 @@ const P = (() => {
       if (tema) { const t = d.t[tema] = d.t[tema] || [0, 0]; t[0]++; if (encert) t[1]++; }
     },
     jocs: () => s.jocs,
+    lect: () => s.lect, lloc: () => s.lloc,
+    marcaLlegit(f, a, on) { const t = s.lect[f] = s.lect[f] || {}; if (on) t[a] = Date.now(); else delete t[a]; desa(); },
+    desaLloc(l) { s.lloc = {...l, l: Date.now()}; desa(); },
     resJoc(id, enc, tot) { const j = s.jocs[id] = s.jocs[id] || {p: 0, n: 0, c: 0, millor: 0}; j.p++; j.n += tot; j.c += enc; j.millor = Math.max(j.millor, Math.round(100 * enc / tot)); j.l = Date.now(); desa(); },
     // Domini de cada element d'un joc (comarca, riu, cim...): encerts seguits (s) i darrera resposta (u)
     resElem(id, key, ok) {
@@ -90,9 +93,11 @@ const P = (() => {
       for (const [k, r] of Object.entries(nou.reptes || {})) if (!s.reptes[k]) s.reptes[k] = r;
       for (const [k, r] of Object.entries(nou.logros || {})) if (!s.logros[k]) s.logros[k] = r;
       for (const [k, r] of Object.entries(nou.jocs || {})) if (!s.jocs[k] || (r.l || 0) > (s.jocs[k].l || 0)) s.jocs[k] = r;
+      for (const [f, t] of Object.entries(nou.lect || {})) s.lect[f] = {...t, ...(s.lect[f] || {})};
+      if (nou.lloc && (!s.lloc || nou.lloc.l > s.lloc.l)) s.lloc = nou.lloc;
       desa();
     },
-    esborra() { s = {q: {}, sims: [], esp: {}, dies: {}, reptes: {}, logros: {}, jocs: {}, pref: s.pref}; desa(); },
+    esborra() { s = {q: {}, sims: [], esp: {}, dies: {}, reptes: {}, logros: {}, jocs: {}, lect: {}, pref: s.pref}; desa(); },
   };
 })();
 
@@ -327,7 +332,7 @@ function navega() {
   const r = rutes[parts[0]] || vistaInici;
   const seccio = {test: SESSIO && SESSIO.mode === 'simulacre' ? 'simulacre' : 'practica', resultat: 'practica', repas: '', especies: 'practica', jocs: 'practica', fallades: 'progres'}[parts[0]] ?? parts[0];
   document.querySelectorAll('.menu a, .engranatge').forEach(a => a.classList.toggle('actiu', a.getAttribute('href') === '#/' + seccio));
-  if (parts[0] !== 'temari') TORNAR = null;
+  if (parts[0] !== 'temari') { TORNAR = null; window.onscroll = null; }
   $('#tornar').hidden = !(parts[0] === 'temari' && TORNAR);
   r(parts.slice(1).map(decodeURIComponent));
   if (D && parts[0] !== 'test') comprovaLogros();
@@ -928,9 +933,22 @@ function jocEspecies() {
 
 // ---------------------------------------------------------------- temari
 const CAU_TEMA = {};
+const codiEpi = h => (h.t.replace(/\s+/g, ' ').match(/^([GE]\d+(?:\.\d+)+)\.?\s/) || [])[1];
+function epigrafsLectura(t) {
+  const amb = t.index.map(h => ({...h, codi: codiEpi(h), nom: h.t.replace(/\s+/g, ' ')})).filter(h => h.codi);
+  return amb.filter(h => !amb.some(x => x !== h && x.codi.startsWith(h.codi + '.')));
+}
+const llegits = t => { const l = P.lect()[t.fitxer] || {}; return epigrafsLectura(t).filter(h => l[h.a]).length; };
 async function vistaTemari([fitxer, ancora]) {
   if (!fitxer) {
-    $('#app').innerHTML = `<h1>Temari</h1><div class="targeta temari-llista">${D.temes.map(t => `<a href="#/temari/${t.fitxer}"><b>${t.codi}</b>${esc(t.titol)}</a>`).join('')}</div>`;
+    const ll = P.lloc(), tl = ll && D.temes.find(t => t.fitxer === ll.f);
+    const totE = D.temes.reduce((a, t) => a + epigrafsLectura(t).length, 0), totL = D.temes.reduce((a, t) => a + llegits(t), 0);
+    $('#app').innerHTML = `<h1>Temari</h1>
+      ${tl ? `<div class="targeta continua"><div><b>Continuar llegint</b><div class="suau">${esc(tl.codi)} · ${esc(ll.t)}</div></div>
+        <a class="boto principal" href="#/temari/${tl.fitxer}/${encodeURIComponent(ll.a)}">Continuar</a></div>` : ''}
+      <p class="suau">${totL} de ${totE} epígrafs marcats com a llegits. Al final de cada epígraf hi ha el botó per marcar-lo.</p>
+      <div class="targeta temari-llista">${D.temes.map(t => { const n = epigrafsLectura(t).length, l = llegits(t); return `<a href="#/temari/${t.fitxer}">
+        <span class="tl-txt"><b>${t.codi}</b>${esc(t.titol)}</span>${n ? `<span class="tl-lect ${l === n ? 'fet' : ''}" title="Epígrafs llegits">${l}/${n}<span class="barra-tema"><span style="width:${pct(l, n)}%"></span></span></span>` : ''}</a>`; }).join('')}</div>`;
     return;
   }
   const t = D.temes.find(x => x.fitxer === fitxer);
@@ -947,7 +965,7 @@ async function vistaTemari([fitxer, ancora]) {
       ${i < D.temes.length - 1 ? `<a class="boto" href="#/temari/${D.temes[i + 1].fitxer}">${D.temes[i + 1].codi}</a>` : ''}
       <button class="boto" id="test-tema">Practicar el ${t.codi}</button></div>
     <details class="targeta index"><summary>Índex del tema</summary><div class="index-tema">
-      ${t.index.filter(h => h.n > 1 || true).map(h => `<a class="n${h.n}" href="#/temari/${fitxer}/${h.a}">${esc(h.t)}</a>`).join('')}</div></details>
+      ${t.index.map(h => `<a class="n${h.n} ${(P.lect()[fitxer] || {})[h.a] ? 'llegit' : ''}" href="#/temari/${fitxer}/${h.a}">${esc(h.t)}</a>`).join('')}</div></details>
     <article class="apunts">${CAU_TEMA[fitxer]}</article>`;
   $('#test-tema').addEventListener('click', () => {
     comenca(barreja(D.preguntes.filter(q => q.t === t.codi && vigent(q))).slice(0, 20), 'practica', nomTema(t.codi));
@@ -958,6 +976,33 @@ async function vistaTemari([fitxer, ancora]) {
       requestAnimationFrame(() => { const h = $('.barra').offsetHeight; window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - h - 12); el.classList.add('ressalt'); setTimeout(() => el.classList.remove('ressalt'), 2500); });
     }
   } else window.scrollTo(0, 0);
+  const art = $('.apunts'), epis = epigrafsLectura(t), codis = new Set(t.index.filter(codiEpi).map(h => h.a));
+  const lect = () => P.lect()[fitxer] || {};
+  const boto = h => `<button type="button" class="boto marca-llegit ${lect()[h.a] ? 'fet' : ''}" data-llegit="${esc(h.a)}">${lect()[h.a] ? `${ico('check')} ${esc(h.codi)} llegit` : `Marcar ${esc(h.codi)} com a llegit`}</button>`;
+  for (const h of epis) {
+    const el = document.getElementById(h.a); if (!el) continue;
+    let seg = el.nextElementSibling;
+    while (seg && !(/^H[1-3]$/.test(seg.tagName) && codis.has(seg.id))) seg = seg.nextElementSibling;
+    const div = document.createElement('div'); div.className = 'fi-epigraf'; div.innerHTML = boto(h);
+    if (seg) seg.before(div); else art.append(div);
+  }
+  art.addEventListener('click', e => {
+    const b = e.target.closest('[data-llegit]'); if (!b) return;
+    const h = epis.find(x => x.a === b.dataset.llegit), on = !lect()[h.a];
+    P.marcaLlegit(fitxer, h.a, on);
+    b.outerHTML = boto(h);
+    document.querySelector(`.index-tema a[href$="/${CSS.escape(h.a)}"]`)?.classList.toggle('llegit', on);
+    if (on && epis.every(x => lect()[x.a])) avis(`Has llegit tot el tema ${t.codi}`);
+  });
+  // Desa el darrer epígraf on és la lectura, per a «Continuar llegint»
+  let tLloc = null;
+  const desaLloc = () => {
+    if (!location.hash.startsWith('#/temari/' + fitxer)) return;
+    const h = $('.barra').offsetHeight + 20; let act = null;
+    for (const x of t.index) { if (!codiEpi(x)) continue; const el = document.getElementById(x.a); if (el && el.getBoundingClientRect().top < h) act = x; }
+    if (act) P.desaLloc({f: fitxer, a: act.a, t: act.t.replace(/\s+/g, ' ')});
+  };
+  window.onscroll = () => { clearTimeout(tLloc); tLloc = setTimeout(desaLloc, 800); };
   // Els enllaços interns (#ancora) del tema han de quedar dins de la ruta de l'app
   $('.apunts').addEventListener('click', e => {
     const a = e.target.closest('a[href^="#"]');
