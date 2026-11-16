@@ -67,13 +67,13 @@ function mapa(o = {}) {
   const G = GEO, res = new Set(o.comarques || []);
   const est = (prefix, nom) => (o.domini ? ' e-' + estat(o.domini, prefix + nom) : '');
   const fons = o.fons || 'politic', ctx = fons !== 'politic';
-  return `<div class="mapa-joc fons-${fons} ${o.toc ? 'toc toc-' + o.toc : ''}"><svg viewBox="0 0 ${G.w} ${G.h}" role="img" aria-label="Mapa de Catalunya">
+  return `<div class="mapa-joc fons-${fons} ${o.senseCom ? 'sense-com' : ''} ${o.toc ? 'toc toc-' + o.toc : ''}"><svg viewBox="0 0 ${G.w} ${G.h}" role="img" aria-label="Mapa de Catalunya">
     ${ctx ? `<image href="data/relleu.webp" x="0" y="0" width="${G.w}" height="${G.h}" preserveAspectRatio="none" class="m-relleu"/>` : ''}
     <path d="${G.contorn}" class="m-contorn"/>
     ${G.comarques.map((c, i) => `<path d="${c.d}" data-i="${i}" class="m-com${res.has(c.nom) ? ' res' : ''}${o.bona === c.nom ? ' bona' : ''}${o.dolenta === c.nom ? ' dolenta' : ''}${o.domini === 'comarques' ? est('com:', c.nom) : ''}"/>`).join('')}
     ${(o.rius || []).map((r, i) => `<polyline points="${r.pts}" class="m-riu${r.res ? ' res' : ''}${r.mal ? ' mal' : ''}${o.domini === 'rius' ? est('riu:', r.nom) : ''}"/>${o.toc === 'riu' || o.explora ? `<polyline points="${r.pts}" class="m-riu-toc" data-r="${i}"/>` : ''}`).join('')}
-    ${ctx && !o.rius ? G.rius.map(r => `<polyline points="${r.pts}" class="m-riu ctx"/>`).join('') : ''}
-    ${ctx && !o.cims ? G.cims.map(c => `<g class="m-cim ctx" transform="translate(${c.x} ${c.y})"><path d="M0 -6 L5 3.5 L-5 3.5 Z"/></g>`).join('') : ''}
+    ${ctx && !o.rius && !o.explora ? G.rius.map(r => `<polyline points="${r.pts}" class="m-riu ctx"/>`).join('') : ''}
+    ${ctx && !o.cims && !o.explora ? G.cims.map(c => `<g class="m-cim ctx" transform="translate(${c.x} ${c.y})"><path d="M0 -6 L5 3.5 L-5 3.5 Z"/></g>`).join('') : ''}
     ${o.capital ? `<circle cx="${o.capital.capx}" cy="${o.capital.capy}" r="5" class="m-cap"/>` : ''}
     ${(o.cims || []).map(c => `<g class="m-cim${c.res ? ' res' : ''}${o.domini === 'muntanyes' ? est('cim:', c.nom) : ''}" data-c="${GEO.cims.indexOf(c.ref || c)}" transform="translate(${c.x} ${c.y})"><circle r="13" class="m-cim-toc"/><path d="M0 -11 L9 6 L-9 6 Z"/></g>`).join('')}
     ${o.punt ? `<g transform="translate(${o.punt.x} ${o.punt.y})" class="m-punt"><circle r="7"/><path d="M-4 -4 L4 4 M4 -4 L-4 4"/></g>` : ''}
@@ -133,15 +133,29 @@ function zoomMapa(cont, enfoc) {
 // ---------------------------------------------------------------- jocs i modes
 const JOCS = [
   {id: 'comarques', nom: 'Comarques', plural: 'comarques', fem: true, ic: '🗺️', desc: 'Les 43 comarques al mapa, les capitals i les vegueries', modes: [
-    ['quina', 'Quina comarca és?'], ['on', 'Toca-la al mapa'], ['capital', 'Capitals'], ['vegueria', 'Vegueries']]},
+    ['quina', 'Quina comarca és?', 'Se\'n ressalta una al mapa i tries el nom'],
+    ['on', 'Toca-la al mapa', 'Et diem el nom i la toques'],
+    ['capital', 'Capitals', 'La capital de cada comarca, i al revés'],
+    ['vegueria', 'Vegueries', 'A quina vegueria pertany cada comarca']]},
   {id: 'rius', nom: 'Rius', plural: 'rius', ic: '🏞️', desc: 'Els rius principals, on desemboquen i qui en gestiona la conca', modes: [
-    ['quin', 'Quin riu és?'], ['toca', 'Toca\'l al mapa'], ['desemboca', 'On desemboca?'], ['gestio', 'Qui el gestiona?']]},
+    ['quin', 'Quin riu és?', 'Se\'n ressalta un al mapa i tries el nom'],
+    ['toca', 'Toca\'l al mapa', 'Et diem el nom i el toques'],
+    ['desemboca', 'On desemboca?', 'Al mar, a l\'Atlàntic o en un altre riu'],
+    ['gestio', 'Qui el gestiona?', 'ACA, Confederació de l\'Ebre o del Xúquer']]},
   {id: 'muntanyes', nom: 'Muntanyes', plural: 'cims', ic: '⛰️', desc: 'Cims: on són, quina altitud tenen i quin és més alt', modes: [
-    ['quin', 'Quin cim és?'], ['toca', 'Situa\'l al mapa'], ['altitud', 'Altitud'], ['mesalt', 'Quin és més alt?'], ['comarca', 'A quina comarca?']]},
+    ['quin', 'Quin cim és?', 'Se\'n marca un al mapa i tries el nom'],
+    ['toca', 'Situa\'l al mapa', 'Toques on és; val si encertes a menys de 10 km'],
+    ['comarca', 'A quina comarca?', 'La comarca de cada cim'],
+    ['altitud', 'Altitud', 'Quants metres fa'],
+    ['mesalt', 'Quin és més alt?', 'Entre quatre cims']]},
   {id: 'relleu', nom: 'Sistemes muntanyosos', plural: 'elements', ic: '🏔️', desc: 'Serres, massissos i planes: a quina unitat de relleu pertanyen', modes: [
-    ['unitat', 'Unitat de relleu'], ['cim', 'Cims i unitats']]},
+    ['unitat', 'Unitat de relleu', 'Serres, massissos, altiplans i planes'],
+    ['cim', 'Cims i unitats', 'A quina unitat pertany cada cim']]},
   {id: 'enp', nom: 'Espais naturals', plural: 'espais', ic: '🌳', desc: 'Parc nacional, parcs naturals i paratges: on són i quan es van declarar', modes: [
-    ['quin', 'Quin parc és?'], ['on', 'On és?'], ['any', 'Any de declaració'], ['pnin', 'Paratges (PNIN)']]},
+    ['quin', 'Quin parc és?', 'Se\'n ressalten les comarques i tries el parc'],
+    ['on', 'On és?', 'Les comarques de cada parc'],
+    ['any', 'Any de declaració', 'Quan es va declarar cada parc'],
+    ['pnin', 'Paratges (PNIN)', 'A quina comarca és cada paratge natural d\'interès nacional']]},
 ];
 
 // Cada generador retorna {text, el, op, ok, explica, mapa?, mapaDespres?, enfoc?} o una pregunta de tocar
@@ -298,59 +312,112 @@ async function vistaJocs([id]) {
     <p class="suau petit">${esc(GEO.font)}</p>`;
 }
 
-// Pàgina d'un joc: començar (modes i contrarellotge) i explorar el mapa amb el domini de cada element
+// Pàgina d'un joc: «Jugar» (una mica de tot), la llista de modes i la contrarellotge
 function vistaJoc(joc) {
-  const pr = (P.pref('jocModes') || {})[joc.id] || 'barrejat', s = P.jocs()[joc.id];
+  const s = P.jocs()[joc.id], capa = {comarques: 'comarques', rius: 'rius', muntanyes: 'muntanyes', enp: 'enp', relleu: 'relleu'}[joc.id];
   $('#app').innerHTML = `<h1>Practicar</h1>${navPractica('jocs')}<a class="tornar-ajustos" href="#/jocs">← Jocs</a>
-    <h2 style="margin-top:.2rem">${joc.ic} ${esc(joc.nom)}</h2>
-    <div class="targeta"><b>Què vols practicar?</b>
-      <div class="modes">${[['barrejat', 'Una mica de tot'], ...joc.modes].map(([m, t]) => `<label class="xip"><input type="radio" name="mode" value="${m}" ${m === pr ? 'checked' : ''}><span>${esc(t)}</span></label>`).join('')}</div>
-      <p class="suau petit">Les que falles i les que no has vist surten més sovint fins que les domines (2 encerts seguits).</p>
-      <div class="botons"><button class="boto principal gran" id="comenca-joc">Jugar (${PREGUNTES_PARTIDA} preguntes)</button>
-        <button class="boto" id="cr">⏱️ Contrarellotge ${SEGONS_CR} s${s?.rec ? ` · rècord ${s.rec}` : ''}</button></div></div>
-    <h2>Explora</h2>
+    <h2 class="joc-titol">${joc.ic} ${esc(joc.nom)}</h2>
     ${barraDomini(joc.id, joc.plural)}
-    <div id="explora"></div>
-    <div id="fitxa" class="explicacio" hidden></div>`;
-  explora(joc.id);
-  const mode = () => document.querySelector('[name=mode]:checked').value;
-  $('#comenca-joc').addEventListener('click', () => { P.pref('jocModes', {...(P.pref('jocModes') || {}), [joc.id]: mode()}); comencaJoc(joc.id, mode()); });
-  $('#cr').addEventListener('click', () => comencaJoc(joc.id, mode(), true));
+    <button class="targeta joc-jugar" data-mode="barrejat"><span><b>Jugar</b><span class="suau">${PREGUNTES_PARTIDA} preguntes de tots els modes. Les que falles tornen fins que les domines.</span></span><span class="joc-play">▶</span></button>
+    <h3 class="modes-titol">Practicar un mode</h3>
+    <div class="targeta llista-modes">${joc.modes.map(([m, t, d]) => `<button data-mode="${m}"><span><b>${esc(t)}</b><span class="suau">${esc(d)}</span></span>${ico('fletxa', 'chevron')}</button>`).join('')}
+      <button data-cr="1"><span><b>⏱️ Contrarellotge</b><span class="suau">Tantes com puguis en ${SEGONS_CR} segons${s?.rec ? ` · el teu rècord: ${s.rec}` : ''}</span></span>${ico('fletxa', 'chevron')}</button></div>
+    <div class="botons"><a class="boto" href="#/mapa/${capa}">${ico('obre')} ${joc.id === 'relleu' ? 'Repassar les unitats' : 'Veure al mapa'}</a></div>`;
+  document.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click', () => comencaJoc(joc.id, b.dataset.mode)));
+  $('[data-cr]').addEventListener('click', () => comencaJoc(joc.id, 'barrejat', true));
 }
-function explora(id) {
-  const box = $('#explora'), fitxa = h => { const f = $('#fitxa'); f.innerHTML = h; f.hidden = false; };
-  if (id === 'comarques' || id === 'rius' || id === 'muntanyes') {
-    const fons = P.pref('mapaFons') || (id === 'comarques' ? 'politic' : 'mixt');
-    box.innerHTML = selectorFons(fons) + mapa({fons, domini: id, explora: true, rius: id === 'rius' ? GEO.rius : null, cims: id === 'muntanyes' ? GEO.cims : null}) +
-      `<p class="suau petit">Toca ${id === 'comarques' ? 'una comarca' : id === 'rius' ? 'un riu' : 'un cim'} per veure'n la fitxa. Zoom amb dos dits o amb els botons.${fons !== 'politic' ? ' Relleu: ICGC (model d\'elevacions).' : ''}</p>`;
-    box.querySelectorAll('[name=fons]').forEach(i => i.addEventListener('change', () => { P.pref('mapaFons', i.value); explora(id); }));
-    const m = box.querySelector('.mapa-joc'); zoomMapa(m);
-    const marca = el => { box.querySelectorAll('.sel').forEach(x => x.classList.remove('sel')); el.classList.add('sel'); };
-    if (id === 'comarques') m.querySelectorAll('.m-com').forEach(p => p.addEventListener('click', () => { marca(p); fitxa(fitxaComarca(GEO.comarques[+p.dataset.i]) + estatTxt(id, 'com:' + GEO.comarques[+p.dataset.i].nom)); }));
-    if (id === 'rius') m.querySelectorAll('.m-riu-toc').forEach(p => p.addEventListener('click', () => { const r = GEO.rius[+p.dataset.r]; marca(p.previousElementSibling); fitxa(fitxaRiu(r) + estatTxt(id, 'riu:' + r.nom)); }));
-    if (id === 'muntanyes') m.querySelectorAll('.m-cim').forEach(g => g.addEventListener('click', () => { const c = GEO.cims[+g.dataset.c]; marca(g); fitxa(fitxaCim(c) + estatTxt(id, 'cim:' + c.nom)); }));
-    return;
+
+// ---------------------------------------------------------------- Temari → Mapa
+// Un sol mapa amb capes (comarques, rius, cims), fons polític/físic/mixt, colors de domini,
+// cercador i fitxa de tot el que toques. També hi ha els espais naturals i les unitats de relleu.
+const navTemari = actiu => `<nav class="pestanyes" aria-label="Temari"><a href="#/temari" class="${actiu === 'temes' ? 'actiu' : ''}">Temes</a><a href="#/mapa" class="${actiu === 'mapa' ? 'actiu' : ''}">Mapa de Catalunya</a></nav>`;
+let MAPA = null;
+async function vistaMapa([capa]) {
+  $('#app').innerHTML = '<p class="carregant">Carregant el mapa…</p>';
+  try { await carregaGeo(); } catch { $('#app').innerHTML = '<p>No s\'ha pogut carregar el mapa.</p>'; return; }
+  const pr = P.pref('mapa') || {};
+  MAPA = {fons: pr.fons || 'mixt', capes: pr.capes || {com: true, rius: true, cims: true}, domini: pr.domini || '', sel: null, enfoc: null};
+  if (capa === 'comarques') Object.assign(MAPA, {domini: 'comarques', capes: {...MAPA.capes, com: true}});
+  if (capa === 'rius') Object.assign(MAPA, {domini: 'rius', capes: {...MAPA.capes, rius: true}});
+  if (capa === 'muntanyes') Object.assign(MAPA, {domini: 'muntanyes', capes: {...MAPA.capes, cims: true}});
+  const noms = [...GEO.comarques.map(c => c.nom), ...GEO.comarques.map(c => c.cap + ' (capital)'), ...GEO.rius.map(r => 'Riu ' + r.nom), ...GEO.cims.map(c => c.nom), ...totsEspais().map(e => e.nom)];
+  const xip = (k, t) => `<label class="xip"><input type="checkbox" name="capa" value="${k}" ${MAPA.capes[k] ? 'checked' : ''}><span>${t}</span></label>`;
+  $('#app').innerHTML = `<h1>Temari</h1>${navTemari('mapa')}
+    <input type="search" id="cerca-mapa" class="cerca" list="llista-mapa" placeholder="Busca una comarca, capital, riu, cim o parc" autocomplete="off">
+    <datalist id="llista-mapa">${noms.map(n => `<option value="${esc(n)}">`).join('')}</datalist>
+    <div class="controls-mapa">${selectorFons(MAPA.fons)}
+      <div class="xips">${xip('com', 'Comarques')}${xip('rius', 'Rius')}${xip('cims', 'Cims')}</div>
+      <label class="fila petit">Colors del meu domini <select id="domini"><option value="">Cap</option><option value="comarques">Comarques</option><option value="rius">Rius</option><option value="muntanyes">Cims</option></select></label></div>
+    <div id="mapa-gran"></div>
+    <div id="fitxa" class="explicacio" hidden></div>
+    <details class="targeta llista-explora" id="det-enp" ${capa === 'enp' ? 'open' : ''}><summary><b>🌳 Espais naturals protegits</b></summary>
+      ${[['Parc nacional', [GEO.enp.pn]], ['Parcs naturals', GEO.enp.parcs], ["Paratges naturals d'interès nacional", GEO.enp.pnin]].map(([t, ll]) =>
+        `<div class="grup"><b>${t}</b><div>${ll.map(e => `<button type="button" class="xip-est e-${estat('enp', 'enp:' + e.nom)}" data-e="${esc(e.nom)}">${esc(e.nom.replace(/^Parc Natural (de la |del |dels |de les |de l'|de )/, ''))}</button>`).join('')}</div></div>`).join('')}
+      <p class="suau petit">Toca'n un i se'n ressalten les comarques al mapa.</p></details>
+    <details class="targeta llista-explora" id="det-relleu" ${capa === 'relleu' ? 'open' : ''}><summary><b>🏔️ Unitats de relleu</b></summary>
+      ${[...new Set(GEO.relleu.map(x => x.unitat))].map(u => `<div class="grup"><b>${esc(u)}</b><div>${GEO.relleu.filter(x => x.unitat === u).map(x => `<span class="xip-est e-${estat('relleu', 'rel:' + x.nom)}">${esc(x.nom)}</span>`).join('')}</div></div>`).join('')}
+      <p class="suau petit">Els colors indiquen el teu domini al joc de sistemes muntanyosos.</p></details>
+    <p class="suau petit">${esc(GEO.font)} Relleu: ICGC (model d'elevacions).</p>`;
+  $('#domini').value = MAPA.domini;
+  const desa = () => P.pref('mapa', {fons: MAPA.fons, capes: MAPA.capes, domini: MAPA.domini});
+  document.querySelectorAll('[name=fons]').forEach(i => i.addEventListener('change', () => { MAPA.fons = i.value; desa(); pintaMapa(); }));
+  document.querySelectorAll('[name=capa]').forEach(i => i.addEventListener('change', () => { MAPA.capes[i.value] = i.checked; desa(); pintaMapa(); }));
+  $('#domini').addEventListener('change', e => { MAPA.domini = e.target.value; desa(); pintaMapa(); });
+  $('#cerca-mapa').addEventListener('change', e => cercaMapa(e.target.value));
+  $('#cerca-mapa').addEventListener('keydown', e => { if (e.key === 'Enter') cercaMapa(e.target.value); });
+  document.querySelectorAll('[data-e]').forEach(b => b.addEventListener('click', () => {
+    const e = totsEspais().find(x => x.nom === b.dataset.e);
+    document.querySelectorAll('[data-e].sel').forEach(x => x.classList.remove('sel')); b.classList.add('sel');
+    selecciona({tipus: 'enp', obj: e}, true); $('#mapa-gran').scrollIntoView({behavior: 'smooth', block: 'center'});
+  }));
+  pintaMapa();
+}
+const bbCom = noms => { const bb = GEO.comarques.filter(c => noms.includes(c.nom)).map(c => c.bb); return [Math.min(...bb.map(b => b[0])), Math.min(...bb.map(b => b[1])), Math.max(...bb.map(b => b[2])), Math.max(...bb.map(b => b[3]))]; };
+function bbRiu(r) { const p = r.pts.split(' ').map(x => x.split(',').map(Number)); return [Math.min(...p.map(a => a[0])), Math.min(...p.map(a => a[1])), Math.max(...p.map(a => a[0])), Math.max(...p.map(a => a[1]))]; }
+function cercaMapa(txt) {
+  const t = txt.trim().toLowerCase(); if (!t) return;
+  const eq = a => a.toLowerCase() === t, conte = a => a.toLowerCase().includes(t);
+  const prova = f => GEO.comarques.find(c => f(c.nom)) && {tipus: 'com', obj: GEO.comarques.find(c => f(c.nom))}
+    || GEO.comarques.find(c => f(c.cap + ' (capital)') || f(c.cap)) && {tipus: 'com', obj: GEO.comarques.find(c => f(c.cap + ' (capital)') || f(c.cap))}
+    || GEO.rius.find(r => f('Riu ' + r.nom) || f(r.nom)) && {tipus: 'riu', obj: GEO.rius.find(r => f('Riu ' + r.nom) || f(r.nom))}
+    || GEO.cims.find(c => f(c.nom)) && {tipus: 'cim', obj: GEO.cims.find(c => f(c.nom))}
+    || totsEspais().find(e => f(e.nom)) && {tipus: 'enp', obj: totsEspais().find(e => f(e.nom))};
+  const r = prova(eq) || prova(conte);
+  if (!r) { avis('No l\'he trobat al mapa.'); return; }
+  if (r.tipus === 'riu') MAPA.capes.rius = true;
+  if (r.tipus === 'cim') MAPA.capes.cims = true;
+  document.querySelectorAll('[name=capa]').forEach(i => { i.checked = !!MAPA.capes[i.value]; });
+  selecciona(r, true);
+}
+function selecciona(r, enfoca) {
+  MAPA.sel = r;
+  if (enfoca) {
+    const o = r.obj;
+    MAPA.enfoc = r.tipus === 'com' ? o.bb : r.tipus === 'riu' ? bbRiu(o) : r.tipus === 'cim' ? [o.x - 25, o.y - 25, o.x + 25, o.y + 25] : bbCom(o.comarques);
+    pintaMapa();
   }
-  if (id === 'relleu') {
-    const unitats = [...new Set(GEO.relleu.map(x => x.unitat))];
-    box.innerHTML = `<div class="targeta llista-explora">${unitats.map(u => `<div class="grup"><b>${esc(u)}</b><div>${GEO.relleu.filter(x => x.unitat === u).map(x => `<span class="xip-est e-${estat(id, 'rel:' + x.nom)}">${esc(x.nom)}</span>`).join('')}</div></div>`).join('')}</div>`;
-    return;
-  }
-  if (id === 'enp') {
-    const fons = P.pref('mapaFons') || 'mixt';
-    box.innerHTML = selectorFons(fons) + mapa({fons}) + `<div class="targeta llista-explora">${[['Parc nacional', [GEO.enp.pn]], ['Parcs naturals', GEO.enp.parcs], ["Paratges naturals d'interès nacional", GEO.enp.pnin]].map(([t, ll]) =>
-      `<div class="grup"><b>${t}</b><div>${ll.map(e => `<button type="button" class="xip-est e-${estat(id, 'enp:' + e.nom)}" data-e="${esc(e.nom)}">${esc(e.nom.replace(/^Parc Natural (de la |del |dels |de les |de l'|de )/, ''))}</button>`).join('')}</div></div>`).join('')}</div>`;
-    zoomMapa(box.querySelector('.mapa-joc'));
-    box.querySelectorAll('[name=fons]').forEach(i => i.addEventListener('change', () => { P.pref('mapaFons', i.value); explora(id); }));
-    box.querySelectorAll('[data-e]').forEach(b => b.addEventListener('click', () => {
-      const e = totsEspais().find(x => x.nom === b.dataset.e);
-      box.querySelector('.mapa-joc').outerHTML; // (es redibuixa a sota)
-      const nou = document.createElement('div'); nou.innerHTML = mapa({fons: P.pref('mapaFons') || 'mixt', comarques: e.comarques});
-      box.querySelector('.mapa-joc').replaceWith(nou.firstElementChild); zoomMapa(box.querySelector('.mapa-joc'));
-      box.querySelectorAll('.sel').forEach(x => x.classList.remove('sel')); b.classList.add('sel');
-      fitxa(fitxaEspai(e) + estatTxt(id, 'enp:' + e.nom));
-    }));
-  }
+  const f = $('#fitxa'), o = r.obj;
+  f.innerHTML = r.tipus === 'com' ? fitxaComarca(o) + estatTxt('comarques', 'com:' + o.nom)
+    : r.tipus === 'riu' ? fitxaRiu(o) + estatTxt('rius', 'riu:' + o.nom)
+    : r.tipus === 'cim' ? fitxaCim(o) + estatTxt('muntanyes', 'cim:' + o.nom)
+    : fitxaEspai(o) + estatTxt('enp', 'enp:' + o.nom);
+  f.hidden = false;
+}
+function pintaMapa() {
+  const M = MAPA, sel = M.sel;
+  $('#mapa-gran').innerHTML = mapa({
+    fons: M.fons, domini: M.domini, explora: true, senseCom: !M.capes.com,
+    comarques: sel && (sel.tipus === 'com' ? [sel.obj.nom] : sel.tipus === 'enp' ? sel.obj.comarques : []),
+    rius: M.capes.rius ? GEO.rius.map(r => ({...r, res: sel?.tipus === 'riu' && sel.obj === r})) : null,
+    cims: M.capes.cims ? GEO.cims.map(c => ({...c, ref: c, res: sel?.tipus === 'cim' && sel.obj === c})) : null,
+    capital: sel?.tipus === 'com' ? sel.obj : null,
+  });
+  const m = $('#mapa-gran .mapa-joc');
+  zoomMapa(m, M.enfoc); M.enfoc = null;
+  const marca = el => { m.querySelectorAll('.sel').forEach(x => x.classList.remove('sel')); el.classList.add('sel'); };
+  if (M.capes.com) m.querySelectorAll('.m-com').forEach(p => p.addEventListener('click', () => { marca(p); selecciona({tipus: 'com', obj: GEO.comarques[+p.dataset.i]}); }));
+  m.querySelectorAll('.m-riu-toc').forEach(p => p.addEventListener('click', e => { e.stopPropagation(); marca(p.previousElementSibling); selecciona({tipus: 'riu', obj: GEO.rius[+p.dataset.r]}); }));
+  m.querySelectorAll('.m-cim:not(.ctx)').forEach(g => g.addEventListener('click', e => { e.stopPropagation(); marca(g); selecciona({tipus: 'cim', obj: GEO.cims[+g.dataset.c]}); }));
 }
 const selectorFons = f => `<div class="segmentat fons-sel" role="radiogroup" aria-label="Tipus de mapa">${[['politic', 'Polític'], ['fisic', 'Físic'], ['mixt', 'Mixt']].map(([v, t]) =>
   `<label><input type="radio" name="fons" value="${v}" ${v === f ? 'checked' : ''}><span>${t}</span></label>`).join('')}</div>`;
@@ -451,7 +518,7 @@ function resultatJoc() {
         : `${quadres(G.resp.map(r => (r && r.ok ? 1 : 0)))}<p><b>${enc}/${G.preg.length}</b></p>`}
       ${barraDomini(G.id, joc.plural)}
       <div class="botons"><button class="boto principal" id="altra">${G.cr ? 'Una altra contrarellotge' : 'Una altra partida'}</button>
-        ${G.cr ? '<button class="boto" id="comp-cr">Compartir</button>' : ''}<a class="boto" href="#/jocs/${G.id}">Explora</a></div></div>
+        ${G.cr ? '<button class="boto" id="comp-cr">Compartir</button>' : ''}<a class="boto" href="#/mapa/${G.id}">Veure al mapa</a></div></div>
     ${fallades.length ? `<h2>Per repassar</h2>${fallades.map(q => `<div class="targeta"><p>${q.text.replace(/^Toca al mapa: /, 'On és ').replace(/^Toca al mapa el riu /, 'On és el riu ').replace(/ Toca el mapa$/, '')}</p><div class="explicacio">${q.explica}</div></div>`).join('')}` : ''}`;
   $('#altra').addEventListener('click', () => comencaJoc(G.id, G.mode, G.cr));
   $('#comp-cr')?.addEventListener('click', async () => {
@@ -467,3 +534,4 @@ document.addEventListener('click', async e => {
   await carregaGeo(); comencaJoc(b.dataset.minijoc, 'barrejat');
 });
 rutes.jocs = vistaJocs;
+rutes.mapa = vistaMapa;

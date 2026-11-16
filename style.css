@@ -358,3 +358,23 @@ button.xip-est { cursor: pointer; } .xip-est.sel { outline: 2px solid var(--blau
 .marca-llegit.fet { background: var(--verd-clar); border-color: var(--verd); color: var(--verd); font-weight: 600; }
 .marca-llegit .icona { width: 1rem; height: 1rem; vertical-align: -.15rem; }
 .index-tema a.llegit::after { content: ' ✓'; color: var(--verd); font-weight: 700; }
+
+/* Pàgina de joc */
+.joc-titol { margin: .2rem 0 .6rem; }
+.joc-jugar { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 1rem; text-align: left; cursor: pointer; font: inherit; color: var(--text);
+  border: 2px solid var(--verd); background: var(--verd-clar); }
+.joc-jugar > span:first-child { display: flex; flex-direction: column; } .joc-jugar b { font-size: 1.15rem; }
+.joc-play { width: 2.8rem; height: 2.8rem; border-radius: 50%; background: var(--verd); color: var(--sobre-verd); display: grid; place-items: center; font-size: 1.1rem; flex-shrink: 0; }
+.modes-titol { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--suau); margin: 1.2rem 0 .4rem .2rem; }
+.llista-modes { padding: .1rem 0; }
+.llista-modes button { display: flex; width: 100%; align-items: center; gap: .75rem; padding: .75rem 1rem; background: none; border: 0; border-bottom: 1px solid var(--vora); font: inherit; color: var(--text); text-align: left; cursor: pointer; }
+.llista-modes button:last-child { border-bottom: 0; }
+.llista-modes button > span { flex: 1; display: flex; flex-direction: column; } .llista-modes .suau { font-size: .84rem; }
+.llista-modes .chevron { color: var(--suau); width: 1.1rem; height: 1.1rem; }
+/* Temari → Mapa */
+.cerca { width: 100%; font: inherit; padding: .6rem .8rem; border: 1px solid var(--vora); border-radius: 10px; background: var(--superficie); color: var(--text); margin-bottom: .6rem; }
+.controls-mapa { display: flex; flex-wrap: wrap; gap: .5rem .9rem; align-items: center; margin-bottom: .6rem; }
+.controls-mapa .fons-sel { margin: 0; } .controls-mapa .fila { margin: 0; font-size: .9rem; }
+.sense-com .m-com { fill: transparent !important; stroke: none; pointer-events: none; }
+.mapa-joc.fons-politic.sense-com .m-com { fill: var(--superficie) !important; }
+.llista-explora summary { cursor: pointer; padding: .3rem 0; }

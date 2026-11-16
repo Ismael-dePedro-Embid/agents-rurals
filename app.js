@@ -330,7 +330,7 @@ const rutes = {
 function navega() {
   const parts = location.hash.replace(/^#\/?/, '').split('/');
   const r = rutes[parts[0]] || vistaInici;
-  const seccio = {test: SESSIO && SESSIO.mode === 'simulacre' ? 'simulacre' : 'practica', resultat: 'practica', repas: '', especies: 'practica', jocs: 'practica', fallades: 'progres'}[parts[0]] ?? parts[0];
+  const seccio = {test: SESSIO && SESSIO.mode === 'simulacre' ? 'simulacre' : 'practica', resultat: 'practica', repas: '', especies: 'practica', jocs: 'practica', fallades: 'progres', mapa: 'temari'}[parts[0]] ?? parts[0];
   document.querySelectorAll('.menu a, .engranatge').forEach(a => a.classList.toggle('actiu', a.getAttribute('href') === '#/' + seccio));
   if (parts[0] !== 'temari') { TORNAR = null; window.onscroll = null; }
   $('#tornar').hidden = !(parts[0] === 'temari' && TORNAR);
@@ -943,7 +943,7 @@ async function vistaTemari([fitxer, ancora]) {
   if (!fitxer) {
     const ll = P.lloc(), tl = ll && D.temes.find(t => t.fitxer === ll.f);
     const totE = D.temes.reduce((a, t) => a + epigrafsLectura(t).length, 0), totL = D.temes.reduce((a, t) => a + llegits(t), 0);
-    $('#app').innerHTML = `<h1>Temari</h1>
+    $('#app').innerHTML = `<h1>Temari</h1>${typeof navTemari === 'function' ? navTemari('temes') : ''}
       ${tl ? `<div class="targeta continua"><div><b>Continuar llegint</b><div class="suau">${esc(tl.codi)} · ${esc(ll.t)}</div></div>
         <a class="boto principal" href="#/temari/${tl.fitxer}/${encodeURIComponent(ll.a)}">Continuar</a></div>` : ''}
       <p class="suau">${totL} de ${totE} epígrafs marcats com a llegits. Al final de cada epígraf hi ha el botó per marcar-lo.</p>
