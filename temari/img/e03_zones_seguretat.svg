@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="DejaVu Sans, Arial, sans-serif">
+  <style>.t{font-size:11.5px;font-weight:bold;fill:#1d2a22}.s{font-size:10px;fill:#4a5a50}.w{fill:#fff;font-size:12px;font-weight:bold}.b{font-size:13px;font-weight:bold;fill:#b33}</style>
+  <rect x="10" y="8" width="740" height="32" rx="6" fill="#1f5d3a"/>
+  <text x="380" y="29" text-anchor="middle" class="w">Zones de seguretat: límits i ús d'armes (arts. 14 i 15 del Reglament de caça)</text>
+  <g>
+    <rect x="10" y="52" width="178" height="236" rx="6" fill="#fde8e8" stroke="#b33"/>
+    <text x="99" y="72" text-anchor="middle" class="t">Carreteres</text>
+    <text x="99" y="86" text-anchor="middle" class="s">nacionals, comarcals, locals</text>
+    <rect x="80" y="100" width="38" height="110" fill="#777"/><line x1="99" y1="104" x2="99" y2="206" stroke="#fff" stroke-dasharray="8 6"/>
+    <rect x="40" y="100" width="40" height="110" fill="#f6b3b3"/><rect x="118" y="100" width="40" height="110" fill="#f6b3b3"/>
+    <text x="60" y="160" text-anchor="middle" class="b">50</text><text x="138" y="160" text-anchor="middle" class="b">50</text>
+    <text x="99" y="232" text-anchor="middle" class="s">Prohibides armes de foc</text>
+    <text x="99" y="246" text-anchor="middle" class="s">dins la zona i en una faixa</text>
+    <text x="99" y="260" text-anchor="middle" class="s">de 50 m a cada costat</text>
+  </g>
+  <g>
+    <rect x="198" y="52" width="178" height="236" rx="6" fill="#fff4e6" stroke="#d08a3a"/>
+    <text x="287" y="72" text-anchor="middle" class="t">Camins d'ús públic</text>
+    <text x="287" y="86" text-anchor="middle" class="s">vies fèrries, canals navegables</text>
+    <rect x="273" y="100" width="28" height="110" fill="#b8a27a"/>
+    <rect x="248" y="100" width="25" height="110" fill="#f8d6a8"/><rect x="301" y="100" width="25" height="110" fill="#f8d6a8"/>
+    <text x="260" y="160" text-anchor="middle" class="b">25</text><text x="314" y="160" text-anchor="middle" class="b">25</text>
+    <text x="287" y="232" text-anchor="middle" class="s">Prohibides armes de caça</text>
+    <text x="287" y="246" text-anchor="middle" class="s">dins la zona i en una faixa</text>
+    <text x="287" y="260" text-anchor="middle" class="s">de 25 m a cada costat</text>
+  </g>
+  <g>
+    <rect x="386" y="52" width="178" height="236" rx="6" fill="#fde8e8" stroke="#b33"/>
+    <text x="475" y="72" text-anchor="middle" class="t">Nuclis urbans i rurals</text>
+    <text x="475" y="86" text-anchor="middle" class="s">zones habitades</text>
+    <circle cx="475" cy="155" r="55" fill="#f6b3b3"/><rect x="452" y="135" width="46" height="40" fill="#777"/><path d="M448 135 L475 115 L502 135 Z" fill="#555"/>
+    <text x="475" y="205" text-anchor="middle" class="b">+100 m</text>
+    <text x="475" y="232" text-anchor="middle" class="s">Límit: darreres edificacions</text>
+    <text x="475" y="246" text-anchor="middle" class="s">habitables + faixa de 100 m</text>
+    <text x="475" y="260" text-anchor="middle" class="s">Prohibides armes de caça</text>
+  </g>
+  <g>
+    <rect x="574" y="52" width="176" height="236" rx="6" fill="#fde8e8" stroke="#b33"/>
+    <text x="662" y="72" text-anchor="middle" class="t">Edificis aïllats</text>
+    <text x="662" y="86" text-anchor="middle" class="s">viles, jardins, parcs públics</text>
+    <circle cx="662" cy="155" r="40" fill="#f6b3b3"/><rect x="647" y="142" width="30" height="26" fill="#777"/><path d="M643 142 L662 128 L681 142 Z" fill="#555"/>
+    <text x="662" y="210" text-anchor="middle" class="b">+50 m</text>
+    <text x="662" y="232" text-anchor="middle" class="s">Límit: l'edifici o recinte</text>
+    <text x="662" y="246" text-anchor="middle" class="s">+ faixa de 50 m</text>
+    <text x="662" y="260" text-anchor="middle" class="s">Prohibides armes de caça</text>
+  </g>
+  <text x="380" y="282" text-anchor="middle" class="s"> </text>
+</svg>

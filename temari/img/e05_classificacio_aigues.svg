@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" font-family="DejaVu Sans, Arial, sans-serif">
+  <style>.t{font-size:11.5px;font-weight:bold;fill:#1d2a22}.s{font-size:10px;fill:#4a5a50}.w{fill:#fff;font-size:12px;font-weight:bold}</style>
+  <rect x="10" y="8" width="360" height="30" rx="6" fill="#1f5d3a"/><text x="190" y="28" text-anchor="middle" class="w">Aigües (art. 24 Llei 22/2009): gestió</text>
+  <rect x="390" y="8" width="360" height="30" rx="6" fill="#1f5d3a"/><text x="570" y="28" text-anchor="middle" class="w">Trams (art. 25 Llei · art. 4 Decret 190/2025): pesca</text>
+  <rect x="10" y="48" width="175" height="120" rx="5" fill="#e3f0f7" stroke="#2b6a8a"/>
+  <text x="97" y="68" text-anchor="middle" class="t">Aigües de salmònids</text>
+  <text x="97" y="86" text-anchor="middle" class="s">(truita comuna)</text>
+  <rect x="20" y="96" width="155" height="28" rx="4" fill="#fff" stroke="#2b6a8a"/><text x="97" y="114" text-anchor="middle" class="s">Alta muntanya</text>
+  <rect x="20" y="130" width="155" height="28" rx="4" fill="#fff" stroke="#2b6a8a"/><text x="97" y="148" text-anchor="middle" class="s">Baixa muntanya</text>
+  <rect x="195" y="48" width="175" height="120" rx="5" fill="#eef3e3" stroke="#6a8a2b"/>
+  <text x="282" y="68" text-anchor="middle" class="t">Aigües de ciprínids</text>
+  <text x="282" y="92" text-anchor="middle" class="s">La resta d'aigües (també</text><text x="282" y="106" text-anchor="middle" class="s">les de salmònids degradades)</text>
+  <text x="282" y="132" text-anchor="middle" class="s">Període hàbil 2026:</text><text x="282" y="146" text-anchor="middle" class="t">tot l'any</text>
+  <rect x="10" y="178" width="360" height="56" rx="5" fill="#fff4e6" stroke="#d08a3a"/>
+  <text x="190" y="198" text-anchor="middle" class="t">Aigües de reserva genètica</text>
+  <text x="190" y="214" text-anchor="middle" class="s">Poblacions autòctones amb característiques genètiques pròpies</text>
+  <text x="190" y="228" text-anchor="middle" class="s">Prohibides repoblacions i translocacions · truita: quota 2/dia</text>
+  <rect x="10" y="244" width="360" height="76" rx="5" fill="#f3f6f4" stroke="#999"/>
+  <text x="190" y="262" text-anchor="middle" class="t">Senyals (art. 5 Decret 190/2025)</text>
+  <text x="190" y="280" text-anchor="middle" class="s">Límits superior i inferior, als dos marges, a ≥ 1,50 m del terra</text>
+  <text x="190" y="296" text-anchor="middle" class="s">Llei: com a mínim 500 m entre senyal i senyal (art. 30.2)</text>
+  <text x="190" y="312" text-anchor="middle" class="s">Si hi ha conflicte, preval el Pla o la resolució anual</text>
+  <g>
+    <rect x="390" y="48" width="360" height="52" rx="5" fill="#fde8e8" stroke="#b33"/><text x="570" y="68" text-anchor="middle" class="t">Refugi de pesca</text><text x="570" y="86" text-anchor="middle" class="s">Pesca prohibida · temporal o indefinit (art. 26)</text>
+    <rect x="390" y="106" width="360" height="52" rx="5" fill="#e3efe7" stroke="#2b7a4b"/><text x="570" y="126" text-anchor="middle" class="t">Zona de pesca lliure sense mort</text><text x="570" y="144" text-anchor="middle" class="s">Només cal llicència · tot es retorna a l'aigua (art. 27)</text>
+    <rect x="390" y="164" width="360" height="94" rx="5" fill="#e3f0f7" stroke="#2b6a8a"/><text x="570" y="184" text-anchor="middle" class="t">Zona de pesca controlada (llicència + permís)</text>
+    <text x="400" y="204" class="s">• Controlada sense mort o amb mort</text>
+    <text x="400" y="220" class="s">• Controlada intensiva (repoblacions; embassaments; mai en reserva genètica)</text>
+    <text x="400" y="236" class="s">• Escenari de pesca (competicions; p. ex. Foix, la Baells)</text>
+    <text x="400" y="252" class="s">Titularitat i administració: Departament (art. 16 Decret)</text>
+    <rect x="390" y="264" width="360" height="56" rx="5" fill="#f3f6f4" stroke="#999"/><text x="570" y="284" text-anchor="middle" class="t">Zones en instal·lacions de titularitat privada</text><text x="570" y="302" text-anchor="middle" class="s">Nova categoria del Decret 190/2025: comunicació d'inici</text><text x="570" y="316" text-anchor="middle" class="s">obligatòria (si no, pesca prohibida)</text>
+  </g>
+</svg>

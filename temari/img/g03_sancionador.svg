@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 470" font-family="DejaVu Sans, Arial, sans-serif">
+  <style>.t{font-size:12.5px;font-weight:bold;fill:#1d2a22}.s{font-size:10.5px;fill:#4a5a50}.ar{fill:#5b6b60}</style>
+  <defs><marker id="b" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="ar"/></marker></defs>
+  <rect x="200" y="10" width="360" height="52" rx="6" fill="#fff4e6" stroke="#d08a3a"/>
+  <text x="380" y="31" text-anchor="middle" class="t">Denúncia o acta de l'agent rural</text>
+  <text x="380" y="49" text-anchor="middle" class="s">Fets constatats amb presumpció de certesa (art. 77.5 LPACAP; art. 5.2 Llei 4/2024)</text>
+  <rect x="200" y="82" width="360" height="52" rx="6" fill="#e3efe7" stroke="#2b7a4b"/>
+  <text x="380" y="103" text-anchor="middle" class="t">Acord d'iniciació (sempre d'ofici)</text>
+  <text x="380" y="121" text-anchor="middle" class="s">Separació instrucció / resolució · contingut mínim de l'art. 64</text>
+  <rect x="200" y="154" width="360" height="52" rx="6" fill="#e3efe7" stroke="#2b7a4b"/>
+  <text x="380" y="175" text-anchor="middle" class="t">Al·legacions i prova</text>
+  <text x="380" y="193" text-anchor="middle" class="s">Si no hi ha al·legacions, l'acord pot valer com a proposta de resolució</text>
+  <rect x="200" y="226" width="360" height="52" rx="6" fill="#e3efe7" stroke="#2b7a4b"/>
+  <text x="380" y="247" text-anchor="middle" class="t">Proposta de resolució (instructor)</text>
+  <text x="380" y="265" text-anchor="middle" class="s">Fets provats, qualificació, responsable i sanció · es notifica (art. 89)</text>
+  <rect x="200" y="298" width="360" height="52" rx="6" fill="#1f5d3a"/>
+  <text x="380" y="319" text-anchor="middle" style="fill:#fff;font-size:12.5px;font-weight:bold">Resolució (òrgan diferent de l'instructor)</text>
+  <text x="380" y="337" text-anchor="middle" style="fill:#d9ecdf;font-size:10.5px">No pot acceptar fets diferents · més gravetat → 15 dies d'al·legacions (art. 90)</text>
+  <rect x="200" y="370" width="360" height="52" rx="6" fill="#eef3fb" stroke="#4a6fa5"/>
+  <text x="380" y="391" text-anchor="middle" class="t">Executivitat i recursos</text>
+  <text x="380" y="409" text-anchor="middle" class="s">Executiva quan no hi cap recurs ordinari en via administrativa (art. 90.3 i 98)</text>
+  <path d="M380 62 V78 M380 134 V150 M380 206 V222 M380 278 V294 M380 350 V366" stroke="#5b6b60" stroke-width="2" marker-end="url(#b)"/>
+  <rect x="580" y="140" width="170" height="140" rx="6" fill="#fff" stroke="#b9cfc0" stroke-dasharray="4 3"/>
+  <text x="665" y="160" text-anchor="middle" class="t">Arxiu sense proposta</text>
+  <text x="590" y="180" class="s">(art. 89.1) si:</text>
+  <text x="590" y="197" class="s">· no hi ha fets</text><text x="590" y="212" class="s">· no s'acrediten</text>
+  <text x="590" y="227" class="s">· no són infracció</text><text x="590" y="242" class="s">· no hi ha responsable</text>
+  <text x="590" y="257" class="s">· ha prescrit</text>
+  <path d="M560 200 H576" stroke="#5b6b60" stroke-width="1.5" marker-end="url(#b)"/>
+  <rect x="10" y="140" width="170" height="140" rx="6" fill="#fff" stroke="#b9cfc0" stroke-dasharray="4 3"/>
+  <text x="95" y="160" text-anchor="middle" class="t">Terminació anticipada</text>
+  <text x="20" y="180" class="s">(art. 85)</text>
+  <text x="20" y="198" class="s">· Reconeixement de</text><text x="20" y="213" class="s">  responsabilitat</text>
+  <text x="20" y="231" class="s">· Pagament voluntari</text>
+  <text x="20" y="252" class="s" font-weight="bold">Reducció mínima del 20%</text><text x="20" y="267" class="s">per cada via (acumulables)</text>
+  <path d="M200 200 H184" stroke="#5b6b60" stroke-width="1.5" marker-end="url(#b)"/>
+  <text x="380" y="448" text-anchor="middle" class="s">Si no es resol en termini en un procediment sancionador iniciat d'ofici → caducitat (art. 25.1.b)</text>
+</svg>

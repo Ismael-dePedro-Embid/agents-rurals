@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 290" font-family="DejaVu Sans, Arial, sans-serif">
+  <style>.t{font-size:12px;font-weight:bold;fill:#1d2a22}.s{font-size:10.5px;fill:#4a5a50}.w{fill:#fff;font-size:12px;font-weight:bold}</style>
+  <rect x="10" y="10" width="740" height="34" rx="6" fill="#1f5d3a"/>
+  <text x="380" y="32" text-anchor="middle" class="w">Codi penal (Llei orgànica 10/1995) · delictes que investiguen els agents rurals</text>
+  <rect x="10" y="54" width="490" height="30" rx="5" fill="#2b7a4b"/>
+  <text x="255" y="74" text-anchor="middle" class="w">Títol XVI · ordenació del territori, patrimoni històric i medi ambient</text>
+  <g>
+    <rect x="10" y="92" width="94" height="110" rx="5" fill="#e3efe7" stroke="#2b7a4b"/><text x="57" y="110" text-anchor="middle" class="t">Cap. I</text><text x="57" y="128" text-anchor="middle" class="s">Ordenació del</text><text x="57" y="142" text-anchor="middle" class="s">territori i</text><text x="57" y="156" text-anchor="middle" class="s">urbanisme</text><text x="57" y="186" text-anchor="middle" class="t">319-320</text>
+    <rect x="109" y="92" width="94" height="110" rx="5" fill="#e3efe7" stroke="#2b7a4b"/><text x="156" y="110" text-anchor="middle" class="t">Cap. II</text><text x="156" y="128" text-anchor="middle" class="s">Patrimoni</text><text x="156" y="142" text-anchor="middle" class="s">històric</text><text x="156" y="186" text-anchor="middle" class="t">321-324</text>
+    <rect x="208" y="92" width="94" height="110" rx="5" fill="#e3efe7" stroke="#2b7a4b"/><text x="255" y="110" text-anchor="middle" class="t">Cap. III</text><text x="255" y="128" text-anchor="middle" class="s">Recursos</text><text x="255" y="142" text-anchor="middle" class="s">naturals i</text><text x="255" y="156" text-anchor="middle" class="s">medi ambient</text><text x="255" y="186" text-anchor="middle" class="t">325-331</text>
+    <rect x="307" y="92" width="94" height="110" rx="5" fill="#e3efe7" stroke="#2b7a4b"/><text x="354" y="110" text-anchor="middle" class="t">Cap. IV</text><text x="354" y="128" text-anchor="middle" class="s">Flora</text><text x="354" y="142" text-anchor="middle" class="s">i fauna</text><text x="354" y="186" text-anchor="middle" class="t">332-336</text>
+    <rect x="406" y="92" width="94" height="110" rx="5" fill="#e3efe7" stroke="#2b7a4b"/><text x="453" y="110" text-anchor="middle" class="t">Cap. V</text><text x="453" y="128" text-anchor="middle" class="s">Disposicions</text><text x="453" y="142" text-anchor="middle" class="s">comunes</text><text x="453" y="186" text-anchor="middle" class="t">338-340</text>
+  </g>
+  <rect x="510" y="54" width="115" height="148" rx="5" fill="#fff4e6" stroke="#d08a3a"/>
+  <text x="567" y="74" text-anchor="middle" class="t">Títol XVI bis</text><text x="567" y="100" text-anchor="middle" class="s">Delictes contra</text><text x="567" y="114" text-anchor="middle" class="s">els animals</text><text x="567" y="140" text-anchor="middle" class="s">(LO 3/2023)</text><text x="567" y="186" text-anchor="middle" class="t">340 bis-quinquies</text>
+  <rect x="635" y="54" width="115" height="148" rx="5" fill="#fde8e8" stroke="#b33"/>
+  <text x="692" y="74" text-anchor="middle" class="t">Títol XVII</text><text x="692" y="90" text-anchor="middle" class="t">cap. II</text><text x="692" y="114" text-anchor="middle" class="s">Incendis</text><text x="692" y="128" text-anchor="middle" class="s">(forestals:</text><text x="692" y="142" text-anchor="middle" class="s">secció 2a)</text><text x="692" y="186" text-anchor="middle" class="t">351-358 bis</text>
+  <text x="380" y="230" text-anchor="middle" class="s">Els arts. 337 i 337 bis (maltractament i abandonament d'animals domèstics) estan suprimits:</text>
+  <text x="380" y="246" text-anchor="middle" class="s">des del 18.4.2023 aquestes conductes es castiguen als arts. 340 bis i 340 ter (títol XVI bis).</text>
+  <text x="380" y="272" text-anchor="middle" class="s">Incendis: secció 1a (art. 351), 2a forestals (arts. 352-355), 3a zones no forestals, 4a béns propis i 5a disposicions comunes.</text>
+</svg>

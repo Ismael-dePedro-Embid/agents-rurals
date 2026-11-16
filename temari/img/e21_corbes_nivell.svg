@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 300" font-family="DejaVu Sans, Arial, sans-serif">
+<style>.t{font-size:11px;fill:#1d2a22}.b{font-size:12px;font-weight:bold;fill:#1f5d3a}</style>
+<text x="175" y="20" text-anchor="middle" class="b">Perfil del turó</text>
+<path d="M20,250 C90,248 120,120 175,60 C215,100 250,240 330,250 Z" fill="#e2d896" stroke="#8a6d3b"/>
+<line x1="20" y1="203" x2="330" y2="203" stroke="#bbb" stroke-dasharray="3,3"/>
+<text x="335" y="207" class="t">100 m</text>
+<line x1="20" y1="156" x2="330" y2="156" stroke="#bbb" stroke-dasharray="3,3"/>
+<text x="335" y="160" class="t">200 m</text>
+<line x1="20" y1="109" x2="330" y2="109" stroke="#bbb" stroke-dasharray="3,3"/>
+<text x="335" y="113" class="t">300 m</text>
+<line x1="20" y1="62" x2="330" y2="62" stroke="#bbb" stroke-dasharray="3,3"/>
+<text x="335" y="66" class="t">400 m</text>
+<line x1="20" y1="250" x2="330" y2="250" stroke="#555"/><text x="335" y="254" class="t">0 m</text>
+<text x="530" y="20" text-anchor="middle" class="b">Mapa topogràfic (vista zenital)</text>
+<ellipse cx="530" cy="140" rx="150" ry="100" fill="none" stroke="#8a6d3b" stroke-width="1.1"/>
+<text x="676" y="138" class="t" style="font-size:9px">100</text>
+<ellipse cx="524" cy="140" rx="115" ry="76" fill="none" stroke="#8a6d3b" stroke-width="2.4"/>
+<text x="635" y="138" class="t" style="font-size:9px">200</text>
+<ellipse cx="518" cy="140" rx="78" ry="52" fill="none" stroke="#8a6d3b" stroke-width="1.1"/>
+<text x="592" y="138" class="t" style="font-size:9px">300</text>
+<ellipse cx="512" cy="140" rx="42" ry="28" fill="none" stroke="#8a6d3b" stroke-width="1.1"/>
+<text x="550" y="138" class="t" style="font-size:9px">400</text>
+<text x="522" y="144" text-anchor="middle" class="t">▲ 420</text>
+<text x="530" y="262" text-anchor="middle" class="t">Corbes juntes = pendent fort · separades = pendent suau</text>
+<text x="530" y="278" text-anchor="middle" class="t">Equidistància = 100 m · la corba gruixuda és la corba mestra</text>
+<text x="175" y="284" text-anchor="middle" class="t" style="font-weight:bold">Pendent (%) = desnivell / distància horitzontal × 100</text>
+</svg>

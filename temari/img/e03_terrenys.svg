@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" font-family="DejaVu Sans, Arial, sans-serif">
+  <style>.t{font-size:11.5px;font-weight:bold;fill:#1d2a22}.s{font-size:10px;fill:#4a5a50}.w{fill:#fff;font-size:12px;font-weight:bold}</style>
+  <rect x="200" y="8" width="360" height="32" rx="6" fill="#1f5d3a"/>
+  <text x="380" y="29" text-anchor="middle" class="w">Terrenys a efectes cinegètics (art. 8 Llei 1/1970)</text>
+  <line x1="380" y1="40" x2="380" y2="54" stroke="#1f5d3a" stroke-width="2"/>
+  <line x1="120" y1="54" x2="560" y2="54" stroke="#1f5d3a" stroke-width="2"/>
+  <line x1="120" y1="54" x2="120" y2="66" stroke="#1f5d3a" stroke-width="2"/>
+  <line x1="560" y1="54" x2="560" y2="66" stroke="#1f5d3a" stroke-width="2"/>
+  <rect x="10" y="66" width="220" height="250" rx="6" fill="#e3efe7" stroke="#2b7a4b"/>
+  <text x="120" y="86" text-anchor="middle" class="t">D'APROFITAMENT COMÚ</text>
+  <text x="120" y="108" text-anchor="middle" class="s">Els que no són de règim especial,</text>
+  <text x="120" y="122" text-anchor="middle" class="s">siguin públics o privats</text>
+  <text x="20" y="148" class="s">• Caça només amb les limitacions</text>
+  <text x="28" y="162" class="s">generals (Llei, Reglament, vedes)</text>
+  <text x="20" y="182" class="s">• Caça menor: diumenges i festius</text>
+  <text x="28" y="196" class="s">no locals</text>
+  <text x="20" y="216" class="s">• ≤ 25 ha enclavades en àrees de</text>
+  <text x="28" y="230" class="s">caça: caça prohibida (Res. 1991)</text>
+  <text x="20" y="250" class="s">• 25-200 ha limítrofs amb règim</text>
+  <text x="28" y="264" class="s">especial: caça major prohibida</text>
+  <text x="28" y="278" class="s">(excepte batudes dels titulars)</text>
+  <text x="20" y="298" class="s">• Prohibit: isard, cabra, cérvol,</text>
+  <text x="28" y="312" class="s">cabirol i perdiu xerra</text>
+  <rect x="245" y="66" width="505" height="250" rx="6" fill="#fff4e6" stroke="#d08a3a"/>
+  <text x="497" y="86" text-anchor="middle" class="t">SOTMESOS A RÈGIM CINEGÈTIC ESPECIAL</text>
+  <g>
+    <rect x="255" y="98" width="158" height="62" rx="4" fill="#fff" stroke="#d08a3a"/><text x="334" y="116" text-anchor="middle" class="t">Parcs nacionals</text><text x="334" y="132" text-anchor="middle" class="s">Caça segons la seva</text><text x="334" y="146" text-anchor="middle" class="s">normativa (Aigüestortes)</text>
+    <rect x="419" y="98" width="158" height="62" rx="4" fill="#fff" stroke="#d08a3a"/><text x="498" y="116" text-anchor="middle" class="t">Refugis de caça</text><text x="498" y="132" text-anchor="middle" class="s">(refugis de fauna salvatge)</text><text x="498" y="146" text-anchor="middle" class="s">Caça prohibida sempre</text>
+    <rect x="583" y="98" width="158" height="62" rx="4" fill="#fff" stroke="#d08a3a"/><text x="662" y="116" text-anchor="middle" class="t">Reserves nacionals</text><text x="662" y="132" text-anchor="middle" class="s">de caça · es creen</text><text x="662" y="146" text-anchor="middle" class="s">per llei · gestió pública</text>
+    <rect x="255" y="168" width="158" height="62" rx="4" fill="#fff" stroke="#d08a3a"/><text x="334" y="186" text-anchor="middle" class="t">Zones de seguretat</text><text x="334" y="202" text-anchor="middle" class="s">Protecció de persones</text><text x="334" y="216" text-anchor="middle" class="s">i béns (camins, nuclis...)</text>
+    <rect x="419" y="168" width="158" height="62" rx="4" fill="#fff" stroke="#d08a3a"/><text x="498" y="186" text-anchor="middle" class="t">Àrees de caça</text><text x="498" y="202" text-anchor="middle" class="s">(«cotos»): privades,</text><text x="498" y="216" text-anchor="middle" class="s">locals, reglam. especial</text>
+    <rect x="583" y="168" width="158" height="62" rx="4" fill="#fff" stroke="#d08a3a"/><text x="662" y="186" text-anchor="middle" class="t">Terrenys tancats</text><text x="662" y="202" text-anchor="middle" class="s">Caça prohibida, llevat</text><text x="662" y="216" text-anchor="middle" class="s">accessos sense cartells</text>
+    <rect x="255" y="238" width="486" height="40" rx="4" fill="#fff" stroke="#d08a3a"/><text x="498" y="255" text-anchor="middle" class="t">Règim de caça controlada (zones de caça controlada)</text><text x="498" y="270" text-anchor="middle" class="s">Mínim 6 anys (caça menor) o 9 anys (caça major) · gestió directa del Departament</text>
+  </g>
+  <text x="497" y="300" text-anchor="middle" class="s">Senyalització: cartells cada ≤ 100 m (excepcionalment ≤ 200 m); les zones de seguretat no en necessiten</text>
+</svg>

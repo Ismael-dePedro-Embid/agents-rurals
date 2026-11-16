@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" font-family="DejaVu Sans, Arial, sans-serif">
+  <style>.t{font-size:12px;font-weight:bold;fill:#fff}.s{font-size:10.5px;fill:#1d2a22}.k{font-size:10px;fill:#4a5a50}</style>
+  <text x="380" y="20" text-anchor="middle" style="font-size:13px;font-weight:bold;fill:#1f5d3a">Infraccions de caça a Catalunya i multes (DA 1a Llei 5/2020)</text>
+  <path d="M230 36 L310 36 L340 86 L200 86 Z" fill="#8b1e1e"/><text x="270" y="66" text-anchor="middle" class="t">Molt greus</text>
+  <path d="M200 90 L340 90 L370 140 L170 140 Z" fill="#c0392b"/><text x="270" y="120" text-anchor="middle" class="t">Greus</text>
+  <path d="M170 144 L370 144 L400 194 L140 194 Z" fill="#d08a3a"/><text x="270" y="174" text-anchor="middle" class="t">Menys greus</text>
+  <path d="M140 198 L400 198 L430 244 L110 244 Z" fill="#2b7a4b"/><text x="270" y="226" text-anchor="middle" class="t">Lleus</text>
+  <text x="440" y="58" class="s"><tspan font-weight="bold">3.001 – 120.000 €</tspan></text><text x="440" y="74" class="k">Antics delictes (art. 42) i faltes (art. 43) de la Llei de caça</text>
+  <text x="440" y="112" class="s"><tspan font-weight="bold">1.001 – 3.000 €</tspan></text><text x="440" y="128" class="k">Art. 48.1 del Reglament (28 supòsits)</text>
+  <text x="440" y="166" class="s"><tspan font-weight="bold">301 – 1.000 €</tspan></text><text x="440" y="182" class="k">Art. 48.2 del Reglament (35 supòsits)</text>
+  <text x="440" y="218" class="s"><tspan font-weight="bold">60 – 300 €</tspan></text><text x="440" y="234" class="k">Art. 48.3 del Reglament (56 supòsits)</text>
+  <text x="20" y="66" class="k">Si el benefici obtingut</text><text x="20" y="80" class="k">supera el màxim, la multa</text><text x="20" y="94" class="k">s'eleva fins al benefici.</text>
+</svg>

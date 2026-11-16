@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" font-family="DejaVu Sans, Arial, sans-serif">
+  <style>.t{font-size:12.5px;font-weight:bold;fill:#1d2a22}.s{font-size:10.5px;fill:#4a5a50}.w{fill:#fff;font-size:13px;font-weight:bold}</style>
+  <rect x="230" y="10" width="300" height="44" rx="6" fill="#1f5d3a"/>
+  <text x="380" y="30" text-anchor="middle" class="w">Empleats públics</text>
+  <text x="380" y="46" text-anchor="middle" style="fill:#d9ecdf;font-size:10.5px">Art. 8 TREBEP</text>
+  <path d="M380 54 V70 M100 70 H660 M100 70 V84 M285 70 V84 M475 70 V84 M660 70 V84" stroke="#5b6b60" stroke-width="1.6" fill="none"/>
+  <g>
+    <rect x="15" y="84" width="170" height="230" rx="6" fill="#e3efe7" stroke="#2b7a4b"/>
+    <text x="100" y="105" text-anchor="middle" class="t">Funcionaris de carrera</text>
+    <text x="25" y="127" class="s">Nomenament legal</text><text x="25" y="143" class="s">Relació estatutària</text>
+    <text x="25" y="159" class="s">(dret administratiu)</text><text x="25" y="175" class="s">Caràcter permanent</text>
+    <text x="25" y="198" class="s" font-weight="bold">Exclusives: funcions que</text><text x="25" y="213" class="s" font-weight="bold">impliquen potestats</text><text x="25" y="228" class="s" font-weight="bold">públiques (art. 9.2)</text>
+    <text x="25" y="255" class="s">Ex.: agent rural</text><text x="25" y="270" class="s">(escala bàsica, C1)</text>
+    <text x="25" y="300" class="s">Art. 9 TREBEP</text>
+  </g>
+  <g>
+    <rect x="200" y="84" width="170" height="230" rx="6" fill="#e3efe7" stroke="#2b7a4b"/>
+    <text x="285" y="105" text-anchor="middle" class="t">Funcionaris interins</text>
+    <text x="210" y="127" class="s">Necessitat i urgència</text><text x="210" y="143" class="s">Caràcter temporal</text>
+    <text x="210" y="166" class="s" font-weight="bold">Supòsits:</text>
+    <text x="210" y="182" class="s">· Vacant: màx. 3 anys</text><text x="210" y="198" class="s">· Substitució del titular</text>
+    <text x="210" y="214" class="s">· Programes temporals:</text><text x="210" y="229" class="s">  màx. 3 anys (+12 mesos)</text>
+    <text x="210" y="245" class="s">· Acumulació de tasques:</text><text x="210" y="260" class="s">  9 mesos en 18</text>
+    <text x="210" y="300" class="s">Art. 10 TREBEP</text>
+  </g>
+  <g>
+    <rect x="385" y="84" width="180" height="230" rx="6" fill="#eef3fb" stroke="#4a6fa5"/>
+    <text x="475" y="105" text-anchor="middle" class="t">Personal laboral</text>
+    <text x="395" y="127" class="s">Contracte de treball</text><text x="395" y="143" class="s">sempre per escrit</text>
+    <text x="395" y="166" class="s">Fix, indefinit o temporal</text>
+    <text x="395" y="189" class="s">Legislació laboral +</text><text x="395" y="204" class="s">TREBEP en allò que hi</text><text x="395" y="219" class="s">disposi</text>
+    <text x="395" y="300" class="s">Art. 11 TREBEP</text>
+  </g>
+  <g>
+    <rect x="580" y="84" width="165" height="230" rx="6" fill="#fff4e6" stroke="#d08a3a"/>
+    <text x="662" y="105" text-anchor="middle" class="t">Personal eventual</text>
+    <text x="590" y="127" class="s">Confiança o</text><text x="590" y="143" class="s">assessorament especial</text>
+    <text x="590" y="166" class="s">Nomenament i cessament</text><text x="590" y="181" class="s">lliures</text>
+    <text x="590" y="204" class="s">Cessa quan cessa</text><text x="590" y="219" class="s">l'autoritat a qui serveix</text>
+    <text x="590" y="242" class="s">No és mèrit per accedir</text><text x="590" y="257" class="s">a la funció pública</text>
+    <text x="590" y="300" class="s">Art. 12 TREBEP</text>
+  </g>
+</svg>

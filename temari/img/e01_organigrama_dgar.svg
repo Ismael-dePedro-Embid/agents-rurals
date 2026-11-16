@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 470" font-family="DejaVu Sans, Arial, sans-serif">
+  <style>.t{font-size:11.5px;font-weight:bold;fill:#1d2a22}.s{font-size:10px;fill:#4a5a50}.w{fill:#fff;font-size:12px;font-weight:bold}.ws{fill:#d9ecdf;font-size:10px}.l{stroke:#5b6b60;stroke-width:1.4;fill:none}</style>
+  <rect x="200" y="8" width="360" height="40" rx="6" fill="#1f5d3a"/>
+  <text x="380" y="26" text-anchor="middle" class="w">Departament d'Interior i Seguretat Pública</text>
+  <text x="380" y="41" text-anchor="middle" class="ws">Conseller/a: comandament i direcció superior del Cos</text>
+  <path d="M380 48 V60" class="l"/>
+  <rect x="230" y="60" width="300" height="38" rx="6" fill="#2b7a4b"/>
+  <text x="380" y="77" text-anchor="middle" class="w">Direcció General dels Agents Rurals</text>
+  <text x="380" y="91" text-anchor="middle" class="ws">Director/a general: comandament del Cos</text>
+  <path d="M380 98 V112 M200 112 H600 M200 112 V124 M600 112 V124" class="l"/>
+  <rect x="60" y="124" width="280" height="40" rx="6" fill="#e3efe7" stroke="#2b7a4b"/>
+  <text x="200" y="141" text-anchor="middle" class="t">Àrea General del Cos d'Agents Rurals</text>
+  <text x="200" y="156" text-anchor="middle" class="s">Inspector/a en cap: comandament operatiu</text>
+  <rect x="460" y="124" width="280" height="40" rx="6" fill="#eef3fb" stroke="#4a6fa5"/>
+  <text x="600" y="141" text-anchor="middle" class="t">Subdirecció General de Recursos</text>
+  <text x="600" y="156" text-anchor="middle" class="t">Humans i Econòmics</text>
+  <path d="M600 164 V176 M530 176 H670 M530 176 V186 M670 176 V186" class="l"/>
+  <rect x="465" y="186" width="130" height="36" rx="5" fill="#fff" stroke="#4a6fa5"/><text x="530" y="201" text-anchor="middle" class="s">Servei de Gestió</text><text x="530" y="214" text-anchor="middle" class="s">de Personal</text>
+  <rect x="605" y="186" width="135" height="36" rx="5" fill="#fff" stroke="#4a6fa5"/><text x="672" y="201" text-anchor="middle" class="s">Servei de Gestió</text><text x="672" y="214" text-anchor="middle" class="s">Econòmica i Contractació</text>
+  <path d="M200 164 V180 M75 180 H420 M75 180 V192 M190 180 V192 M305 180 V192 M420 180 V240" class="l"/>
+  <rect x="10" y="192" width="130" height="40" rx="5" fill="#e3efe7" stroke="#2b7a4b"/><text x="75" y="209" text-anchor="middle" class="t">Divisió</text><text x="75" y="223" text-anchor="middle" class="t">d'Especialitats</text>
+  <rect x="145" y="192" width="90" height="40" rx="5" fill="#e3efe7" stroke="#2b7a4b"/><text x="190" y="209" text-anchor="middle" class="t">Divisió</text><text x="190" y="223" text-anchor="middle" class="t">Operativa</text>
+  <rect x="240" y="192" width="130" height="40" rx="5" fill="#e3efe7" stroke="#2b7a4b"/><text x="305" y="209" text-anchor="middle" class="t">Divisió Tècnica</text><text x="305" y="223" text-anchor="middle" class="t">i de Planificació</text>
+  <rect x="10" y="240" width="130" height="150" rx="5" fill="#fff" stroke="#b9cfc0"/>
+  <text x="18" y="258" class="s" font-weight="bold">4 àrees d'especialització:</text>
+  <text x="18" y="276" class="s">· Recursos Forestals</text><text x="18" y="294" class="s">· Prevenció i Investigació</text><text x="18" y="307" class="s">  d'Incendis Forestals</text>
+  <text x="18" y="325" class="s">· Fauna Protegida, Caça</text><text x="18" y="338" class="s">  i Pesca</text>
+  <text x="18" y="356" class="s">· Espais Naturals Protegits</text><text x="18" y="369" class="s">  i Biodiversitat</text>
+  <rect x="145" y="240" width="90" height="150" rx="5" fill="#fff" stroke="#b9cfc0"/>
+  <text x="152" y="258" class="s">· Àrea de Grups</text><text x="152" y="271" class="s">  Especials</text><text x="152" y="291" class="s">· Àrea de Grups</text><text x="152" y="304" class="s">  de Suport</text><text x="152" y="324" class="s">· Unitat de</text><text x="152" y="337" class="s">  Planificació i</text><text x="152" y="350" class="s">  Coordinació</text><text x="152" y="363" class="s">  Operativa</text>
+  <rect x="240" y="240" width="130" height="150" rx="5" fill="#fff" stroke="#b9cfc0"/>
+  <text x="248" y="258" class="s">· Àrea Tècnica i de</text><text x="248" y="271" class="s">  Comunicacions</text><text x="248" y="291" class="s">· Àrea d'Anàlisi i</text><text x="248" y="304" class="s">  Organització</text>
+  <rect x="380" y="240" width="200" height="150" rx="5" fill="#fff4e6" stroke="#d08a3a"/>
+  <text x="480" y="258" text-anchor="middle" class="t">Estructura territorial</text>
+  <text x="390" y="280" class="s" font-weight="bold">Àrees regionals</text><text x="390" y="294" class="s">= serveis territorials del</text><text x="390" y="307" class="s">Departament; sotsinspector/a en cap</text>
+  <path d="M480 315 V327" class="l"/>
+  <text x="390" y="342" class="s" font-weight="bold">Àrees bàsiques</text><text x="390" y="356" class="s">àmbit fixat per ordre del</text><text x="390" y="369" class="s">conseller/a; sotsinspector/a en cap</text>
+  <text x="380" y="420" text-anchor="middle" class="s">Font: Decret 12/2023 de reestructuració del Departament d'Interior, modificat pel Decret 41/2024 i el Decret 239/2025.</text>
+</svg>

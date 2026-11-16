@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="DejaVu Sans, Arial, sans-serif">
+  <style>.t{font-size:12px;font-weight:bold;fill:#1d2a22}.s{font-size:10.5px;fill:#4a5a50}.w{fill:#fff;font-size:12px;font-weight:bold}.ar{fill:#5b6b60}</style>
+  <defs><marker id="m" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="ar"/></marker></defs>
+  <rect x="10" y="20" width="160" height="110" rx="6" fill="#fff4e6" stroke="#d08a3a"/>
+  <text x="90" y="42" text-anchor="middle" class="t">Fet presumptament</text><text x="90" y="58" text-anchor="middle" class="t">delictiu</text>
+  <text x="20" y="82" class="s">L'agent en té coneixement</text><text x="20" y="98" class="s">directament, per denúncia</text><text x="20" y="114" class="s">o per requeriment</text>
+  <rect x="200" y="20" width="250" height="190" rx="6" fill="#e3efe7" stroke="#2b7a4b"/>
+  <text x="325" y="42" text-anchor="middle" class="t">Primeres diligències de prevenció</text>
+  <text x="325" y="57" text-anchor="middle" class="s">(arts. 13 i 282 LECrim; art. 4.1.c Llei 4/2024)</text>
+  <text x="212" y="82" class="s">· Protegir els perjudicats</text>
+  <text x="212" y="100" class="s">· Consignar les proves que puguin</text><text x="212" y="114" class="s">  desaparèixer</text>
+  <text x="212" y="132" class="s">· Recollir i custodiar efectes,</text><text x="212" y="146" class="s">  instruments i proves</text>
+  <text x="212" y="164" class="s">· Identificar i, si escau, detenir</text><text x="212" y="178" class="s">  els presumptes autors</text>
+  <text x="212" y="198" class="s" font-weight="bold">→ Atestat (arts. 292-297 LECrim)</text>
+  <rect x="480" y="20" width="270" height="110" rx="6" fill="#1f5d3a"/>
+  <text x="615" y="44" text-anchor="middle" class="w">Autoritat judicial</text><text x="615" y="62" text-anchor="middle" class="w">o Ministeri Fiscal</text>
+  <text x="615" y="86" text-anchor="middle" style="fill:#d9ecdf;font-size:10.5px">Comunicació immediata (art. 284)</text>
+  <text x="615" y="102" text-anchor="middle" style="fill:#d9ecdf;font-size:10.5px">Màxim 24 hores (art. 295)</text>
+  <text x="615" y="118" text-anchor="middle" style="fill:#d9ecdf;font-size:10.5px">per la via que fixi el Cos</text>
+  <path d="M170 75 H196" stroke="#5b6b60" stroke-width="2" marker-end="url(#m)"/>
+  <path d="M450 75 H476" stroke="#5b6b60" stroke-width="2" marker-end="url(#m)"/>
+  <rect x="480" y="150" width="270" height="60" rx="6" fill="#fff" stroke="#b9cfc0"/>
+  <text x="490" y="170" class="s">Quan arriba el jutge, cessen les diligències</text><text x="490" y="185" class="s">de prevenció i se li lliuren efectes i</text><text x="490" y="200" class="s">detinguts (art. 286 LECrim)</text>
+  <rect x="10" y="230" width="740" height="56" rx="6" fill="#eef3fb" stroke="#4a6fa5"/>
+  <text x="380" y="252" text-anchor="middle" class="t">Policia judicial en sentit genèric (art. 283.6 LECrim: «guardas de montes, campos y sembrados»)</text>
+  <text x="380" y="272" text-anchor="middle" class="s">Auxiliars dels jutges, tribunals i fiscals; en coordinació i col·laboració amb les forces i cossos de seguretat</text>
+</svg>

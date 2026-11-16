@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="DejaVu Sans, Arial, sans-serif">
+  <style>.t{font-size:12px;font-weight:bold;fill:#fff}.d{font-size:10.5px;fill:#1d2a22}.k{font-size:10px;fill:#4a5a50}.h{font-size:13px;font-weight:bold;fill:#1f5d3a}</style>
+  <text x="380" y="20" text-anchor="middle" class="h">Categories d'armes reglamentades (art. 3 RA) i documentació exigida</text>
+  <text x="120" y="42" text-anchor="middle" class="k">CATEGORIA</text><text x="400" y="42" text-anchor="middle" class="k">QUÈ INCLOU</text><text x="660" y="42" text-anchor="middle" class="k">DOCUMENT</text>
+  <g>
+    <rect x="10" y="50" width="70" height="36" rx="5" fill="#8b1e1e"/><text x="45" y="73" text-anchor="middle" class="t">1a</text>
+    <text x="90" y="66" class="d">Armes de foc curtes: pistoles i revòlvers</text>
+    <rect x="580" y="52" width="170" height="32" rx="4" fill="#fde8e8" stroke="#b33"/><text x="665" y="72" text-anchor="middle" class="d">Llicència B (particulars)</text>
+
+    <rect x="10" y="90" width="70" height="36" rx="5" fill="#a63b2b"/><text x="45" y="113" text-anchor="middle" class="t">2a</text>
+    <text x="90" y="104" class="d">1. Llargues per a vigilància i guarda</text><text x="90" y="119" class="d">2. Llargues ratllades (caça major)</text>
+    <rect x="580" y="92" width="170" height="32" rx="4" fill="#fde8e8" stroke="#b33"/><text x="665" y="106" text-anchor="middle" class="d">2a.1: llicència C</text><text x="665" y="119" text-anchor="middle" class="d">2a.2: llicència D (fins a 5)</text>
+
+    <rect x="10" y="130" width="70" height="50" rx="5" fill="#c0392b"/><text x="45" y="160" text-anchor="middle" class="t">3a</text>
+    <text x="90" y="143" class="d">1. Ratllades esportives cal. .22 (5,6 mm) percussió anular</text><text x="90" y="158" class="d">2. Escopetes (ànima llisa) amb punxó de caça</text><text x="90" y="173" class="d">3. Aire comprimit &gt; 24,2 J</text>
+    <rect x="580" y="139" width="170" height="32" rx="4" fill="#fde8e8" stroke="#b33"/><text x="665" y="153" text-anchor="middle" class="d">Llicència E (6 escopetes /</text><text x="665" y="166" text-anchor="middle" class="d">6 ratllades, màx. 12)</text>
+
+    <rect x="10" y="184" width="70" height="36" rx="5" fill="#d08a3a"/><text x="45" y="207" text-anchor="middle" class="t">4a</text>
+    <text x="90" y="198" class="d">Aire comprimit no assimilades a escopeta:</text><text x="90" y="213" class="d">1. semiautomàtiques/repetició · 2. d'un sol tret</text>
+    <rect x="580" y="186" width="170" height="32" rx="4" fill="#fff4e6" stroke="#d08a3a"/><text x="665" y="200" text-anchor="middle" class="d">Targeta A (4a.1, màx. 6, 5 anys)</text><text x="665" y="213" text-anchor="middle" class="d">Targeta B (4a.2, il·limitades)</text>
+
+    <rect x="10" y="224" width="70" height="36" rx="5" fill="#b8902b"/><text x="45" y="247" text-anchor="middle" class="t">5a</text>
+    <text x="90" y="238" class="d">Armes blanques no prohibides</text><text x="90" y="253" class="d">Ganivets i matxets militars (o imitacions)</text>
+    <rect x="580" y="226" width="170" height="32" rx="4" fill="#fff4e6" stroke="#d08a3a"/><text x="665" y="246" text-anchor="middle" class="d">Lliure per a majors d'edat</text>
+
+    <rect x="10" y="264" width="70" height="36" rx="5" fill="#2b7a4b"/><text x="45" y="287" text-anchor="middle" class="t">6a</text>
+    <text x="90" y="278" class="d">Antigues (anteriors a 1890), històriques,</text><text x="90" y="293" class="d">artístiques i d'avantcàrrega</text>
+    <rect x="580" y="266" width="170" height="32" rx="4" fill="#e3efe7" stroke="#2b7a4b"/><text x="665" y="280" text-anchor="middle" class="d">Llibre registre (col·leccionista)</text><text x="665" y="293" text-anchor="middle" class="d">art. 107 · guia de pertinença</text>
+
+    <rect x="10" y="304" width="70" height="50" rx="5" fill="#1f5d3a"/><text x="45" y="334" text-anchor="middle" class="t">7a</text>
+    <text x="90" y="317" class="d">1. Injecció anestèsica · 2. Ballestes · 3. Llançacaps</text><text x="90" y="332" class="d">4. Flobert · 5. Arcs, fusells de pesca submarina</text><text x="90" y="347" class="d">6. Alarma i senyals, llançabengales</text>
+    <rect x="580" y="306" width="170" height="46" rx="4" fill="#e3efe7" stroke="#2b7a4b"/><text x="665" y="320" text-anchor="middle" class="d">7a.1: autorització específica</text><text x="665" y="333" text-anchor="middle" class="d">7a.2 i 3: llicència E</text><text x="665" y="346" text-anchor="middle" class="d">7a.4 Flobert: art. 107</text>
+
+    <rect x="10" y="358" width="70" height="26" rx="5" fill="#4a5a50"/><text x="45" y="376" text-anchor="middle" class="t">8a</text>
+    <text x="90" y="376" class="d">Armes acústiques i de salves (fogueig)</text>
+    <rect x="580" y="358" width="170" height="26" rx="4" fill="#eee" stroke="#777"/><text x="665" y="375" text-anchor="middle" class="d">Armeries autoritzades (107 bis)</text>
+
+    <rect x="10" y="388" width="70" height="26" rx="5" fill="#777"/><text x="45" y="406" text-anchor="middle" class="t">9a</text>
+    <text x="90" y="406" class="d">Armes inutilitzades</text>
+    <rect x="580" y="388" width="170" height="26" rx="4" fill="#eee" stroke="#777"/><text x="665" y="405" text-anchor="middle" class="d">Certificat d'inutilització</text>
+  </g>
+</svg>

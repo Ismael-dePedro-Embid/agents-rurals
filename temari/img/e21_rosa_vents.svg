@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 330" font-family="DejaVu Sans, Arial, sans-serif">
+<style>.n{font-size:13px;font-weight:bold;fill:#1f5d3a}.d{font-size:10px;fill:#444}.t{font-size:11px;fill:#1d2a22}</style>
+<circle cx="185" cy="168" r="105" fill="#f2f7f3" stroke="#2b7a4b"/>
+<circle cx="185" cy="168" r="47.25" fill="none" stroke="#2b7a4b" stroke-dasharray="3,3"/>
+<path d="M185.0,63.0 L201.0,168.0 L169.0,168.0Z" fill="#2b7a4b"/>
+<text x="185" y="41" text-anchor="middle" class="n">Tramuntana</text>
+<text x="185" y="53" text-anchor="middle" class="d">(N)</text>
+<path d="M259.2,93.8 L192.1,175.1 L177.9,160.9Z" fill="#8cbf9d"/>
+<text x="275" y="78" text-anchor="middle" class="n">Gregal</text>
+<text x="275" y="90" text-anchor="middle" class="d">(NE)</text>
+<path d="M290.0,168.0 L185.0,184.0 L185.0,152.0Z" fill="#2b7a4b"/>
+<text x="312" y="168" text-anchor="middle" class="n">Llevant</text>
+<text x="312" y="180" text-anchor="middle" class="d">(E)</text>
+<path d="M259.2,242.2 L173.7,179.3 L196.3,156.7Z" fill="#8cbf9d"/>
+<text x="275" y="258" text-anchor="middle" class="n">Xaloc</text>
+<text x="275" y="270" text-anchor="middle" class="d">(SE)</text>
+<path d="M185.0,273.0 L169.0,168.0 L201.0,168.0Z" fill="#2b7a4b"/>
+<text x="185" y="295" text-anchor="middle" class="n">Migjorn</text>
+<text x="185" y="307" text-anchor="middle" class="d">(S)</text>
+<path d="M110.8,242.2 L177.9,160.9 L192.1,175.1Z" fill="#8cbf9d"/>
+<text x="95" y="258" text-anchor="middle" class="n">Garbí (llebeig)</text>
+<text x="95" y="270" text-anchor="middle" class="d">(SO)</text>
+<path d="M80.0,168.0 L185.0,152.0 L185.0,184.0Z" fill="#2b7a4b"/>
+<text x="58" y="168" text-anchor="middle" class="n">Ponent</text>
+<text x="58" y="180" text-anchor="middle" class="d">(O)</text>
+<path d="M110.8,93.8 L192.1,160.9 L177.9,175.1Z" fill="#8cbf9d"/>
+<text x="95" y="78" text-anchor="middle" class="n">Mestral</text>
+<text x="95" y="90" text-anchor="middle" class="d">(NO)</text>
+<text x="395" y="40" class="n">Els vents es nomenen per on vénen</text>
+<rect x="395" y="54" width="298" height="28" rx="4" fill="#e3efe7"/>
+<text x="403" y="70" class="t" style="font-weight:bold">Vent dominant</text>
+<text x="403" y="79" class="d" style="font-size:9.5px">Ponent (de l'oest), com a la resta d'Europa</text>
+<rect x="395" y="88" width="298" height="28" rx="4" fill="#f7faf8"/>
+<text x="403" y="104" class="t" style="font-weight:bold">Tramuntana (N)</text>
+<text x="403" y="113" class="d" style="font-size:9.5px">Freda i forta, sobretot a l'Alt Empordà</text>
+<rect x="395" y="122" width="298" height="28" rx="4" fill="#e3efe7"/>
+<text x="403" y="138" class="t" style="font-weight:bold">Mestral (NO)</text>
+<text x="403" y="147" class="d" style="font-size:9.5px">Sec i fort, al sud: Terres de l'Ebre</text>
+<rect x="395" y="156" width="298" height="28" rx="4" fill="#f7faf8"/>
+<text x="403" y="172" class="t" style="font-weight:bold">Llevant (E)</text>
+<text x="403" y="181" class="d" style="font-size:9.5px">Temporals de mar, pluges a la costa</text>
+<rect x="395" y="190" width="298" height="28" rx="4" fill="#e3efe7"/>
+<text x="403" y="206" class="t" style="font-weight:bold">Marinada</text>
+<text x="403" y="215" class="d" style="font-size:9.5px">Brisa diürna del mar cap a terra (estiu)</text>
+<rect x="395" y="224" width="298" height="28" rx="4" fill="#f7faf8"/>
+<text x="403" y="240" class="t" style="font-weight:bold">Terral</text>
+<text x="403" y="249" class="d" style="font-size:9.5px">Brisa nocturna de terra cap al mar</text>
+<rect x="395" y="258" width="298" height="28" rx="4" fill="#e3efe7"/>
+<text x="403" y="274" class="t" style="font-weight:bold">Fogony (foehn)</text>
+<text x="403" y="283" class="d" style="font-size:9.5px">Vent càlid i sec que baixa del Pirineu</text>
+</svg>

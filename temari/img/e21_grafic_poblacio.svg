@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 290" font-family="DejaVu Sans, Arial, sans-serif">
+<style>.t{font-size:10.5px;fill:#1d2a22}.v{font-size:10px;fill:#1d2a22;font-weight:bold}.h{font-size:12px;font-weight:bold;fill:#1f5d3a}</style>
+<text x="10" y="18" class="h">Població per àmbits (habitants) i densitat (hab./km²)</text>
+<text x="160" y="49" text-anchor="end" class="t">Metropolità</text>
+<rect x="168" y="36" width="380.0" height="19" rx="2" fill="#2b7a4b"/>
+<text x="552" y="49" class="v">4.938.404  ·  2,003,9</text>
+<text x="160" y="78" text-anchor="end" class="t">Comarques Gironines</text>
+<rect x="168" y="65" width="59.8" height="19" rx="2" fill="#8cbf9d"/>
+<text x="232" y="78" class="v">777.768  ·  139,3</text>
+<text x="160" y="107" text-anchor="end" class="t">Camp de Tarragona</text>
+<rect x="168" y="94" width="41.2" height="19" rx="2" fill="#8cbf9d"/>
+<text x="213" y="107" class="v">535.907  ·  198,2</text>
+<text x="160" y="136" text-anchor="end" class="t">Penedès</text>
+<rect x="168" y="123" width="38.5" height="19" rx="2" fill="#8cbf9d"/>
+<text x="210" y="136" class="v">499.836  ·  286,3</text>
+<text x="160" y="165" text-anchor="end" class="t">Comarques Centrals</text>
+<rect x="168" y="152" width="32.0" height="19" rx="2" fill="#8cbf9d"/>
+<text x="204" y="165" class="v">415.668  ·  84,1</text>
+<text x="160" y="194" text-anchor="end" class="t">Ponent</text>
+<rect x="168" y="181" width="28.4" height="19" rx="2" fill="#8cbf9d"/>
+<text x="200" y="194" class="v">368.789  ·  66,0</text>
+<text x="160" y="223" text-anchor="end" class="t">Terres de l'Ebre</text>
+<rect x="168" y="210" width="14.0" height="19" rx="2" fill="#8cbf9d"/>
+<text x="186" y="223" class="v">181.708  ·  54,9</text>
+<text x="160" y="252" text-anchor="end" class="t">Alt Pirineu i Aran</text>
+<rect x="168" y="239" width="5.7" height="19" rx="2" fill="#8cbf9d"/>
+<text x="178" y="252" class="v">74.531  ·  12,9</text>
+<text x="10" y="282" class="t" style="font-size:8.5px;fill:#777">Font: Idescat, padró 2022 (taula de la guia). Total: 7.792.611 h · 242,7 hab./km². A 1.1.2025 Catalunya té 8.146.265 h (padró, Idescat).</text>
+</svg>

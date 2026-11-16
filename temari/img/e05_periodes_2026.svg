@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 220" font-family="DejaVu Sans, Arial, sans-serif">
+  <style>.t{font-size:11px;fill:#1d2a22}.m{font-size:9.5px;fill:#4a5a50}.h{font-size:13px;font-weight:bold;fill:#1f5d3a}.b{font-size:10px;fill:#fff;font-weight:bold}</style>
+  <text x="380" y="18" text-anchor="middle" class="h">Períodes hàbils de pesca 2026 (Resolució ARP/902/2026 i correcció d'errades)</text>
+  <g>
+    <rect x="230" y="30" width="520" height="150" fill="#f7f9f8"/>
+    <text x="251" y="44" text-anchor="middle" class="m">gen</text><text x="295" y="44" text-anchor="middle" class="m">feb</text><text x="338" y="44" text-anchor="middle" class="m">mar</text><text x="381" y="44" text-anchor="middle" class="m">abr</text><text x="425" y="44" text-anchor="middle" class="m">mai</text><text x="468" y="44" text-anchor="middle" class="m">jun</text><text x="511" y="44" text-anchor="middle" class="m">jul</text><text x="555" y="44" text-anchor="middle" class="m">ago</text><text x="598" y="44" text-anchor="middle" class="m">set</text><text x="641" y="44" text-anchor="middle" class="m">oct</text><text x="685" y="44" text-anchor="middle" class="m">nov</text><text x="728" y="44" text-anchor="middle" class="m">des</text>
+    <text x="222" y="66" text-anchor="end" class="t">Salmònids baixa muntanya, amb mort</text>
+    <rect x="345" y="55" width="226" height="16" rx="3" fill="#2b6a8a"/><text x="458" y="67" text-anchor="middle" class="b">21 mar – 30 ago</text>
+    <text x="222" y="90" text-anchor="end" class="t">Salmònids baixa muntanya, sense mort</text>
+    <rect x="345" y="79" width="291" height="16" rx="3" fill="#6aa3c0"/><text x="490" y="91" text-anchor="middle" class="b">21 mar – 12 oct</text>
+    <text x="222" y="114" text-anchor="end" class="t">Salmònids alta muntanya, amb mort</text>
+    <rect x="417" y="103" width="154" height="16" rx="3" fill="#2b6a8a"/><text x="494" y="115" text-anchor="middle" class="b">9 mai – 30 ago</text>
+    <text x="222" y="138" text-anchor="end" class="t">Salmònids alta muntanya, sense mort</text>
+    <rect x="417" y="127" width="219" height="16" rx="3" fill="#6aa3c0"/><text x="526" y="139" text-anchor="middle" class="b">9 mai – 12 oct</text>
+    <text x="222" y="162" text-anchor="end" class="t">Aigües de ciprínids</text>
+    <rect x="230" y="151" width="520" height="16" rx="3" fill="#6a8a2b"/><text x="490" y="163" text-anchor="middle" class="b">tot l'any</text>
+  </g>
+  <text x="380" y="198" text-anchor="middle" class="m">Horari: d'1 h abans de la sortida del sol a 1 h després de la posta (embassament de Riba-roja i Flix, EB-01: 24 h).</text>
+  <text x="380" y="212" text-anchor="middle" class="m">Zones intensives de baixa muntanya sense mort: tot l'any. Truita comuna: 3 exemplars/dia (2 en reserva genètica), mínim 22 cm.</text>
+</svg>

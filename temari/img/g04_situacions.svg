@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="DejaVu Sans, Arial, sans-serif">
+  <style>.t{font-size:12.5px;font-weight:bold;fill:#1d2a22}.s{font-size:10.5px;fill:#4a5a50}.w{fill:#fff;font-size:12.5px;font-weight:bold}</style>
+  <rect x="270" y="10" width="220" height="40" rx="6" fill="#1f5d3a"/><text x="380" y="35" text-anchor="middle" class="w">Funcionari de carrera</text>
+  <path d="M380 50 V64 M80 64 H680 M80 64 V76 M230 64 V76 M380 64 V76 M530 64 V76 M680 64 V76" stroke="#5b6b60" stroke-width="1.6" fill="none"/>
+  <rect x="10" y="76" width="140" height="70" rx="6" fill="#1f5d3a"/><text x="80" y="102" text-anchor="middle" class="w">Servei actiu</text><text x="80" y="122" text-anchor="middle" style="fill:#d9ecdf;font-size:10px">Tots els drets</text><text x="80" y="136" text-anchor="middle" style="fill:#d9ecdf;font-size:10px">i deures</text>
+  <rect x="160" y="76" width="140" height="70" rx="6" fill="#e3efe7" stroke="#2b7a4b"/><text x="230" y="100" text-anchor="middle" class="t">Serveis</text><text x="230" y="116" text-anchor="middle" class="t">especials</text><text x="230" y="136" text-anchor="middle" class="s">Càrrecs públics</text>
+  <rect x="310" y="76" width="140" height="70" rx="6" fill="#e3efe7" stroke="#2b7a4b"/><text x="380" y="100" text-anchor="middle" class="t">Servei en altres</text><text x="380" y="116" text-anchor="middle" class="t">administracions</text><text x="380" y="136" text-anchor="middle" class="s">Sense reserva de plaça</text>
+  <rect x="460" y="76" width="140" height="70" rx="6" fill="#e3efe7" stroke="#2b7a4b"/><text x="530" y="108" text-anchor="middle" class="t">Excedència</text><text x="530" y="128" text-anchor="middle" class="s">Diverses modalitats</text>
+  <rect x="610" y="76" width="140" height="70" rx="6" fill="#fde8e8" stroke="#b33"/><text x="680" y="100" text-anchor="middle" class="t">Suspensió</text><text x="680" y="116" text-anchor="middle" class="t">de funcions</text><text x="680" y="136" text-anchor="middle" class="s">Provisional o ferma</text>
+  <rect x="160" y="160" width="140" height="125" rx="6" fill="#fff" stroke="#b9cfc0"/>
+  <text x="170" y="180" class="s">· Reserva de plaça</text><text x="170" y="198" class="s">· Computa per a triennis</text><text x="170" y="214" class="s">  i grau</text><text x="170" y="232" class="s">· Cobra pel càrrec que</text><text x="170" y="248" class="s">  ocupa (+ triennis)</text>
+  <rect x="460" y="160" width="140" height="125" rx="6" fill="#fff" stroke="#b9cfc0"/>
+  <text x="470" y="178" class="s">· Interès particular</text><text x="470" y="194" class="s">  (5 anys de serveis)</text><text x="470" y="210" class="s">· Agrupació familiar</text><text x="470" y="226" class="s">· Cura de fills/familiars</text><text x="470" y="242" class="s">· Violència de gènere</text><text x="470" y="258" class="s">  o sexual</text><text x="470" y="274" class="s">· Violència terrorista</text>
+  <rect x="610" y="160" width="140" height="125" rx="6" fill="#fff" stroke="#b9cfc0"/>
+  <text x="620" y="180" class="s">· Ferma: per sentència</text><text x="620" y="196" class="s">  o sanció (màx. 6 anys)</text><text x="620" y="214" class="s">· Provisional: màx.</text><text x="620" y="230" class="s">  6 mesos (expedient)</text><text x="620" y="248" class="s">· Més de 6 mesos →</text><text x="620" y="264" class="s">  perd el lloc</text>
+  <rect x="10" y="160" width="140" height="125" rx="6" fill="#fff" stroke="#b9cfc0"/>
+  <text x="20" y="178" class="s">Inclou: comissió de</text><text x="20" y="194" class="s">serveis, llicències i</text><text x="20" y="210" class="s">permisos amb reserva</text>
+  <text x="20" y="236" class="s" font-weight="bold">TRFP hi afegeix:</text><text x="20" y="252" class="s">excedència forçosa i</text><text x="20" y="268" class="s">expectativa de destinació</text>
+  <rect x="310" y="160" width="140" height="125" rx="6" fill="#fff" stroke="#b9cfc0"/>
+  <text x="320" y="180" class="s">Per transferència o</text><text x="320" y="196" class="s">per provisió de llocs</text><text x="320" y="214" class="s">Conserva la condició</text><text x="320" y="230" class="s">de funcionari d'origen;</text><text x="320" y="246" class="s">s'hi aplica el règim de</text><text x="320" y="262" class="s">l'Administració de destí</text>
+</svg>

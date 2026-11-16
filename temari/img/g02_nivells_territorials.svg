@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" font-family="DejaVu Sans, Arial, sans-serif">
+  <style>.t{font-size:13px;fill:#1d2a22}.b{font-weight:bold}.s{font-size:11px;fill:#4a5a50}.n{font-size:22px;font-weight:bold;fill:#1f5d3a}</style>
+  <rect x="20" y="15" width="720" height="56" rx="6" fill="#1f5d3a"/>
+  <text x="40" y="40" style="fill:#fff;font-size:14px;font-weight:bold">Comunitat autònoma: la Generalitat de Catalunya</text>
+  <text x="40" y="58" style="fill:#d9ecdf;font-size:11px">Art. 143 i s. CE · Estatut d'autonomia</text>
+  <rect x="50" y="83" width="330" height="62" rx="6" fill="#e3efe7" stroke="#2b7a4b"/>
+  <text x="70" y="108" class="t b">Províncies (diputacions)</text><text x="70" y="126" class="s">Art. 141 CE · arts. 31-38 LBRL</text>
+  <text x="355" y="124" text-anchor="end" class="n">4</text>
+  <rect x="400" y="83" width="310" height="62" rx="6" fill="#e3efe7" stroke="#2b7a4b"/>
+  <text x="420" y="108" class="t b">Vegueries</text><text x="420" y="126" class="s">Arts. 90-91 EAC · Llei 30/2010</text>
+  <text x="690" y="124" text-anchor="end" class="n">8</text>
+  <rect x="90" y="157" width="580" height="62" rx="6" fill="#eef3fb" stroke="#4a6fa5"/>
+  <text x="110" y="182" class="t b">Comarques (consells comarcals)</text><text x="110" y="200" class="s">Art. 92 EAC · Decret legislatiu 4/2003 · + Aran, règim especial</text>
+  <text x="650" y="198" text-anchor="end" class="n">43</text>
+  <rect x="130" y="231" width="500" height="62" rx="6" fill="#fff4e6" stroke="#d08a3a"/>
+  <text x="150" y="256" class="t b">Municipis (ajuntaments)</text><text x="150" y="274" class="s">Art. 140 CE · art. 86 EAC · LBRL · Decret legislatiu 2/2003</text>
+  <text x="610" y="272" text-anchor="end" class="n">947</text>
+  <text x="380" y="318" text-anchor="middle" class="s">Dels nivells més amplis (a dalt) a l'ens local bàsic (a baix). Província i vegueria coexisteixen sobre el mateix territori.</text>
+</svg>

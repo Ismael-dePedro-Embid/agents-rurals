@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" font-family="DejaVu Sans, Arial, sans-serif">
+  <style>.t{font-size:12.5px;font-weight:bold}.s{font-size:10.5px;fill:#4a5a50}</style>
+  <polygon points="300,15 460,15 500,95 260,95" fill="#1f5d3a"/>
+  <text x="380" y="48" text-anchor="middle" class="t" fill="#fff">ESCALA SUPERIOR</text>
+  <text x="380" y="70" text-anchor="middle" style="fill:#d9ecdf;font-size:12px">Inspector/a</text>
+  <polygon points="255,100 505,100 545,180 215,180" fill="#2b7a4b"/>
+  <text x="380" y="133" text-anchor="middle" class="t" fill="#fff">ESCALA EXECUTIVA</text>
+  <text x="380" y="155" text-anchor="middle" style="fill:#e3efe7;font-size:12px">Sotsinspector/a</text>
+  <polygon points="210,185 550,185 600,315 160,315" fill="#cfe5d6" stroke="#2b7a4b"/>
+  <text x="380" y="210" text-anchor="middle" class="t" fill="#1f5d3a">ESCALA BÀSICA</text>
+  <text x="380" y="236" text-anchor="middle" style="fill:#1d2a22;font-size:12px">Oficial/a</text>
+  <text x="380" y="262" text-anchor="middle" style="fill:#1d2a22;font-size:12px">Agent major</text>
+  <text x="380" y="290" text-anchor="middle" style="fill:#1d2a22;font-size:12.5px;font-weight:bold">Agent ← accés per oposició (C1)</text>
+  <text x="615" y="50" class="s">Dirigir i coordinar unitats</text><text x="615" y="64" class="s">i serveis de nivell superior</text>
+  <text x="615" y="135" class="s">Dirigir, coordinar, controlar</text><text x="615" y="149" class="s">i inspeccionar unitats</text>
+  <text x="615" y="232" class="s">Oficial: coordinar i inspeccionar</text>
+  <text x="615" y="258" class="s">Agent major: especialitat</text>
+  <text x="615" y="286" class="s">Agent: funcions bàsiques</text>
+  <text x="20" y="50" class="s">Torn lliure i</text><text x="20" y="64" class="s">promoció interna</text>
+  <text x="20" y="135" class="s">Torn lliure i</text><text x="20" y="149" class="s">promoció interna</text>
+  <text x="20" y="245" class="s">Agent major i oficial/a:</text><text x="20" y="259" class="s">només promoció interna</text><text x="20" y="273" class="s">(2 anys en la categoria</text><text x="20" y="287" class="s">immediatament inferior)</text>
+</svg>

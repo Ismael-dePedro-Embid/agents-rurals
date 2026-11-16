@@ -1,0 +1,919 @@
+{
+ "salmo_trutta": {
+  "especie": "Salmo trutta",
+  "url": "https://www.inaturalist.org/photos/34847723",
+  "autor": "(c) kirk gardner, some rights reserved (CC BY), uploaded by kirk gardner",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Salmo trutta"
+ },
+ "gypaetus_barbatus": {
+  "especie": "Gypaetus barbatus",
+  "url": "https://www.inaturalist.org/photos/721463051",
+  "autor": "(c) Diego González Dopico, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Gypaetus barbatus barbatus"
+ },
+ "squalius_laietanus": {
+  "especie": "Squalius laietanus",
+  "url": "https://www.inaturalist.org/photos/8970302",
+  "autor": "(c) Julien Renoult, some rights reserved (CC BY), uploaded by Julien Renoult",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Squalius laietanus"
+ },
+ "luciobarbus_graellsii": {
+  "especie": "Luciobarbus graellsii",
+  "url": "https://www.inaturalist.org/photos/735503",
+  "autor": "(c) etrusko25, some rights reserved (CC BY), uploaded by etrusko25",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Luciobarbus graellsii"
+ },
+ "dicentrarchus_labrax": {
+  "especie": "Dicentrarchus labrax",
+  "url": "https://www.inaturalist.org/photos/177025102",
+  "autor": "(c) Julien Renoult, some rights reserved (CC BY), uploaded by Julien Renoult",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Dicentrarchus labrax"
+ },
+ "chelon_labrosus": {
+  "especie": "Chelon labrosus",
+  "url": "https://www.inaturalist.org/photos/199584596",
+  "autor": "(c) Golfopolikayak, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Chelon labrosus"
+ },
+ "platichthys_flesus": {
+  "especie": "Platichthys flesus",
+  "url": "https://www.inaturalist.org/photos/44516755",
+  "autor": "(c) Micha Baum, some rights reserved (CC BY-SA), uploaded by Micha Baum",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Platichthys flesus"
+ },
+ "sparus_aurata": {
+  "especie": "Sparus aurata",
+  "url": "https://www.inaturalist.org/photos/167478208",
+  "autor": "(c) Julien Renoult, some rights reserved (CC BY), uploaded by Julien Renoult",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Sparus aurata"
+ },
+ "lichia_amia": {
+  "especie": "Lichia amia",
+  "url": "https://www.inaturalist.org/photos/214975012",
+  "autor": "(c) NasserHalaweh, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Lichia amia"
+ },
+ "pomatomus_saltatrix": {
+  "especie": "Pomatomus saltatrix",
+  "url": "https://www.inaturalist.org/photos/87341236",
+  "autor": "(c) Jason E. Farabaugh, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Pomatomus saltatrix"
+ },
+ "anguilla_anguilla": {
+  "especie": "Anguilla anguilla",
+  "url": "https://www.inaturalist.org/photos/44085210",
+  "autor": "(c) Julien Renoult, some rights reserved (CC BY), uploaded by Julien Renoult",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Anguilla anguilla"
+ },
+ "barbus_meridionalis": {
+  "especie": "Barbus meridionalis",
+  "url": "https://www.inaturalist.org/photos/3255889",
+  "autor": "(c) Julien Renoult, some rights reserved (CC BY), uploaded by Julien Renoult",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Barbus meridionalis"
+ },
+ "barbus_haasi": {
+  "especie": "Barbus haasi",
+  "url": "https://www.inaturalist.org/photos/5965517",
+  "autor": "no rights reserved, uploaded by Quentin Groom",
+  "llicencia": "CC0",
+  "font": "iNaturalist",
+  "taxon_inat": "Barbus haasi"
+ },
+ "oncorhynchus_mykiss": {
+  "especie": "Oncorhynchus mykiss",
+  "url": "https://www.inaturalist.org/photos/127663820",
+  "autor": "(c) Bruce Deagle, some rights reserved (CC BY), uploaded by Bruce Deagle",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Oncorhynchus mykiss"
+ },
+ "micropterus_salmoides": {
+  "especie": "Micropterus salmoides",
+  "url": "https://www.inaturalist.org/photos/140615018",
+  "autor": "(c) Oak Ridge National Laboratory, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Micropterus salmoides"
+ },
+ "salvelinus_fontinalis": {
+  "especie": "Salvelinus fontinalis",
+  "url": "https://www.inaturalist.org/photos/81903859",
+  "autor": "(c) James St. John, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Salvelinus fontinalis"
+ },
+ "silurus_glanis": {
+  "especie": "Silurus glanis",
+  "url": "https://www.inaturalist.org/photos/96387493",
+  "autor": "(c) Bernard DUPONT, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Silurus glanis"
+ },
+ "sander_lucioperca": {
+  "especie": "Sander lucioperca",
+  "url": "https://www.inaturalist.org/photos/320182172",
+  "autor": "(c) Tomas Broucek, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Sander lucioperca"
+ },
+ "esox_lucius": {
+  "especie": "Esox lucius",
+  "url": "https://www.inaturalist.org/photos/52509343",
+  "autor": "(c) Dirk Godlinski, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Esox lucius"
+ },
+ "lepomis_gibbosus": {
+  "especie": "Lepomis gibbosus",
+  "url": "https://www.inaturalist.org/photos/595608137",
+  "autor": "(c) Bernard DUPONT, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Lepomis gibbosus"
+ },
+ "procambarus_clarkii": {
+  "especie": "Procambarus clarkii",
+  "url": "https://www.inaturalist.org/photos/22605924",
+  "autor": "(c) westcoasthikers, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Procambarus clarkii"
+ },
+ "pacifastacus_leniusculus": {
+  "especie": "Pacifastacus leniusculus",
+  "url": "https://www.inaturalist.org/photos/219530812",
+  "autor": "(c) Matthew Vosper, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Pacifastacus leniusculus"
+ },
+ "callinectes_sapidus": {
+  "especie": "Callinectes sapidus",
+  "url": "https://www.inaturalist.org/photos/11795109",
+  "autor": "no rights reserved",
+  "llicencia": "CC0",
+  "font": "iNaturalist",
+  "taxon_inat": "Callinectes sapidus"
+ },
+ "dreissena_polymorpha": {
+  "especie": "Dreissena polymorpha",
+  "url": "https://www.inaturalist.org/photos/50742015",
+  "autor": "(c) Вячеслав Юсупов, some rights reserved (CC BY), uploaded by Вячеслав Юсупов",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Dreissena polymorpha"
+ },
+ "ursus_arctos": {
+  "especie": "Ursus arctos",
+  "url": "https://www.inaturalist.org/photos/414075864",
+  "autor": "(c) Валерия Ковалева, some rights reserved (CC BY), uploaded by Валерия Ковалева",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Ursus arctos"
+ },
+ "galemys_pyrenaicus": {
+  "especie": "Galemys pyrenaicus",
+  "url": "https://www.inaturalist.org/photos/288987",
+  "autor": "(c) David Perez, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Galemys pyrenaicus"
+ },
+ "lutra_lutra": {
+  "especie": "Lutra lutra",
+  "url": "https://www.inaturalist.org/photos/474812609",
+  "autor": "(c) Diego González Dopico, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Lutra lutra"
+ },
+ "tetrao_urogallus": {
+  "especie": "Tetrao urogallus",
+  "url": "https://www.inaturalist.org/photos/92441326",
+  "autor": "(c) Christoph Moning, some rights reserved (CC BY), uploaded by Christoph Moning",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Tetrao urogallus"
+ },
+ "aquila_fasciata": {
+  "especie": "Aquila fasciata",
+  "url": "https://www.inaturalist.org/photos/14198369",
+  "autor": "(c) VivekMalleshappa, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Aquila fasciata"
+ },
+ "milvus_milvus": {
+  "especie": "Milvus milvus",
+  "url": "https://www.inaturalist.org/photos/385450468",
+  "autor": "(c) Dr. Sven Gippner, some rights reserved (CC BY), uploaded by Dr. Sven Gippner",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Milvus milvus"
+ },
+ "botaurus_stellaris": {
+  "especie": "Botaurus stellaris",
+  "url": "https://www.inaturalist.org/photos/2714783",
+  "autor": "(c) Kim, Hyun-tae, some rights reserved (CC BY), uploaded by Kim, Hyun-tae",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Botaurus stellaris"
+ },
+ "oxyura_leucocephala": {
+  "especie": "Oxyura leucocephala",
+  "url": "https://www.inaturalist.org/photos/483791125",
+  "autor": "(c) Christoph Moning, some rights reserved (CC BY), uploaded by Christoph Moning",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Oxyura leucocephala"
+ },
+ "marmaronetta_angustirostris": {
+  "especie": "Marmaronetta angustirostris",
+  "url": "https://www.inaturalist.org/photos/458514833",
+  "autor": "(c) Diego González Dopico, some rights reserved (CC BY), uploaded by Diego González Dopico",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Marmaronetta angustirostris"
+ },
+ "puffinus_mauretanicus": {
+  "especie": "Puffinus mauretanicus",
+  "url": "https://www.inaturalist.org/photos/165671075",
+  "autor": "(c) Thibaud Aronson, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Puffinus mauretanicus"
+ },
+ "testudo_hermanni": {
+  "especie": "Testudo hermanni",
+  "url": "https://www.inaturalist.org/photos/10917334",
+  "autor": "(c) Drepanostoma, some rights reserved (CC BY), uploaded by Drepanostoma",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Testudo hermanni"
+ },
+ "emys_orbicularis": {
+  "especie": "Emys orbicularis",
+  "url": "https://www.inaturalist.org/photos/2703492",
+  "autor": "(c) Alexander A. Fomichev, some rights reserved (CC BY), uploaded by Alexander A. Fomichev",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Emys orbicularis"
+ },
+ "calotriton_arnoldi": {
+  "especie": "Calotriton arnoldi",
+  "url": "https://www.inaturalist.org/photos/745533",
+  "autor": "(c) Benny Trapp, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Calotriton arnoldi"
+ },
+ "aphanius_iberus": {
+  "especie": "Aphanius iberus",
+  "url": "https://www.inaturalist.org/photos/176007143",
+  "autor": "no rights reserved",
+  "llicencia": "CC0",
+  "font": "iNaturalist",
+  "taxon_inat": "Apricaphanius iberus"
+ },
+ "tetrax_tetrax": {
+  "especie": "Tetrax tetrax",
+  "url": "https://www.inaturalist.org/photos/127387309",
+  "autor": "no rights reserved",
+  "llicencia": "CC0",
+  "font": "iNaturalist",
+  "taxon_inat": "Tetrax tetrax"
+ },
+ "ichthyaetus_audouinii": {
+  "especie": "Ichthyaetus audouinii",
+  "url": "https://www.inaturalist.org/photos/599043878",
+  "autor": "(c) Diego González Dopico, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Ichthyaetus audouinii"
+ },
+ "margaritifera_auricularia": {
+  "especie": "Margaritifera auricularia",
+  "url": "https://www.inaturalist.org/photos/605324",
+  "autor": "(c) Francisco Welter Schultes, certains droits réservés (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Pseudunio auricularius"
+ },
+ "austropotamobius_pallipes": {
+  "especie": "Austropotamobius pallipes",
+  "url": "https://www.inaturalist.org/photos/6137507",
+  "autor": "(c) purperlibel, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Austropotamobius pallipes"
+ },
+ "lagopus_muta": {
+  "especie": "Lagopus muta",
+  "url": "https://www.inaturalist.org/photos/165788873",
+  "autor": "(c) 孫鋒 林, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Lagopus muta"
+ },
+ "neophron_percnopterus": {
+  "especie": "Neophron percnopterus",
+  "url": "https://www.inaturalist.org/photos/139303350",
+  "autor": "(c) Kudaibergen Amirekul, some rights reserved (CC BY-SA), uploaded by Kudaibergen Amirekul",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Neophron percnopterus"
+ },
+ "aegypius_monachus": {
+  "especie": "Aegypius monachus",
+  "url": "https://www.inaturalist.org/photos/452846429",
+  "autor": "(c) Diego González Dopico, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Aegypius monachus"
+ },
+ "rhinolophus_euryale": {
+  "especie": "Rhinolophus euryale",
+  "url": "https://www.inaturalist.org/photos/24144317",
+  "autor": "(c) Julien Renoult, some rights reserved (CC BY), uploaded by Julien Renoult",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Rhinolophus euryale"
+ },
+ "chersophilus_duponti": {
+  "especie": "Chersophilus duponti",
+  "url": "https://www.inaturalist.org/photos/5692972",
+  "autor": "(c) Carles Pastor, some rights reserved (CC BY-SA), uploaded by Carles Pastor",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Chersophilus duponti"
+ },
+ "pterocles_orientalis": {
+  "especie": "Pterocles orientalis",
+  "url": "https://www.inaturalist.org/photos/171599008",
+  "autor": "(c) Marcelo Cabrera, some rights reserved (CC BY), uploaded by Marcelo Cabrera",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Pterocles orientalis"
+ },
+ "myotis_capaccinii": {
+  "especie": "Myotis capaccinii",
+  "url": "https://www.inaturalist.org/photos/24143303",
+  "autor": "(c) Julien Renoult, some rights reserved (CC BY), uploaded by Julien Renoult",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Myotis capaccinii"
+ },
+ "cyprinus_carpio": {
+  "especie": "Cyprinus carpio",
+  "url": "https://www.inaturalist.org/photos/443517060",
+  "autor": "(c) Quinn, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Cyprinus carpio"
+ },
+ "canis_lupus": {
+  "especie": "Canis lupus",
+  "url": "https://www.inaturalist.org/photos/163256576",
+  "autor": "(c) Andrew Simon, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Canis lupus lupus"
+ },
+ "felis_silvestris": {
+  "especie": "Felis silvestris",
+  "url": "https://www.inaturalist.org/photos/607218271",
+  "autor": "(c) Antoine Thivolle, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Felis silvestris"
+ },
+ "acipenser_sturio": {
+  "especie": "Acipenser sturio",
+  "url": "https://commons.wikimedia.org/wiki/File:Acipenser_sturio_1879.jpg",
+  "autor": "Alexander Francis Lydon",
+  "llicencia": "Public domain",
+  "font": "Wikimedia Commons"
+ },
+ "trachemys_scripta": {
+  "especie": "Trachemys scripta",
+  "url": "https://www.inaturalist.org/photos/120834277",
+  "autor": "no rights reserved, uploaded by Glenn Berry",
+  "llicencia": "CC0",
+  "font": "iNaturalist",
+  "taxon_inat": "Trachemys scripta"
+ },
+ "procyon_lotor": {
+  "especie": "Procyon lotor",
+  "url": "https://www.inaturalist.org/photos/2679010",
+  "autor": "(c) Michael D Fox, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Procyon lotor"
+ },
+ "myiopsitta_monachus": {
+  "especie": "Myiopsitta monachus",
+  "url": "https://www.inaturalist.org/photos/101224790",
+  "autor": "(c) Juan Emilio, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Myiopsitta monachus"
+ },
+ "psittacula_krameri": {
+  "especie": "Psittacula krameri",
+  "url": "https://www.inaturalist.org/photos/454937257",
+  "autor": "(c) Cristian Hurtado Cusnir, some rights reserved (CC BY), uploaded by Cristian Hurtado Cusnir",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Psittacula krameri"
+ },
+ "neogale_vison": {
+  "especie": "Neogale vison",
+  "url": "https://www.inaturalist.org/photos/110315839",
+  "autor": "(c) Richard Littauer, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Neogale vison"
+ },
+ "myocastor_coypus": {
+  "especie": "Myocastor coypus",
+  "url": "https://www.inaturalist.org/photos/191036443",
+  "autor": "(c) euqirneto, some rights reserved (CC BY), uploaded by euqirneto",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Myocastor coypus"
+ },
+ "lithobates_catesbeianus": {
+  "especie": "Lithobates catesbeianus",
+  "url": "https://www.inaturalist.org/photos/2900500",
+  "autor": "(c) Kelsey Low, some rights reserved (CC BY), uploaded by Kelsey Low",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Lithobates catesbeianus"
+ },
+ "vespa_velutina": {
+  "especie": "Vespa velutina",
+  "url": "https://www.inaturalist.org/photos/1328481",
+  "autor": "(c) BlueGinkgo, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Vespa velutina"
+ },
+ "aedes_albopictus": {
+  "especie": "Aedes albopictus",
+  "url": "https://www.inaturalist.org/photos/558144877",
+  "autor": "(c) Timothy Lindsey, some rights reserved (CC BY), uploaded by Timothy Lindsey",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Aedes albopictus"
+ },
+ "rhynchophorus_ferrugineus": {
+  "especie": "Rhynchophorus ferrugineus",
+  "url": "https://www.inaturalist.org/photos/574384543",
+  "autor": "(c) Rafael Carbonell Font, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Rhynchophorus ferrugineus"
+ },
+ "corbicula_fluminea": {
+  "especie": "Corbicula fluminea",
+  "url": "https://www.inaturalist.org/photos/182703746",
+  "autor": "(c) anonymous, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Corbicula fluminea"
+ },
+ "alopochen_aegyptiaca": {
+  "especie": "Alopochen aegyptiaca",
+  "url": "https://www.inaturalist.org/photos/500010320",
+  "autor": "(c) Pierre-Marie Epiney, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Alopochen aegyptiaca"
+ },
+ "harmonia_axyridis": {
+  "especie": "Harmonia axyridis",
+  "url": "https://www.inaturalist.org/photos/482125768",
+  "autor": "(c) Gilles San Martin, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Harmonia axyridis"
+ },
+ "oxyura_jamaicensis": {
+  "especie": "Oxyura jamaicensis",
+  "url": "https://www.inaturalist.org/photos/364941588",
+  "autor": "(c) Daniel Pineda Vera, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Oxyura jamaicensis"
+ },
+ "linepithema_humile": {
+  "especie": "Linepithema humile",
+  "url": "https://www.inaturalist.org/photos/485387207",
+  "autor": "no rights reserved, uploaded by Philipp Hoenle",
+  "llicencia": "CC0",
+  "font": "iNaturalist",
+  "taxon_inat": "Linepithema humile"
+ },
+ "ameiurus_melas": {
+  "especie": "Ameiurus melas",
+  "url": "https://www.inaturalist.org/photos/1937394",
+  "autor": "(c) Sam Kieschnick, some rights reserved (CC BY), uploaded by Sam Kieschnick",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Ameiurus melas"
+ },
+ "ailanthus_altissima": {
+  "especie": "Ailanthus altissima",
+  "url": "https://www.inaturalist.org/photos/255301394",
+  "autor": "(c) Nicola van Berkel, some rights reserved (CC BY-SA), uploaded by Nicola van Berkel",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Ailanthus altissima"
+ },
+ "cortaderia_selloana": {
+  "especie": "Cortaderia selloana",
+  "url": "https://www.inaturalist.org/photos/173109660",
+  "autor": "(c) Fernando de Gorocica, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Cortaderia selloana"
+ },
+ "carpobrotus_edulis": {
+  "especie": "Carpobrotus edulis",
+  "url": "https://www.inaturalist.org/photos/153343754",
+  "autor": "(c) Alvesgaspar, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Carpobrotus edulis"
+ },
+ "arundo_donax": {
+  "especie": "Arundo donax",
+  "url": "https://www.inaturalist.org/photos/298590916",
+  "autor": "(c) Elizabete Marchante, some rights reserved (CC BY), uploaded by Elizabete Marchante",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Arundo donax"
+ },
+ "pontederia_crassipes": {
+  "especie": "Pontederia crassipes",
+  "url": "https://www.inaturalist.org/photos/28107964",
+  "autor": "no rights reserved, uploaded by 葉子",
+  "llicencia": "CC0",
+  "font": "iNaturalist",
+  "taxon_inat": "Pontederia crassipes"
+ },
+ "ludwigia_grandiflora": {
+  "especie": "Ludwigia grandiflora",
+  "url": "https://www.inaturalist.org/photos/324074134",
+  "autor": "no rights reserved",
+  "llicencia": "CC0",
+  "font": "iNaturalist",
+  "taxon_inat": "Ludwigia grandiflora"
+ },
+ "opuntia_stricta": {
+  "especie": "Opuntia stricta",
+  "url": "https://www.inaturalist.org/photos/27341705",
+  "autor": "(c) B. Phalan, some rights reserved (CC BY), uploaded by B. Phalan",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Opuntia stricta"
+ },
+ "araujia_sericifera": {
+  "especie": "Araujia sericifera",
+  "url": "https://www.inaturalist.org/photos/49556632",
+  "autor": "(c) Jacqui Geux, some rights reserved (CC BY), uploaded by Jacqui Geux",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Araujia sericifera"
+ },
+ "buddleja_davidii": {
+  "especie": "Buddleja davidii",
+  "url": "https://www.inaturalist.org/photos/38812802",
+  "autor": "(c) Weston Siegenthaler, some rights reserved (CC BY), uploaded by Weston Siegenthaler",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Buddleja davidii"
+ },
+ "baccharis_halimifolia": {
+  "especie": "Baccharis halimifolia",
+  "url": "https://www.inaturalist.org/photos/54472910",
+  "autor": "(c) Douglas Goldman, some rights reserved (CC BY-SA), uploaded by Douglas Goldman",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Baccharis halimifolia"
+ },
+ "senecio_inaequidens": {
+  "especie": "Senecio inaequidens",
+  "url": "https://www.inaturalist.org/photos/4204093",
+  "autor": "(c) Andreas Rockstein, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Senecio inaequidens"
+ },
+ "oxalis_pes_caprae": {
+  "especie": "Oxalis pes-caprae",
+  "url": "https://www.inaturalist.org/photos/454705867",
+  "autor": "(c) portioid, some rights reserved (CC BY), uploaded by portioid",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Oxalis pes-caprae"
+ },
+ "cenchrus_setaceus": {
+  "especie": "Cenchrus setaceus",
+  "url": "https://www.inaturalist.org/photos/164996037",
+  "autor": "(c) Lauu, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Cenchrus setaceus"
+ },
+ "azolla_filiculoides": {
+  "especie": "Azolla filiculoides",
+  "url": "https://www.inaturalist.org/photos/107323237",
+  "autor": "(c) Kevin Thiele, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Azolla filiculoides"
+ },
+ "reynoutria_japonica": {
+  "especie": "Reynoutria japonica",
+  "url": "https://www.inaturalist.org/photos/263534145",
+  "autor": "(c) Douglas Goldman, some rights reserved (CC BY-SA), uploaded by Douglas Goldman",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Reynoutria japonica"
+ },
+ "acacia_dealbata": {
+  "especie": "Acacia dealbata",
+  "url": "https://www.inaturalist.org/photos/444378343",
+  "autor": "(c) Jonathan Billinger, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Acacia dealbata"
+ },
+ "quercus_suber": {
+  "especie": "Quercus suber",
+  "url": "https://www.inaturalist.org/photos/154800833",
+  "autor": "(c) Thibaud Aronson, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Quercus suber"
+ },
+ "pinus_pinea": {
+  "especie": "Pinus pinea",
+  "url": "https://www.inaturalist.org/photos/164950767",
+  "autor": "(c) Paul Asman and Jill Lenoble, some rights reserved (CC BY), uploaded by Paul Asman and Jill Lenoble",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Pinus pinea"
+ },
+ "tuber_melanosporum": {
+  "especie": "Tuber melanosporum",
+  "url": "https://www.inaturalist.org/photos/60866",
+  "autor": "(c) Sean Gillies, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Tuber melanosporum"
+ },
+ "tuber_aestivum": {
+  "especie": "Tuber aestivum",
+  "url": "https://www.inaturalist.org/photos/12727647",
+  "autor": "(c) Davide Puddu, some rights reserved (CC BY), uploaded by Davide Puddu",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Tuber aestivum"
+ },
+ "tuber_brumale": {
+  "especie": "Tuber brumale",
+  "url": "https://commons.wikimedia.org/wiki/File:Tuber_brumale_-_Vue_sur_la_tranche_coup%C3%A9e.jpg",
+  "autor": "moi-même",
+  "llicencia": "Public domain",
+  "font": "Wikimedia Commons"
+ },
+ "populus_alba": {
+  "especie": "Populus alba",
+  "url": "https://www.inaturalist.org/photos/258917000",
+  "autor": "(c) Leon Perrie, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Populus alba"
+ },
+ "populus_nigra": {
+  "especie": "Populus nigra",
+  "url": "https://www.inaturalist.org/photos/259215781",
+  "autor": "(c) Ayotte, Gilles, 1948-, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Populus nigra"
+ },
+ "alnus_glutinosa": {
+  "especie": "Alnus glutinosa",
+  "url": "https://www.inaturalist.org/photos/204625600",
+  "autor": "(c) Douglas Goldman, some rights reserved (CC BY-SA), uploaded by Douglas Goldman",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Alnus glutinosa"
+ },
+ "eucalyptus_globulus": {
+  "especie": "Eucalyptus globulus",
+  "url": "https://www.inaturalist.org/photos/13601383",
+  "autor": "(c) whichchick, some rights reserved (CC BY), uploaded by whichchick",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Eucalyptus globulus"
+ },
+ "salix_alba": {
+  "especie": "Salix alba",
+  "url": "https://www.inaturalist.org/photos/4791934",
+  "autor": "(c) Andreas Rockstein, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Salix alba"
+ },
+ "apis_mellifera": {
+  "especie": "Apis mellifera",
+  "url": "https://www.inaturalist.org/photos/217394043",
+  "autor": "no rights reserved",
+  "llicencia": "CC0",
+  "font": "iNaturalist",
+  "taxon_inat": "Apis mellifera"
+ },
+ "platanus_x_hispanica": {
+  "especie": "Platanus x hispanica",
+  "url": "https://commons.wikimedia.org/wiki/File:Berkeley_Square_-_geograph.org.uk_-_911963.jpg",
+  "autor": "Richard Croft",
+  "llicencia": "CC BY-SA 2.0",
+  "font": "Wikimedia Commons"
+ },
+ "taxus_baccata": {
+  "especie": "Taxus baccata",
+  "url": "https://www.inaturalist.org/photos/69373138",
+  "autor": "(c) Florin Feneru, some rights reserved (CC BY), uploaded by Florin Feneru",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Taxus baccata"
+ },
+ "ilex_aquifolium": {
+  "especie": "Ilex aquifolium",
+  "url": "https://www.inaturalist.org/photos/448317645",
+  "autor": "(c) zebedeugalinha, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Ilex aquifolium"
+ },
+ "gentiana_lutea": {
+  "especie": "Gentiana lutea",
+  "url": "https://www.inaturalist.org/photos/482131",
+  "autor": "(c) Udo Schmidt, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Gentiana lutea"
+ },
+ "chamaerops_humilis": {
+  "especie": "Chamaerops humilis",
+  "url": "https://www.inaturalist.org/photos/126200040",
+  "autor": "(c) tato grasso, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Chamaerops humilis"
+ },
+ "posidonia_oceanica": {
+  "especie": "Posidonia oceanica",
+  "url": "https://www.inaturalist.org/photos/563075873",
+  "autor": "(c) Christophe, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Posidonia oceanica"
+ },
+ "cymodocea_nodosa": {
+  "especie": "Cymodocea nodosa",
+  "url": "https://www.inaturalist.org/photos/49989354",
+  "autor": "(c) Javier Solís, some rights reserved (CC BY-SA), uploaded by Javier Solís",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Cymodocea nodosa"
+ },
+ "zostera_marina": {
+  "especie": "Zostera marina",
+  "url": "https://www.inaturalist.org/photos/221089458",
+  "autor": "(c) Георгий Виноградов (Georgy Vinogradov), some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Zostera marina"
+ },
+ "corallium_rubrum": {
+  "especie": "Corallium rubrum",
+  "url": "https://www.inaturalist.org/photos/701121557",
+  "autor": "(c) Vsevolod Rudyi, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Corallium rubrum"
+ },
+ "leontopodium_nivale": {
+  "especie": "Leontopodium nivale",
+  "url": "https://www.inaturalist.org/photos/45613211",
+  "autor": "(c) Jens-Christian Svenning, some rights reserved (CC BY), uploaded by Jens-Christian Svenning",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Leontopodium nivale"
+ },
+ "cypripedium_calceolus": {
+  "especie": "Cypripedium calceolus",
+  "url": "https://www.inaturalist.org/photos/396223281",
+  "autor": "(c) Léo Souillard, some rights reserved (CC BY), uploaded by Léo Souillard",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Cypripedium calceolus"
+ },
+ "juniperus_thurifera": {
+  "especie": "Juniperus thurifera",
+  "url": "https://www.inaturalist.org/photos/108039134",
+  "autor": "(c) Sergio Denche, some rights reserved (CC BY), uploaded by Sergio Denche",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Juniperus thurifera"
+ },
+ "marsilea_quadrifolia": {
+  "especie": "Marsilea quadrifolia",
+  "url": "https://www.inaturalist.org/photos/451850954",
+  "autor": "no rights reserved",
+  "llicencia": "CC0",
+  "font": "iNaturalist",
+  "taxon_inat": "Marsilea quadrifolia"
+ },
+ "limoniastrum_monopetalum": {
+  "especie": "Limoniastrum monopetalum",
+  "url": "https://www.inaturalist.org/photos/444849772",
+  "autor": "(c) Duarte Frade, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Limoniastrum monopetalum"
+ },
+ "hydrocharis_morsus_ranae": {
+  "especie": "Hydrocharis morsus-ranae",
+  "url": "https://www.inaturalist.org/photos/173780809",
+  "autor": "(c) Salicyna, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Hydrocharis morsus-ranae"
+ },
+ "olea_europaea": {
+  "especie": "Olea europaea",
+  "url": "https://www.inaturalist.org/photos/95624108",
+  "autor": "no rights reserved, uploaded by viridian",
+  "llicencia": "CC0",
+  "font": "iNaturalist",
+  "taxon_inat": "Olea europaea"
+ },
+ "abies_alba": {
+  "especie": "Abies alba",
+  "url": "https://www.inaturalist.org/photos/10907663",
+  "autor": "(c) böhringer friedrich, some rights reserved (CC BY-SA)",
+  "llicencia": "CC BY-SA",
+  "font": "iNaturalist",
+  "taxon_inat": "Abies alba"
+ },
+ "aegolius_funereus": {
+  "especie": "Aegolius funereus",
+  "url": "https://www.inaturalist.org/photos/92104214",
+  "autor": "(c) Christoph Moning, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Aegolius funereus"
+ },
+ "gulosus_aristotelis": {
+  "especie": "Gulosus aristotelis",
+  "url": "https://www.inaturalist.org/photos/53779299",
+  "autor": "(c) Tony, some rights reserved (CC BY)",
+  "llicencia": "CC BY",
+  "font": "iNaturalist",
+  "taxon_inat": "Gulosus aristotelis"
+ }
+}

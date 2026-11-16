@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="DejaVu Sans, Arial, sans-serif">
+  <style>.t{font-size:12.5px;font-weight:bold;fill:#1d2a22}.s{font-size:10.5px;fill:#4a5a50}.w{fill:#fff;font-size:12.5px;font-weight:bold}.ar{fill:#5b6b60}</style>
+  <defs><marker id="c" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="ar"/></marker></defs>
+  <rect x="260" y="10" width="240" height="40" rx="6" fill="#1f5d3a"/><text x="380" y="35" text-anchor="middle" class="w">Acte administratiu</text>
+  <path d="M380 50 V64 M130 64 H630 M130 64 V80 M380 64 V80 M630 64 V80" stroke="#5b6b60" stroke-width="1.6"/>
+  <rect x="20" y="80" width="220" height="40" rx="6" fill="#e3efe7" stroke="#2b7a4b"/><text x="130" y="104" text-anchor="middle" class="t">No posa fi a la via adm.</text>
+  <rect x="270" y="80" width="220" height="40" rx="6" fill="#e3efe7" stroke="#2b7a4b"/><text x="380" y="104" text-anchor="middle" class="t">Posa fi a la via adm.</text>
+  <rect x="520" y="80" width="220" height="40" rx="6" fill="#e3efe7" stroke="#2b7a4b"/><text x="630" y="104" text-anchor="middle" class="t">Acte ferm</text>
+  <path d="M130 120 V136 M380 120 V136 M630 120 V136" stroke="#5b6b60" stroke-width="2" marker-end="url(#c)"/>
+  <rect x="20" y="140" width="220" height="110" rx="6" fill="#eef3fb" stroke="#4a6fa5"/>
+  <text x="130" y="162" text-anchor="middle" class="t">Recurs d'alçada</text>
+  <text x="30" y="182" class="s">Davant el superior jeràrquic</text><text x="30" y="198" class="s">Interposició: 1 mes (acte exprés)</text>
+  <text x="30" y="214" class="s">Resolució: 3 mesos (silenci negatiu)</text><text x="30" y="230" class="s">Obligatori per arribar al</text><text x="30" y="244" class="s">contenciós (arts. 121-122)</text>
+  <rect x="270" y="140" width="220" height="110" rx="6" fill="#eef3fb" stroke="#4a6fa5"/>
+  <text x="380" y="162" text-anchor="middle" class="t">Recurs de reposició</text>
+  <text x="280" y="182" class="s">Potestatiu, davant el mateix òrgan</text><text x="280" y="198" class="s">Interposició: 1 mes (acte exprés)</text>
+  <text x="280" y="214" class="s">Resolució: 1 mes</text><text x="280" y="230" class="s">O directament el contenciós</text><text x="280" y="244" class="s">administratiu (arts. 123-124)</text>
+  <rect x="520" y="140" width="220" height="110" rx="6" fill="#eef3fb" stroke="#4a6fa5"/>
+  <text x="630" y="162" text-anchor="middle" class="t">Recurs extraordinari</text><text x="630" y="177" text-anchor="middle" class="t">de revisió</text>
+  <text x="530" y="197" class="s">Davant l'òrgan que el va dictar</text><text x="530" y="213" class="s">Error de fet: 4 anys</text>
+  <text x="530" y="229" class="s">Altres causes: 3 mesos</text><text x="530" y="244" class="s">(arts. 125-126)</text>
+  <path d="M130 250 V268 H630 V250 M380 250 V268" stroke="#5b6b60" stroke-width="1.6" fill="none"/>
+  <rect x="210" y="268" width="340" height="28" rx="6" fill="#1f5d3a"/><text x="380" y="287" text-anchor="middle" class="w">Jurisdicció contenciosa administrativa</text>
+</svg>
