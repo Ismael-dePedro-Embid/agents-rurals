@@ -234,7 +234,7 @@ async function vistaJocs([id]) {
     <div class="jocs">${JOCS.map(j => { const s = st[j.id]; return `<a class="targeta joc" href="#/jocs/${j.id}">
       <span class="joc-ic">${j.ic}</span><span class="txt"><b>${esc(j.nom)}</b><span class="suau">${esc(j.desc)}</span>
       ${s ? `<span class="joc-st">${s.p} ${s.p === 1 ? 'partida' : 'partides'} · ${pct(s.c, s.n)} % d'encert · millor ${s.millor} %</span>` : ''}</span></a>`; }).join('')}
-      <a class="targeta joc" href="#/especies"><span class="joc-ic">🦉</span><span class="txt"><b>Espècies amb foto</b><span class="suau">Fauna protegida, pesca, invasores i flora del temari (compta per a la meta)</span>
+      <a class="targeta joc" href="#/especies"><span class="joc-ic">🦉</span><span class="txt"><b>Espècies amb foto</b><span class="suau">Fauna protegida, pesca, invasores i flora del temari</span>
       ${espN ? `<span class="joc-st">${pct(espC, espN)} % d'encert · ${Object.keys(espSt).length} de ${D.especies.length} vistes</span>` : ''}</span></a>
     </div>
     <p class="suau petit">${esc(GEO.font)}</p>`;

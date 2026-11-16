@@ -47,7 +47,7 @@ const P = (() => {
       s.q[id] = r; desa();
     },
     esp: () => s.esp,
-    respEsp(lat, encert) { this.dia('esp', encert); const r = s.esp[lat] || {n: 0, c: 0}; r.n++; if (encert) r.c++; r.u = encert ? 1 : 0; r.l = Date.now(); s.esp[lat] = r; desa(); },
+    respEsp(lat, encert) { const r = s.esp[lat] || {n: 0, c: 0}; r.n++; if (encert) r.c++; r.u = encert ? 1 : 0; r.l = Date.now(); s.esp[lat] = r; desa(); },
     afegeixSim(sim) { s.sims.unshift(sim); s.sims = s.sims.slice(0, 50); desa(); },
     marcaCopia() { s.copia = Date.now(); desa(); }, copia: () => s.copia,
     exporta: () => JSON.stringify({app: 'agents-rurals', versio: 1, data: new Date().toISOString(), progres: s}),
@@ -973,7 +973,7 @@ function vistaAjustos([cat] = []) {
       ${fila('Mida del text', '', seg('text', [['petit', 'A−'], ['normal', 'A'], ['gran', 'A+'], ['molt-gran', 'A++']]))}
     </div></div>
     <div class="seccio-ajustos"><h2>Constància</h2><div class="targeta">
-      ${fila('Meta diària', 'Preguntes al dia per mantenir la ratxa. Compten totes: pràctica, repàs, simulacres, repte i espècies. Un dia per setmana sense fer-la no trenca la ratxa.', seg('meta', [[20, '20'], [30, '30'], [40, '40'], [60, '60']]))}
+      ${fila('Meta diària', 'Preguntes al dia per mantenir la ratxa. Compten les preguntes de pràctica, repàs, simulacres i el repte del dia; els jocs no. Un dia per setmana sense fer-la no trenca la ratxa.', seg('meta', [[20, '20'], [30, '30'], [40, '40'], [60, '60']]))}
     </div></div>
     <div class="seccio-ajustos"><h2>Pràctica</h2><div class="targeta">
       ${fila('Barrejar l\'ordre de les opcions', 'Per no memoritzar la lletra. No s\'aplica als exàmens oficials sencers.', int('barrejaOp'))}
