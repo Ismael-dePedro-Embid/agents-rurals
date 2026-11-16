@@ -12,7 +12,14 @@ let JOC = null;              // partida en curs
 let GEN_USATS = new Set();   // elements ja sortits a la partida
 const PREGUNTES_PARTIDA = 10, SEGONS_CR = 60, KM_PER_UNITAT = 0.4; // el mapa fa 700 unitats per 280 km
 
-const carregaGeo = async () => GEO || (GEO = await (await fetch('data/geo.json')).json());
+const carregaGeo = async () => {
+  if (GEO) return GEO;
+  GEO = await (await fetch('data/geo.json')).json();
+  const bb = GEO.comarques.map(c => c.bb), m = 8;
+  const x0 = Math.min(...bb.map(b => b[0])) - m, y0 = Math.min(...bb.map(b => b[1])) - m;
+  GEO.vista = {x: x0, y: y0, w: Math.max(...bb.map(b => b[2])) + m - x0, h: Math.max(...bb.map(b => b[3])) + m - y0};
+  return GEO;
+};
 const nombre = n => n.toLocaleString('ca');
 const llista = a => a.length === 1 ? esc(a[0]) : a.slice(0, -1).map(esc).join(', ') + ' i ' + esc(a[a.length - 1]);
 function distractors(correcta, pool, n = 3, prefer = []) {
@@ -67,28 +74,30 @@ function mapa(o = {}) {
   const G = GEO, res = new Set(o.comarques || []);
   const est = (prefix, nom) => (o.domini ? ' e-' + estat(o.domini, prefix + nom) : '');
   const fons = o.fons || 'politic', ctx = fons !== 'politic';
-  return `<div class="mapa-joc fons-${fons} ${o.senseCom ? 'sense-com' : ''} ${o.toc ? 'toc toc-' + o.toc : ''}"><svg viewBox="0 0 ${G.w} ${G.h}" role="img" aria-label="Mapa de Catalunya">
+  const V = G.vista, botons = o.botons ?? (o.toc || o.explora);
+  const ambRes = (o.rius || []).some(r => r.res) || (o.cims || []).some(c => c.res) && (o.cims || []).length > 4;
+  return `<div class="mapa-joc fons-${fons} ${o.senseCom ? 'sense-com' : ''} ${ambRes ? 'amb-res' : ''} ${o.toc ? 'toc toc-' + o.toc : ''}"><svg viewBox="${V.x} ${V.y} ${V.w} ${V.h}" role="img" aria-label="Mapa de Catalunya">
     ${ctx ? `<image href="data/relleu.webp" x="0" y="0" width="${G.w}" height="${G.h}" preserveAspectRatio="none" class="m-relleu"/>` : ''}
     <path d="${G.contorn}" class="m-contorn"/>
     ${G.comarques.map((c, i) => `<path d="${c.d}" data-i="${i}" class="m-com${res.has(c.nom) ? ' res' : ''}${o.bona === c.nom ? ' bona' : ''}${o.dolenta === c.nom ? ' dolenta' : ''}${o.domini === 'comarques' ? est('com:', c.nom) : ''}"/>`).join('')}
     ${(o.rius || []).map((r, i) => `<polyline points="${r.pts}" class="m-riu${r.res ? ' res' : ''}${r.mal ? ' mal' : ''}${o.domini === 'rius' ? est('riu:', r.nom) : ''}"/>${o.toc === 'riu' || o.explora ? `<polyline points="${r.pts}" class="m-riu-toc" data-r="${i}"/>` : ''}`).join('')}
     ${ctx && !o.rius && !o.explora ? G.rius.map(r => `<polyline points="${r.pts}" class="m-riu ctx"/>`).join('') : ''}
-    ${ctx && !o.cims && !o.explora ? G.cims.map(c => `<g class="m-cim ctx" transform="translate(${c.x} ${c.y})"><path d="M0 -6 L5 3.5 L-5 3.5 Z"/></g>`).join('') : ''}
+    ${ctx && !o.cims && !o.rius && !o.explora ? G.cims.map(c => `<g class="m-cim ctx" transform="translate(${c.x} ${c.y})"><path d="M0 -6 L5 3.5 L-5 3.5 Z"/></g>`).join('') : ''}
     ${o.capital ? `<circle cx="${o.capital.capx}" cy="${o.capital.capy}" r="5" class="m-cap"/>` : ''}
     ${(o.cims || []).map(c => `<g class="m-cim${c.res ? ' res' : ''}${o.domini === 'muntanyes' ? est('cim:', c.nom) : ''}" data-c="${GEO.cims.indexOf(c.ref || c)}" transform="translate(${c.x} ${c.y})"><circle r="13" class="m-cim-toc"/><path d="M0 -11 L9 6 L-9 6 Z"/></g>`).join('')}
     ${o.punt ? `<g transform="translate(${o.punt.x} ${o.punt.y})" class="m-punt"><circle r="7"/><path d="M-4 -4 L4 4 M4 -4 L-4 4"/></g>` : ''}
     ${o.linia ? `<line x1="${o.linia[0].x}" y1="${o.linia[0].y}" x2="${o.linia[1].x}" y2="${o.linia[1].y}" class="m-linia"/>` : ''}
   </svg>
-  <div class="m-zoom"><button type="button" data-z="1" aria-label="Apropar">+</button><button type="button" data-z="-1" aria-label="Allunyar">−</button><button type="button" data-z="0" aria-label="Veure-ho tot">⤢</button></div></div>`;
+  ${botons ? '<div class="m-zoom"><button type="button" data-z="1" aria-label="Apropar">+</button><button type="button" data-z="-1" aria-label="Allunyar">−</button><button type="button" data-z="0" aria-label="Veure-ho tot">⤢</button></div>' : ''}</div>`;
 }
 // Zoom i desplaçament: dos dits per fer zoom, un dit per moure's quan hi ha zoom, i botons +/−.
 function zoomMapa(cont, enfoc) {
   const svg = cont.querySelector('svg'); if (!svg) return;
-  const W = GEO.w, H = GEO.h;
-  let vb = {x: 0, y: 0, w: W, h: H};
+  const V = GEO.vista, W = V.w, H = V.h;
+  let vb = {...V};
   const posa = () => {
     vb.w = Math.min(W, Math.max(W / 8, vb.w)); vb.h = vb.w * H / W;
-    vb.x = Math.min(W - vb.w, Math.max(0, vb.x)); vb.y = Math.min(H - vb.h, Math.max(0, vb.y));
+    vb.x = Math.min(V.x + W - vb.w, Math.max(V.x, vb.x)); vb.y = Math.min(V.y + H - vb.h, Math.max(V.y, vb.y));
     svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
     svg.style.setProperty('--z', W / vb.w); // per mantenir la mida dels símbols en fer zoom
   };
@@ -99,7 +108,7 @@ function zoomMapa(cont, enfoc) {
   }
   posa();
   cont.querySelectorAll('[data-z]').forEach(b => b.addEventListener('click', () => {
-    const z = +b.dataset.z; if (z === 0) { vb = {x: 0, y: 0, w: W, h: H}; posa(); } else zoom(z > 0 ? 1.6 : 1 / 1.6);
+    const z = +b.dataset.z; if (z === 0) { vb = {...V}; posa(); } else zoom(z > 0 ? 1.6 : 1 / 1.6);
   }));
   const pts = new Map(); let inici = null; cont.mogut = false;
   const aSvg = (cx, cy) => { const r = svg.getBoundingClientRect(); return {x: vb.x + (cx - r.left) / r.width * vb.w, y: vb.y + (cy - r.top) / r.height * vb.h}; };
@@ -462,6 +471,7 @@ function pintaPregunta() {
   else if (q.toc === 'qualsevol') mo = respost ? {cims: [{...q.cim, ref: q.cim, res: true}], punt: r.punt, linia: [r.punt, q.cim]} : {toc: 'qualsevol'};
   else if (respost && q.mapaDespres) mo = q.mapaDespres;
   else if (q.mapa) mo = q.mapa;
+  if (mo && !mo.fons && (G.id === 'muntanyes' || G.id === 'rius' || G.id === 'relleu')) mo = {...mo, fons: 'mixt'};
   const s = Math.max(0, Math.ceil((G.fi - Date.now()) / 1000));
   $('#app').innerHTML = `
     <div class="capcalera-test"><b>${joc.ic} ${esc(joc.nom)}</b><span>${G.cr ? `<span class="temps" id="t-cr">${s} s</span> · ${G.resp.filter(x => x && x.ok).length} encerts` : `${G.i + 1} / ${G.preg.length}`}</span></div>
