@@ -337,6 +337,9 @@ function vistaInici() {
 }
 
 // ---------------------------------------------------------------- pràctica
+const navPractica = actiu => `<nav class="pestanyes" aria-label="Tipus de pràctica">
+  <a href="#/practica" class="${actiu === 'preguntes' ? 'actiu' : ''}">Preguntes</a>
+  <a href="#/especies" class="${actiu === 'especies' ? 'actiu' : ''}">Espècies amb foto</a></nav>`;
 // Filtres de pràctica. Per defecte: tots els temes barrejats, totes les dificultats i orígens.
 const FILTRES_DEF = {temes: [], epi: '', origen: '', cat: ['agent', 'agent major', 'sotsinspector'], dif: [1, 2, 3, 4], desact: false, mode: 'totes', n: 0, ordre: false};
 const filtraPreguntes = s => D.preguntes.filter(q =>
@@ -368,6 +371,7 @@ function vistaPractica() {
   const F = FILTRES_DEF;
   $('#app').innerHTML = `
     <h1>Practicar</h1>
+    ${navPractica('preguntes')}
     <form id="f">
       <div class="targeta comenca">
         <div><b id="resum"></b><div class="suau" id="compte"></div></div>
@@ -375,8 +379,8 @@ function vistaPractica() {
       </div>
       <details class="filtres targeta" id="det-filtres"><summary>Filtres</summary>
       <fieldset><legend>Temes</legend>
-        <div class="xips">${temes.map(c => xip('tema', c, c, false)).join('')}</div>
-        <p class="suau petit">Sense cap tema marcat, surten tots.</p>
+        <div class="botons" style="margin:0 0 .5rem"><button type="button" class="boto petit-boto" data-tots="1">Tots</button><button type="button" class="boto petit-boto" data-tots="0">Cap</button></div>
+        <div class="xips">${temes.map(c => xip('tema', c, c, true)).join('')}</div>
         <div id="epigraf"></div>
       </fieldset>
       <fieldset><legend>Dificultat</legend>
@@ -397,11 +401,12 @@ function vistaPractica() {
       <div class="botons"><button type="button" class="boto" id="reinicia">Treure els filtres</button></div>
       </details>
     </form>
-    <div class="targeta enllac-especies"><a href="#/especies">${ico('fulla')} Joc d'identificació d'espècies amb foto</a></div>`;
+`;
   const f = $('#f');
   const seleccio = () => {
     const v = n => [...f.querySelectorAll(`[name=${n}]:checked`)].map(i => i.value);
-    return {temes: v('tema'), cat: v('cat'), dif: v('dif').map(Number), origen: f.origen.value,
+    const tm = v('tema');
+    return {temes: tm.length === temes.length ? [] : tm, capTema: !tm.length, cat: v('cat'), dif: v('dif').map(Number), origen: f.origen.value,
             desact: f.desact.checked, mode: f.mode.value, n: +f.n.value, ordre: f.ordre.checked,
             epi: f.epi ? f.epi.value : ''};
   };
@@ -416,12 +421,16 @@ function vistaPractica() {
         f.epi.addEventListener('change', actualitza);
       }
     } else box.innerHTML = '';
-    const n = filtraPreguntes(s).length;
-    $('#resum').textContent = descripcioFiltres(seleccio());
-    $('#compte').textContent = `${n.toLocaleString('ca')} preguntes · en surten ${Math.min(n, s.n || 20)}`;
+    const n = s.capTema ? 0 : filtraPreguntes(s).length;
+    $('#resum').textContent = s.capTema ? 'Cap tema triat' : descripcioFiltres(s);
+    $('#compte').textContent = s.capTema ? 'Marca almenys un tema a Filtres.' : `${n.toLocaleString('ca')} preguntes · en surten ${Math.min(n, s.n || 20)}`;
+    f.querySelector('[type=submit]').disabled = !n;
   };
   f.addEventListener('change', actualitza);
-  $('#reinicia').addEventListener('click', () => { f.reset(); f.querySelectorAll('[name=dif],[name=cat]').forEach(i => { i.checked = true; }); actualitza(); });
+  f.querySelectorAll('[data-tots]').forEach(b => b.addEventListener('click', () => {
+    f.querySelectorAll('[name=tema]').forEach(i => { i.checked = b.dataset.tots === '1'; }); actualitza();
+  }));
+  $('#reinicia').addEventListener('click', () => { f.reset(); f.querySelectorAll('[name=dif],[name=cat],[name=tema]').forEach(i => { i.checked = true; }); actualitza(); });
   f.addEventListener('submit', e => { e.preventDefault(); llancaPractica(seleccio()); });
   actualitza();
 }
@@ -723,7 +732,7 @@ function vistaEspecies([pas]) {
   const st = P.esp(), pr = P.pref('especies') || {};
   const vistes = D.especies.filter(e => st[e.lat]);
   const fallades = D.especies.filter(e => st[e.lat] && st[e.lat].u === 0);
-  $('#app').innerHTML = `<h1>Espècies amb foto</h1>
+  $('#app').innerHTML = `<h1>Practicar</h1>${navPractica('especies')}
     <p class="suau">${D.especies.length} espècies de les fitxes del temari (fauna protegida, pesca, invasores i flora). Has vist ${vistes.length}; ${fallades.length} fallades la darrera vegada.</p>
     <form id="f">
       <fieldset><legend>Temes</legend><div class="xips">${temes.map(t => `<label class="xip"><input type="checkbox" name="tema" value="${t}" ${!pr.temes || pr.temes.includes(t) ? 'checked' : ''}><span>${esc(nomTema(t))} (${D.especies.filter(e => e.t === t).length})</span></label>`).join('')}</div></fieldset>

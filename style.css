@@ -252,3 +252,9 @@ details.filtres[open] { padding-bottom: 1rem; } details.filtres fieldset { backg
 
 .avis-fallada { font-size: .88rem; color: var(--ambre); background: var(--ambre-clar); padding: .35rem .7rem; border-radius: 8px; margin: .4rem 0; }
 .avis-fallada.be { color: var(--verd); background: var(--verd-clar); }
+
+/* Selector Preguntes | Espècies */
+.pestanyes { display: flex; gap: .25rem; background: var(--vora); padding: .25rem; border-radius: 12px; margin: 0 0 1rem; }
+.pestanyes a { flex: 1; text-align: center; padding: .55rem .5rem; border-radius: 9px; text-decoration: none; color: var(--suau); font-weight: 600; font-size: .95rem; }
+.pestanyes a.actiu { background: var(--superficie); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.petit-boto { padding: .3rem .8rem; font-size: .88rem; }
