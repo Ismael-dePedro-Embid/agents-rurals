@@ -1,5 +1,5 @@
 :root {
-  --fons: #f3f4f1; --superficie: #ffffff; --vora: #e4e7e2; --text: #16201a; --suau: #66706a; --gris: #eef0ec; --gris-2: #e7e9e4; --menu-fons: rgba(255,255,255,.92);
+  --fons: #f3f4f1; --superficie: #ffffff; --vora: #e4e7e2; --text: #16201a; --suau: #66706a; --gris: #eef0ec; --gris-2: #e7e9e4; --capcalera: #dcebdf; --verd-fosc: #1f4d30; --menu-fons: rgba(255,255,255,.92);
   --verd: #2c6a43; --verd-clar: #e6f1e9; --vermell: #a8322d; --vermell-clar: #f6e1df;
   --ambre: #8a5a00; --ambre-clar: #f7ecd4; --blau: #2c5d87; --blau-clar: #e1ebf4;
   --radi: 18px; --ombra: 0 1px 2px rgba(16,32,22,.04), 0 6px 20px rgba(16,32,22,.06); --barra: #2f5d3a; --sobre-verd: #fff; color-scheme: light;
@@ -9,14 +9,14 @@
     --fons: #151916; --superficie: #1e2420; --vora: #333b35; --text: #e7ebe7; --suau: #a3aca5;
     --verd: #7fbf8c; --verd-clar: #22352a; --vermell: #f08b84; --vermell-clar: #3d2523;
     --ambre: #e5b65c; --ambre-clar: #3a3020; --blau: #8bb8e0; --blau-clar: #1f2f3d;
-    --ombra: none; --barra: #1c3324; --sobre-verd: #102015; --gris: #2a322d; --gris-2: #252c27; --menu-fons: rgba(30,36,32,.94); color-scheme: dark;
+    --ombra: none; --barra: #1c3324; --sobre-verd: #102015; --gris: #2a322d; --gris-2: #252c27; --capcalera: #1d2e23; --verd-fosc: #cfe6d5; --menu-fons: rgba(30,36,32,.94); color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --fons: #151916; --superficie: #1e2420; --vora: #333b35; --text: #e7ebe7; --suau: #a3aca5;
     --verd: #7fbf8c; --verd-clar: #22352a; --vermell: #f08b84; --vermell-clar: #3d2523;
     --ambre: #e5b65c; --ambre-clar: #3a3020; --blau: #8bb8e0; --blau-clar: #1f2f3d;
-    --ombra: none; --barra: #1c3324; --sobre-verd: #102015; --gris: #2a322d; --gris-2: #252c27; --menu-fons: rgba(30,36,32,.94); color-scheme: dark;
+    --ombra: none; --barra: #1c3324; --sobre-verd: #102015; --gris: #2a322d; --gris-2: #252c27; --capcalera: #1d2e23; --verd-fosc: #cfe6d5; --menu-fons: rgba(30,36,32,.94); color-scheme: dark;
 }
 /* Mida del text (Ajustos) */
 :root[data-text="petit"] { font-size: 14px; }
@@ -459,7 +459,8 @@ button.xip-est { cursor: pointer; } .xip-est.sel { outline: 2px solid var(--blau
 /* ---- Estètica 2 (app 1.17): capçalera clara, títols grans, targetes sense vora, botons uniformes ---- */
 body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, system-ui, sans-serif; -webkit-font-smoothing: antialiased; letter-spacing: -.005em; }
 /* Capçalera clara i translúcida, sense franja verda */
-.barra { background: var(--fons); color: var(--text); border-bottom: 1px solid rgba(0,0,0,.05); }
+.barra { background: var(--capcalera); color: var(--text); border-bottom: 1px solid rgba(44,106,67,.12); }
+.barra .marca span { color: var(--verd-fosc); }
 .marca, .engranatge { color: var(--text); } .marca span { font-weight: 650; font-size: .98rem; }
 .marca img { border-radius: 8px; width: 26px; height: 26px; }
 .engranatge:hover, .engranatge.actiu { background: rgba(0,0,0,.06); }

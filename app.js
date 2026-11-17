@@ -112,7 +112,7 @@ function aplicaAjustos() {
   if (aj('tema') === 'auto') delete r.dataset.theme; else r.dataset.theme = aj('tema');
   if (aj('text') === 'normal') delete r.dataset.text; else r.dataset.text = aj('text');
   const fosc = aj('tema') === 'dark' || (aj('tema') === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
-  document.querySelector('meta[name=theme-color]').content = fosc ? '#151916' : '#f3f4f1';
+  document.querySelector('meta[name=theme-color]').content = fosc ? '#1d2e23' : '#dcebdf';
 }
 matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', aplicaAjustos);
 aplicaAjustos();
