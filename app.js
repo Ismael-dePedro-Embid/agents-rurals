@@ -102,7 +102,7 @@ const P = (() => {
 })();
 
 // ---------------------------------------------------------------- ajustos de l'usuari
-const AJ_DEF = {nom: '', mescla: true, meta: 40, tema: 'auto', text: 'normal', barrejaOp: false, avanca: false, cita: 'oberta', nPractica: 20, simCrono: true, simAvanca: true};
+const AJ_DEF = {nom: '', mescla: true, meta: 40, tema: 'auto', text: 'normal', barrejaOp: false, avanca: false, cita: 'oberta', nPractica: 20, simCrono: true, simAvanca: true, idioma: 'ca'};
 // Només es desen els ajustos que l'usuari ha canviat; així un canvi de valor per defecte arriba a tothom
 (() => { const a = P.pref('ajustos'); if (a && !a.v) { const n = {v: 2}; for (const k in a) if (k !== 'cita' && a[k] !== AJ_DEF[k]) n[k] = a[k]; P.pref('ajustos', n); } })();
 const aj = k => ({...AJ_DEF, ...(P.pref('ajustos') || {})})[k];
@@ -678,8 +678,8 @@ function vistaTest() {
     <div class="targeta">
       <div class="etiquetes"><span class="etiqueta">${esc(q.t)} · ${esc(q.e)}</span>${origenEtiqueta(q)}${S.ex ? `<span class="etiqueta">Pregunta ${q.ex.nu} de l'examen</span>` : ''}<span class="etiqueta" title="Dificultat">${punts(q.d)}</span>
         ${q.s !== 'v' ? `<span class="etiqueta avis">${ESTATS[q.s]}</span>` : ''}</div>
-      <p class="enunciat">${esc(q.q)}</p>
-      <div class="opcions">${ordreOp(q).map((k, pos) => {
+      <p class="enunciat" translate="no">${esc(q.q)}</p>
+      <div class="opcions" translate="no">${ordreOp(q).map((k, pos) => {
         let cls = '';
         if (mostra) cls = k === q.ok ? 'correcta' : (k === r ? 'errada' : '');
         else if (r === k) cls = 'triada';
@@ -740,9 +740,9 @@ function panellCorreccio(q, r) {
     ${q.s === 'a' ? '<p class="suau">El tribunal va anul·lar aquesta pregunta. Es marca la resposta que avui es considera correcta.</p>' : ''}
     ${q.s === 'd' ? '<p class="suau">La norma ha canviat des de l\'examen: la resposta oficial és la marcada, però llegeix l\'explicació.</p>' : ''}
     ${oficialAltra ? `<p class="suau">Resposta de la plantilla oficial: ${esc(q.ex.r)}) de l'examen original</p>` : ''}
-    <div class="explicacio">${esc(q.x)}</div>
+    <div class="explicacio" translate="no">${esc(q.x)}</div>
     <details class="plega" ${aj('cita') === 'oberta' ? 'open' : ''}><summary><b>${esc(q.n)}</b>${q.art ? `, art. ${esc(q.art)}` : ''} · cita</summary>
-      <div class="cita">${esc(q.c)}</div></details>
+      <div class="cita" translate="no">${esc(q.c)}</div></details>
     <div class="botons"><a class="boto" data-apunts href="#/temari/${encodeURIComponent(q.f)}/${encodeURIComponent(q.a)}">${ico('obre')} Obrir als apunts</a>
       ${r !== undefined && r !== q.ok && SESSIO && !SESSIO.acabada && SESSIO.mode !== 'simulacre' ? `<button type="button" class="boto" data-epi-test="${esc(q.t)}|${esc(q.e)}">Practicar l'epígraf ${esc(q.e)}</button>` : ''}
 </div>
@@ -771,12 +771,12 @@ function obreReport(q, r) {
   const d = document.createElement('dialog'); d.id = 'dlg-report'; d.className = 'dialeg';
   d.innerHTML = `<form method="dialog" id="fr">
     <h2>Reportar un error</h2>
-    <p class="suau">${esc(q.id)} · ${esc(q.q.length > 110 ? q.q.slice(0, 110) + '…' : q.q)}</p>
+    <p class="suau" translate="no">${esc(q.id)} · ${esc(q.q.length > 110 ? q.q.slice(0, 110) + '…' : q.q)}</p>
     <fieldset><legend>Què hi falla?</legend>
       ${TIPUS_ERROR.map(([v, t], k) => `<label class="fila"><input type="radio" name="tipus" value="${v}" ${k === 0 ? 'checked' : ''}> ${t}</label>`).join('')}
     </fieldset>
     <label class="fila" id="fr-bona">Quina creus que és la correcta?
-      <select name="bona"><option value="">No ho sé</option>${q.op.map((o, k) => k === q.ok ? '' : `<option value="${k}">${lletra(q, k)}) ${esc(o.length > 50 ? o.slice(0, 50) + '…' : o)}</option>`).join('')}</select></label>
+      <select name="bona"><option value="">No ho sé</option>${q.op.map((o, k) => k === q.ok ? '' : `<option value="${k}" translate="no">${lletra(q, k)}) ${esc(o.length > 50 ? o.slice(0, 50) + '…' : o)}</option>`).join('')}</select></label>
     <label class="camp">Explica-ho <span class="suau">(si pots, indica la norma, l'article o l'apartat del temari)</span>
       <textarea name="text" rows="5" required placeholder="Per exemple: segons l'art. 33.2 de la Llei 22/2009 el màxim són 8 nanses, no 6."></textarea></label>
     <input type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="ocult-hp">
@@ -877,8 +877,8 @@ function vistaResultat() {
   const mostra = k => {
     const q = PER_ID.get(S.ids[k]), r = S.resp[q.id];
     $('#revisio').innerHTML = `<div class="targeta"><div class="etiquetes"><span class="etiqueta">${k + 1} · ${esc(q.t)} · ${esc(q.e)}</span>${origenEtiqueta(q)}</div>
-      <p class="enunciat">${esc(q.q)}</p>
-      <div class="opcions">${ordreOp(q).map((j, pos) => `<div class="opcio ${j === q.ok ? 'correcta' : (j === r ? 'errada' : '')}"><span class="lletra">${LLETRES[pos]})</span><span>${esc(q.op[j])}</span></div>`).join('')}</div>
+      <p class="enunciat" translate="no">${esc(q.q)}</p>
+      <div class="opcions" translate="no">${ordreOp(q).map((j, pos) => `<div class="opcio ${j === q.ok ? 'correcta' : (j === r ? 'errada' : '')}"><span class="lletra">${LLETRES[pos]})</span><span>${esc(q.op[j])}</span></div>`).join('')}</div>
       ${panellCorreccio(q, r)}</div>`;
     S.i = k;
   };
@@ -999,7 +999,7 @@ async function vistaTemari([fitxer, ancora]) {
       <button class="boto" id="test-tema">Practicar el ${t.codi}</button></div>
     <details class="targeta index"><summary>Índex del tema</summary><div class="index-tema">
       ${t.index.map(h => `<a class="n${h.n} ${(P.lect()[fitxer] || {})[h.a] ? 'llegit' : ''}" href="#/temari/${fitxer}/${h.a}">${esc(h.t)}</a>`).join('')}</div></details>
-    <article class="apunts">${CAU_TEMA[fitxer]}</article>`;
+    <article class="apunts" translate="no">${CAU_TEMA[fitxer]}</article>`;
   $('#test-tema').addEventListener('click', () => {
     comenca(barreja(D.preguntes.filter(q => q.t === t.codi && vigent(q))).slice(0, 20), 'practica', nomTema(t.codi));
   });
@@ -1091,9 +1091,9 @@ function vistaFallades([tema]) {
       <div class="suau"><label>Tema <select id="tema-f"><option value="">Tots</option>${temes.map(t => `<option value="${t}" ${t === tema ? 'selected' : ''}>${esc(nomTema(t))}</option>`).join('')}</select></label></div></div>
       ${ll.length ? '<button class="boto principal" id="test-f">Fer-ne un test</button>' : ''}</div>
     ${ll.length ? Object.entries(grups).map(([e, xs]) => `<h2 class="epi-cap">${esc(e)} ${esc(nomEpigraf(xs[0].t, e))}</h2>
-      ${xs.map(x => `<div class="targeta fallada-llegir"><p class="enunciat">${esc(x.q)}</p>
-        <p class="resposta-bona">${ico('check')} ${esc(x.op[x.ok])}</p>
-        <div class="suau">${esc(x.x)}</div>
+      ${xs.map(x => `<div class="targeta fallada-llegir"><p class="enunciat" translate="no">${esc(x.q)}</p>
+        <p class="resposta-bona" translate="no">${ico('check')} ${esc(x.op[x.ok])}</p>
+        <div class="suau" translate="no">${esc(x.x)}</div>
         <div class="botons"><a class="boto" data-apunts href="#/temari/${encodeURIComponent(x.f)}/${encodeURIComponent(x.a)}">${ico('obre')} Apunts</a></div></div>`).join('')}`).join('')
       : '<p>No tens cap pregunta fallada' + (tema ? ' en aquest tema' : '') + '. 👏</p>'}`;
   $('#tema-f').addEventListener('change', e => { location.hash = '#/fallades' + (e.target.value ? '/' + e.target.value : ''); });
@@ -1203,7 +1203,7 @@ function dispositiu() {
 const dataCa = d => new Date(d).toLocaleDateString('ca', {day: 'numeric', month: 'long', year: 'numeric'});
 // Categories d'Ajustos: llista com als ajustos del mòbil; en tocar-ne una, s'hi entra
 const CATEGORIES_AJUSTOS = [
-  ['aparenca', 'Aparença', 'sol', () => `${{auto: 'Automàtic', light: 'Clar', dark: 'Fosc'}[aj('tema')]} · text ${{petit: 'petit', normal: 'normal', gran: 'gran', 'molt-gran': 'molt gran'}[aj('text')]}`],
+  ['aparenca', 'Aparença', 'sol', () => `${{auto: 'Automàtic', light: 'Clar', dark: 'Fosc'}[aj('tema')]} · text ${{petit: 'petit', normal: 'normal', gran: 'gran', 'molt-gran': 'molt gran'}[aj('text')]} · ${aj('idioma') === 'es' ? 'castellano' : 'català'}`],
   ['constancia', 'Constància', 'flama', () => `Meta: ${aj('meta')} preguntes al dia`],
   ['practica', 'Pràctica', 'check', () => `${aj('nPractica')} preguntes per sessió${aj('barrejaOp') ? ' · opcions barrejades' : ''}`],
   ['simulacre', 'Simulacre', 'rellotge', () => `Cronòmetre ${aj('simCrono') ? 'visible' : 'amagat'}`],
@@ -1227,6 +1227,7 @@ function vistaAjustos([cat] = []) {
     <div class="seccio-ajustos"><h2>Aparença</h2><div class="targeta">
       ${fila('Tema', '', seg('tema', [['auto', 'Automàtic'], ['light', 'Clar'], ['dark', 'Fosc']]))}
       ${fila('Mida del text', '', seg('text', [['petit', 'A−'], ['normal', 'A'], ['gran', 'A+'], ['molt-gran', 'A++']]))}
+      ${fila('Idioma', 'Menús i textos de l\'app. Les preguntes i el temari es mantenen en català, com a l\'examen.', seg('idioma', [['ca', 'Català'], ['es', 'Castellano']]))}
     </div></div>
     <div class="seccio-ajustos"><h2>Constància</h2><div class="targeta">
       ${fila('Meta diària', 'Preguntes al dia per mantenir la ratxa. Compten les preguntes de pràctica, repàs, simulacres i el repte del dia; els jocs no. Un dia per setmana sense fer-la no trenca la ratxa.', seg('meta', [[20, '20'], [30, '30'], [40, '40'], [60, '60']]))}
@@ -1307,6 +1308,7 @@ function vistaAjustos([cat] = []) {
     const el = e.target; if (!el.name || el.id === 'imp') return;
     const v = el.type === 'checkbox' ? el.checked : (['nPractica', 'meta'].includes(el.name) ? +el.value : (el.name === 'nom' ? el.value.trim() : el.value));
     posaAjust(el.name, v);
+    if (el.name === 'idioma') location.reload(); // la traducció s'aplica en carregar l'app
   });
   $('#exp').addEventListener('click', () => { descarregaCopia(); navega(); });
   $('#imp').addEventListener('change', async e => {
