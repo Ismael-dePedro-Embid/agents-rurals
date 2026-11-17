@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160" preserveAspectRatio="xMidYMid slice">
+<defs><linearGradient id="c" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bcdcf2"/><stop offset="1" stop-color="#eef6fb"/></linearGradient>
+<linearGradient id="r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9aa3a8"/><stop offset="1" stop-color="#6d7a72"/></linearGradient></defs>
+<rect width="400" height="160" fill="url(#c)"/>
+<path d="M0 118 L60 92 L120 108 L190 86 L260 104 L330 84 L400 100 V160 H0Z" fill="#b8cbbf"/>
+<!-- Pedraforca: dues puntes amb l'enforcadura -->
+<path d="M150 140 L205 52 L222 34 L236 60 L246 68 L258 44 L272 26 L292 66 L340 140 Z" fill="url(#r)"/>
+<path d="M222 34 L230 50 L226 62 L236 60 Z M272 26 L280 42 L272 52 L284 56Z" fill="#c9d0d3"/>
+<path d="M0 140 Q80 118 160 132 T320 128 T400 134 V160 H0Z" fill="#6f9a73"/>
+<path d="M0 150 Q100 136 200 148 T400 146 V160 H0Z" fill="#4f7f57"/>
+<g fill="#3e6b47"><path d="M40 150 l7 -20 l7 20z"/><path d="M58 152 l6 -16 l6 16z"/><path d="M350 148 l7 -20 l7 20z"/><path d="M368 150 l6 -15 l6 15z"/></g>
+</svg>

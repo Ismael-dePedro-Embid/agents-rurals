@@ -446,3 +446,12 @@ button.xip-est { cursor: pointer; } .xip-est.sel { outline: 2px solid var(--blau
 .minijoc b { color: var(--mj-titol); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .minijoc { --mj-fons: linear-gradient(135deg, #1d2c38, #1d2e24); --mj-vora: #2f4a5c; --mj-titol: #9cc6e6; --mj-ic: #2a3530; } }
 :root[data-theme="dark"] .minijoc { --mj-fons: linear-gradient(135deg, #1d2c38, #1d2e24); --mj-vora: #2f4a5c; --mj-titol: #9cc6e6; --mj-ic: #2a3530; }
+/* Minijoc del dia: il·lustració del joc de fons, difuminada, amb un vel perquè el text es llegeixi */
+.minijoc { position: relative; overflow: hidden; isolation: isolate; background: var(--superficie); }
+.minijoc::before { content: ''; position: absolute; inset: -10px; background: var(--mj-img, none) center / cover no-repeat; filter: blur(2.5px); z-index: -2; }
+.minijoc::after { content: ''; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(90deg, rgba(255,255,255,.9) 0%, rgba(255,255,255,.72) 55%, rgba(255,255,255,.25) 100%); }
+.mj-muntanyes { --mj-img: url(img/fons/muntanyes.svg); } .mj-rius { --mj-img: url(img/fons/rius.svg); }
+.mj-comarques { --mj-img: url(img/fons/comarques.svg); } .mj-relleu { --mj-img: url(img/fons/relleu.svg); } .mj-enp { --mj-img: url(img/fons/enp.svg); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .minijoc::after { background: linear-gradient(90deg, rgba(20,26,22,.92) 0%, rgba(20,26,22,.75) 55%, rgba(20,26,22,.35) 100%); } }
+:root[data-theme="dark"] .minijoc::after { background: linear-gradient(90deg, rgba(20,26,22,.92) 0%, rgba(20,26,22,.75) 55%, rgba(20,26,22,.35) 100%); }

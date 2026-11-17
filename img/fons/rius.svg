@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160" preserveAspectRatio="xMidYMid slice">
+<defs><linearGradient id="c" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c4e1f3"/><stop offset="1" stop-color="#f1f8fb"/></linearGradient>
+<linearGradient id="a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6fb1d6"/><stop offset="1" stop-color="#3d86b4"/></linearGradient></defs>
+<rect width="400" height="160" fill="url(#c)"/>
+<path d="M0 96 L70 78 L150 92 L240 74 L320 90 L400 80 V160 H0Z" fill="#b5ccbd"/>
+<path d="M0 110 Q100 98 200 108 T400 104 V160 H0Z" fill="#8db594"/>
+<!-- riu -->
+<path d="M0 132 Q120 118 210 126 T400 120 V160 H0Z" fill="url(#a)"/>
+<path d="M30 140 h40 M150 134 h50 M260 136 h40 M330 130 h30" stroke="#d6ecf7" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+<!-- pont medieval d'esquena d'ase -->
+<path d="M120 126 Q200 70 280 126 L268 126 Q232 104 216 124 L210 124 Q200 92 190 124 L184 124 Q168 104 132 126 Z" fill="#b59a76"/>
+<path d="M120 126 Q200 70 280 126" fill="none" stroke="#8e7556" stroke-width="3"/>
+<path d="M150 112 Q200 80 250 112" fill="none" stroke="#a48863" stroke-width="1.5" stroke-dasharray="6 4"/>
+<g fill="#4f7f57"><circle cx="60" cy="112" r="10"/><circle cx="74" cy="108" r="8"/><circle cx="330" cy="108" r="11"/><circle cx="346" cy="112" r="8"/></g>
+</svg>

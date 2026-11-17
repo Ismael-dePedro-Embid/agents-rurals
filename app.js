@@ -410,9 +410,9 @@ function vistaInici() {
     })()}
     <div class="targeta continua">
       <div><b>${P.pref('darrera') ? 'Continuar practicant' : 'Començar a practicar'}</b><div class="suau">${esc(descripcioFiltres(darrera))}</div></div>
-      <div class="botons"><button class="boto principal gran" id="continua">${P.pref('darrera') ? 'Continuar' : 'Començar'}</button><a class="boto" href="#/practica">Canviar filtres</a></div>
+      <div class="botons"><button class="boto principal gran" id="continua">${P.pref('darrera') ? 'Continuar' : 'Començar'}</button><a class="boto" href="#/practica/filtres">Canviar filtres</a></div>
     </div>
-    ${typeof minijocDelDia === 'function' ? (() => { const j = minijocDelDia(); return `<div class="targeta minijoc"><span class="joc-ic">${j.ic}</span>
+    ${typeof minijocDelDia === 'function' ? (() => { const j = minijocDelDia(); return `<div class="targeta minijoc mj-${j.id}"><span class="joc-ic">${j.ic}</span>
       <div class="txt"><b>Minijoc del dia: ${esc(j.nom)}</b><div class="suau">${esc(j.desc)}</div></div><button class="boto" data-minijoc="${j.id}" aria-label="Jugar">Jugar</button></div>`; })() : ''}
     ${pendents || fallades ? `<div class="targeta pendent"><b>Pendent</b><div class="botons">
       ${pendents ? `<a class="boto" href="#/repas">Repassar ${pendents} ${pendents === 1 ? 'pregunta' : 'preguntes'}</a>` : ''}
@@ -490,7 +490,7 @@ function llancaPractica(s) {
   P.pref('darrera', s);
   comenca(llista, 'practica', s.temes.length === 1 ? nomTema(s.temes[0]) : 'Pràctica');
 }
-function vistaPractica() {
+function vistaPractica([obre] = []) {
   const temes = D.temes.map(t => t.codi);
   const xip = (nom, val, txt, on) => `<label class="xip"><input type="checkbox" name="${nom}" value="${esc(val)}" ${on ? 'checked' : ''}><span>${esc(txt)}</span></label>`;
   const F = FILTRES_DEF;
@@ -502,7 +502,7 @@ function vistaPractica() {
         <div><b id="resum"></b><div class="suau" id="compte"></div></div>
         <button class="boto principal gran" type="submit">Començar</button>
       </div>
-      <details class="filtres targeta" id="det-filtres"><summary>Filtres <span class="suau" id="n-filtres"></span></summary>
+      <details class="filtres targeta" id="det-filtres" ${obre === 'filtres' ? 'open' : ''}><summary>Filtres <span class="suau" id="n-filtres"></span></summary>
       <fieldset><legend>Temes</legend>
         <div class="botons" style="margin:0 0 .5rem"><button type="button" class="boto petit-boto" data-tots="1">Tots</button><button type="button" class="boto petit-boto" data-tots="0">Cap</button></div>
         <div class="xips">${temes.map(c => xip('tema', c, c, true)).join('')}</div>

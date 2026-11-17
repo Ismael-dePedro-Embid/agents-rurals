@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160" preserveAspectRatio="xMidYMid slice">
+<defs><linearGradient id="c" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe9d7"/><stop offset="1" stop-color="#f0f8f1"/></linearGradient></defs>
+<rect width="400" height="160" fill="url(#c)"/>
+<path d="M0 92 L80 70 L160 86 L250 66 L330 84 L400 74 V160 H0Z" fill="#a9c9ae"/>
+<ellipse cx="220" cy="134" rx="90" ry="14" fill="#7fb7d4"/>
+<g fill="#3f7a4c">
+<path d="M30 140 l12 -46 l12 46z"/><path d="M52 142 l10 -38 l10 38z"/><path d="M74 140 l12 -50 l12 50z"/><path d="M98 144 l9 -34 l9 34z"/>
+<path d="M310 142 l11 -44 l11 44z"/><path d="M332 140 l12 -52 l12 52z"/><path d="M356 144 l10 -36 l10 36z"/><path d="M376 140 l11 -46 l11 46z"/>
+</g>
+<g fill="#2f5d3a"><rect x="40" y="138" width="4" height="8"/><rect x="84" y="138" width="4" height="8"/><rect x="340" y="138" width="4" height="8"/></g>
+<path d="M0 148 Q100 140 200 150 T400 146 V160 H0Z" fill="#5f9a6a"/>
+</svg>
