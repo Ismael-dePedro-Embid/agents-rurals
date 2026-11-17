@@ -491,7 +491,7 @@ h2 { font-size: 1.15rem; font-weight: 700; letter-spacing: -.015em; }
 .continua .boto:not(.principal) { background: rgba(255,255,255,.14); border: 0; }
 /* Test: opcions més netes */
 .opcio { border: 1.5px solid var(--vora); border-radius: 14px; padding: .85rem .95rem; background: var(--superficie); }
-.opcio .lletra { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--gris); font-size: .85rem; flex-shrink: 0; }
+.opcio .lletra { font-weight: 700; color: var(--suau); min-width: 1.4rem; flex-shrink: 0; }
 .etiqueta { font-weight: 600; font-size: .72rem; letter-spacing: .01em; }
 .progres-barra { height: 6px; border-radius: 999px; }
 /* Pestanyes segmentades */
