@@ -330,6 +330,15 @@ function triaJoc(id, nou) {
   if (nou) { t[id] = nou; try { localStorage.setItem(CLAU_TRIA_JOC, JSON.stringify(t)); } catch {} }
   return t[id] || {mode: 'barrejat', cr: false};
 }
+// Modes de tocar el mapa i modes de quatre opcions, agrupats al desplegable
+const MODES_TOCA = new Set(['comarques:on', 'rius:toca', 'muntanyes:toca']);
+function opcionsModes(joc, actiu) {
+  const op = ([m, n], ic) => `<option value="${m}" ${m === actiu ? 'selected' : ''}>${ic} ${esc(n)}</option>`;
+  const toca = joc.modes.filter(m => MODES_TOCA.has(joc.id + ':' + m[0])), test = joc.modes.filter(m => !MODES_TOCA.has(joc.id + ':' + m[0]));
+  return op(['barrejat', 'Tot barrejat'], '🔀') + (toca.length
+    ? `<optgroup label="Tocar al mapa">${toca.map(m => op(m, '👆')).join('')}</optgroup><optgroup label="Quatre opcions">${test.map(m => op(m, '🔤')).join('')}</optgroup>`
+    : test.map(m => op(m, '🔤')).join(''));
+}
 function vistaJoc(joc) {
   const s = P.jocs()[joc.id], capa = {comarques: 'comarques', rius: 'rius', muntanyes: 'muntanyes', enp: 'enp', relleu: 'relleu'}[joc.id];
   const modes = [['barrejat', 'Tot barrejat', 'Una mica de cada mode. Les que falles tornen fins que les domines.'], ...joc.modes];
@@ -340,7 +349,7 @@ function vistaJoc(joc) {
     ${barraDomini(joc.id, joc.plural)}
     <div class="targeta tria-joc">
       <label class="camp-joc"><span>Mode de joc</span>
-        <select id="mode-joc">${modes.map(([m, n]) => `<option value="${m}" ${m === t.mode ? 'selected' : ''}>${esc(n)}</option>`).join('')}</select></label>
+        <select id="mode-joc">${opcionsModes(joc, t.mode)}</select></label>
       <p class="suau desc-mode" id="desc-mode"></p>
       <div class="camp-joc"><span>Format</span>
         <div class="segment" role="radiogroup" aria-label="Format">
