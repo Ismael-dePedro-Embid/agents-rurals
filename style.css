@@ -430,3 +430,19 @@ button.xip-est { cursor: pointer; } .xip-est.sel { outline: 2px solid var(--blau
 .avis-ratxa.urgent { border-color: #c4473e; background: #fbe3e0; }
 .avis-ratxa.descans { border-color: #e7b04a; background: #fbf3df; }
 .avis-ratxa.urgent .boto.principal { background: #c4473e; border-color: #c4473e; color: #fff; }
+
+/* Inici: la pràctica i el minijoc del dia destaquen */
+.continua { background: linear-gradient(135deg, #2f6b3f, #3f8a52); border: 0; color: #fff; position: relative; overflow: hidden; padding: 1.2rem 1.1rem; }
+.continua::after { content: '📝'; position: absolute; right: -.6rem; top: -.9rem; font-size: 4.4rem; opacity: .16; transform: rotate(-12deg); pointer-events: none; }
+.continua > * { position: relative; z-index: 1; }
+.continua b { font-size: 1.25rem; } .continua .suau { color: #dcefe0; }
+.continua .boto.principal { background: #fff; color: #2f6b3f; border-color: #fff; }
+.continua .boto:not(.principal) { background: transparent; color: #fff; border-color: rgba(255,255,255,.6); }
+.minijoc { --mj-fons: linear-gradient(135deg, #e6f1fb, #d8ecdf); --mj-vora: #b9d6e8; --mj-titol: #1f4f75; --mj-ic: #fff;
+  background: var(--mj-fons); border-color: var(--mj-vora); padding: 1.1rem; }
+.minijoc .joc-ic { font-size: 2.6rem; background: var(--mj-ic); border-radius: 16px; width: 3.6rem; height: 3.6rem; flex-shrink: 0; display: grid; place-items: center; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+.minijoc .boto { width: 3.2rem; height: 3.2rem; flex-shrink: 0; border-radius: 50%; padding: 0; font-size: 0; background: #2d6fa3; border-color: #2d6fa3; position: relative; }
+.minijoc .boto::before { content: '▶'; font-size: 1.15rem; color: #fff; position: absolute; inset: 0; display: grid; place-items: center; padding-left: .15rem; }
+.minijoc b { color: var(--mj-titol); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .minijoc { --mj-fons: linear-gradient(135deg, #1d2c38, #1d2e24); --mj-vora: #2f4a5c; --mj-titol: #9cc6e6; --mj-ic: #2a3530; } }
+:root[data-theme="dark"] .minijoc { --mj-fons: linear-gradient(135deg, #1d2c38, #1d2e24); --mj-vora: #2f4a5c; --mj-titol: #9cc6e6; --mj-ic: #2a3530; }

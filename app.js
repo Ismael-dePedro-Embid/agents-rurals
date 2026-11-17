@@ -413,7 +413,7 @@ function vistaInici() {
       <div class="botons"><button class="boto principal gran" id="continua">${P.pref('darrera') ? 'Continuar' : 'Començar'}</button><a class="boto" href="#/practica">Canviar filtres</a></div>
     </div>
     ${typeof minijocDelDia === 'function' ? (() => { const j = minijocDelDia(); return `<div class="targeta minijoc"><span class="joc-ic">${j.ic}</span>
-      <div class="txt"><b>Minijoc del dia: ${esc(j.nom)}</b><div class="suau">${esc(j.desc)}</div></div><button class="boto" data-minijoc="${j.id}">Jugar</button></div>`; })() : ''}
+      <div class="txt"><b>Minijoc del dia: ${esc(j.nom)}</b><div class="suau">${esc(j.desc)}</div></div><button class="boto" data-minijoc="${j.id}" aria-label="Jugar">Jugar</button></div>`; })() : ''}
     ${pendents || fallades ? `<div class="targeta pendent"><b>Pendent</b><div class="botons">
       ${pendents ? `<a class="boto" href="#/repas">Repassar ${pendents} ${pendents === 1 ? 'pregunta' : 'preguntes'}</a>` : ''}
       ${fallades ? `<button class="boto" id="fallades">Tornar a les fallades (${fallades})</button><a class="boto" href="#/fallades">Llegir-les</a>` : ''}</div></div>` : ''}
