@@ -175,9 +175,9 @@ const punts = d => '●'.repeat(d) + '○'.repeat(4 - d);
 const fet = dia => (P.dies()[dia]?.n || 0) >= aj('meta');
 const fraccioMeta = dia => (P.dies()[dia]?.n || 0) / aj('meta');
 // Ratxa: dies seguits complint la meta. Un dia sense complir-la per setmana no la trenca (dia de descans).
-function ratxa() {
-  // Es recorre cap enrere des d'avui (o des d'ahir si avui encara no s'ha fet la meta)
-  let dia = fet(avui()) ? avui() : diaAbans(avui()), n = 0, descans = null;
+function ratxa(ref = avui()) {
+  // Es recorre cap enrere des de «ref» (o des del dia abans si aquell dia encara no s'ha fet la meta)
+  let dia = fet(ref) ? ref : diaAbans(ref), n = 0, descans = null;
   while (n < 5000) {
     if (fet(dia)) n++;
     else if (fet(diaAbans(dia)) && (!descans || dies(descans, dia) >= 7)) descans = dia; // dia de descans
@@ -187,6 +187,18 @@ function ratxa() {
   return n;
 }
 const dies = (a, b) => Math.round((new Date(a) - new Date(b)) / DIA);
+// Avís de ratxa en perill: si avui no es fa la meta, demà la ratxa seria 0 (o gastaria el dia de descans)
+function avisRatxa() {
+  const rt = ratxa(); if (!rt || fet(avui())) return '';
+  const falten = aj('meta') - (P.dies()[avui()]?.n || 0), perd = ratxa(diaAbans(avui(), -1)) < rt; // si demà la ratxa és més curta, es trenca
+  const h = 24 - new Date().getHours(), tard = h <= 4;
+  const dies = `${rt} ${rt === 1 ? 'dia' : 'dies'}`;
+  return `<div class="targeta avis-ratxa ${perd ? (tard ? 'urgent' : 'perill') : 'descans'}">
+    <div class="foc">${flama(true)}</div>
+    <div class="txt"><b>${perd ? `Perdràs la ratxa de ${dies}` : `Ratxa de ${dies}: avui gastaries el dia de descans`}</b>
+      <span>En falten <b>${falten}</b> ${falten === 1 ? 'pregunta' : 'preguntes'} per a la meta d'avui${perd && tard ? ` · queden ${h} ${h === 1 ? 'hora' : 'hores'}` : ''}.</span></div>
+    <button class="boto principal" id="salva-ratxa">Fer-les ara</button></div>`;
+}
 function millorRatxa() {
   const ds = Object.keys(P.dies()).filter(fet).sort();
   if (!ds.length) return 0;
@@ -385,6 +397,7 @@ function vistaInici() {
     <h1>${aj('nom') ? `Hola, ${esc(aj('nom'))}` : 'Oposició d\'agent rural'}</h1>
     ${novetatsPendents()}
     ${testAMitges()}
+    ${avisRatxa()}
     ${avisosInici()}
     ${(() => {
       const fets = P.dies()[avui()]?.n || 0, meta = aj('meta'), fetAvui = fet(avui()), rt = ratxa(), rep = P.reptes()[avui()];
@@ -410,6 +423,11 @@ function vistaInici() {
       <div><div class="xifra-petita" ${sim ? `style="color:var(${sim.Q >= D.examen.minim ? '--verd' : '--vermell'})"` : ''}>${sim ? sim.Q.toFixed(2) : '–'}</div><div class="suau">darrer simulacre</div></div>
     </div>`;
   $('#repte')?.addEventListener('click', comencaRepte);
+  $('#salva-ratxa')?.addEventListener('click', () => {
+    const d = P.pref('darrera'); // la pràctica curta no ha de canviar els filtres de «Continuar»
+    llancaPractica({...FILTRES_DEF, ...(d || {}), n: Math.max(1, aj('meta') - (P.dies()[avui()]?.n || 0))});
+    if (d) P.pref('darrera', d); else { const x = P.pref('darrera'); if (x) P.pref('darrera', {...x, n: 0}); }
+  });
   $('#descarta')?.addEventListener('click', () => { if (confirm('Vols descartar el test a mitges? Les respostes ja corregides es mantenen al progrés.')) { SESSIO = null; desaSessio(); navega(); } });
   $('#copia-ara')?.addEventListener('click', () => { descarregaCopia(); navega(); });
   $('#copia-no')?.addEventListener('click', () => { P.pref('copiaAvis', ara()); navega(); });

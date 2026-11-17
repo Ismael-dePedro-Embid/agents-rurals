@@ -421,3 +421,12 @@ button.xip-est { cursor: pointer; } .xip-est.sel { outline: 2px solid var(--blau
 .enllac-report { background: none; border: 0; padding: .3rem 0; font: inherit; font-size: .85rem; color: var(--suau); text-decoration: underline; cursor: pointer; }
 /* Colors del domini també amb el fons polític */
 .fons-politic .m-com.e-domina { fill: #a9d6b3; } .fons-politic .m-com.e-dubte { fill: #f3d58f; } .fons-politic .m-com.e-falla { fill: #eca8a1; }
+
+/* Avís de ratxa en perill a l'inici */
+.avis-ratxa { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; border: 2px solid #e8913a; background: #fdf0e1; color: #1e2420; }
+.avis-ratxa .foc { width: 2.4rem; flex-shrink: 0; } .avis-ratxa .foc svg { width: 100%; height: auto; }
+.avis-ratxa .txt { flex: 1 1 12rem; display: flex; flex-direction: column; gap: .15rem; } .avis-ratxa .txt > b { font-size: 1.05rem; }
+.avis-ratxa .boto { flex-shrink: 0; }
+.avis-ratxa.urgent { border-color: #c4473e; background: #fbe3e0; }
+.avis-ratxa.descans { border-color: #e7b04a; background: #fbf3df; }
+.avis-ratxa.urgent .boto.principal { background: #c4473e; border-color: #c4473e; color: #fff; }
