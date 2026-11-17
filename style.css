@@ -504,3 +504,16 @@ h2 { font-size: 1.15rem; font-weight: 700; letter-spacing: -.015em; }
 .meta-dia svg.anell, .meta-dia .anell { width: 54px; height: 54px; }
 .constancia .meta-dia, .constancia .ratxa { gap: .6rem; }
 .ratxa .foc svg { width: 40px; height: auto; }
+
+/* Llista de jocs: el mateix fons il·lustrat que el minijoc del dia */
+.joc.amb-fons { position: relative; overflow: hidden; isolation: isolate; }
+.joc.amb-fons::before { content: ''; position: absolute; inset: -10px; background: var(--mj-img, none) center / cover no-repeat; filter: blur(1px); z-index: -2; }
+.joc.amb-fons::after { content: ''; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(90deg, rgba(255,255,255,.93) 0%, rgba(255,255,255,.85) 60%, rgba(255,255,255,.35) 80%, rgba(255,255,255,.05) 100%); }
+.joc.amb-fons .joc-ic { background: #fff; border-radius: 14px; width: 3.2rem; height: 3.2rem; display: grid; place-items: center; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+.mj-especies { --mj-img: url(img/fons/especies.svg); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .joc.amb-fons::after { background: linear-gradient(90deg, rgba(20,26,22,.93) 0%, rgba(20,26,22,.88) 62%, rgba(20,26,22,.5) 80%, rgba(20,26,22,.12) 100%); }
+  :root:not([data-theme="light"]) .joc.amb-fons .joc-ic { background: #2a3530; } }
+:root[data-theme="dark"] .joc.amb-fons::after { background: linear-gradient(90deg, rgba(20,26,22,.93) 0%, rgba(20,26,22,.88) 62%, rgba(20,26,22,.5) 80%, rgba(20,26,22,.12) 100%); }
+:root[data-theme="dark"] .joc.amb-fons .joc-ic { background: #2a3530; }
+.joc.amb-fons .txt { padding-right: 24%; }

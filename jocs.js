@@ -312,10 +312,10 @@ async function vistaJocs([id]) {
   const espSt = P.esp(), espN = Object.values(espSt).reduce((a, r) => a + r.n, 0), espC = Object.values(espSt).reduce((a, r) => a + r.c, 0);
   $('#app').innerHTML = `<h1>Practicar</h1>${navPractica('jocs')}
     <p class="suau">Minijocs per conèixer el territori. Ajuden a l'examen (temes E5, E7, E8, E14 i E21), però no compten per a la meta diària.</p>
-    <div class="jocs">${JOCS.map(j => { const s = st[j.id], r = resumDomini(j.id); return `<a class="targeta joc" href="#/jocs/${j.id}">
+    <div class="jocs">${JOCS.map(j => { const s = st[j.id], r = resumDomini(j.id); return `<a class="targeta joc amb-fons mj-${j.id}" href="#/jocs/${j.id}">
       <span class="joc-ic">${j.ic}</span><span class="txt"><b>${esc(j.nom)}</b><span class="suau">${esc(j.desc)}</span>
       ${s ? `<span class="joc-st">${r.domina}/${r.tot} ${j.plural} ${j.fem ? 'dominades' : 'dominats'}${s.rec ? ` · rècord ${s.rec} en 60 s` : ''}</span>` : ''}</span></a>`; }).join('')}
-      <a class="targeta joc" href="#/especies"><span class="joc-ic">🦉</span><span class="txt"><b>Espècies amb foto</b><span class="suau">Fauna protegida, pesca, invasores i flora del temari</span>
+      <a class="targeta joc amb-fons mj-especies" href="#/especies"><span class="joc-ic">🦉</span><span class="txt"><b>Espècies amb foto</b><span class="suau">Fauna protegida, pesca, invasores i flora del temari</span>
       ${espN ? `<span class="joc-st">${pct(espC, espN)} % d'encert · ${Object.keys(espSt).length} de ${D.especies.length} vistes</span>` : ''}</span></a>
     </div>
     <p class="suau petit">${esc(GEO.font)}</p>`;
