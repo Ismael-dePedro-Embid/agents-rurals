@@ -727,7 +727,8 @@ function panellCorreccio(q, r) {
       <div class="cita">${esc(q.c)}</div></details>
     <div class="botons"><a class="boto" data-apunts href="#/temari/${encodeURIComponent(q.f)}/${encodeURIComponent(q.a)}">${ico('obre')} Obrir als apunts</a>
       ${r !== undefined && r !== q.ok && SESSIO && !SESSIO.acabada && SESSIO.mode !== 'simulacre' ? `<button type="button" class="boto" data-epi-test="${esc(q.t)}|${esc(q.e)}">Practicar l'epígraf ${esc(q.e)}</button>` : ''}
-      <button type="button" class="boto" data-report="${esc(q.id)}" data-r="${r ?? ''}">${ico('bandera')} Reportar un error</button></div>`;
+</div>
+    <div class="report-peu"><button type="button" class="enllac-report" data-report="${esc(q.id)}" data-r="${r ?? ''}">⚑ Hi ha un error?</button></div>`;
 }
 // ---------------------------------------------------------------- reportar un error
 const TIPUS_ERROR = [
@@ -760,7 +761,8 @@ function obreReport(q, r) {
       <select name="bona"><option value="">No ho sé</option>${q.op.map((o, k) => k === q.ok ? '' : `<option value="${k}">${lletra(q, k)}) ${esc(o.length > 50 ? o.slice(0, 50) + '…' : o)}</option>`).join('')}</select></label>
     <label class="camp">Explica-ho <span class="suau">(si pots, indica la norma, l'article o l'apartat del temari)</span>
       <textarea name="text" rows="5" required placeholder="Per exemple: segons l'art. 33.2 de la Llei 22/2009 el màxim són 8 nanses, no 6."></textarea></label>
-    <p class="suau">S'obrirà GitHub amb l'informe ja emplenat; només cal prémer «Create». Cal tenir-hi un compte (és gratuït).</p>
+    <input type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="ocult-hp">
+    <p class="suau">${D.report ? 'L\'informe s\'envia directament; no cal cap compte.' : 'S\'obrirà GitHub amb l\'informe ja emplenat; només cal prémer «Create». Cal tenir-hi un compte (és gratuït).'}</p>
     <div class="botons"><button class="boto principal" value="envia">Enviar</button><button class="boto" value="cancel" formnovalidate>Cancel·lar</button></div>
   </form>`;
   document.body.appendChild(d);
@@ -770,19 +772,32 @@ function obreReport(q, r) {
   d.addEventListener('close', () => {
     if (d.returnValue === 'envia') {
       const tipus = TIPUS_ERROR.find(t => t[0] === f.tipus.value);
-      window.open(urlReport(q, r, tipus, f.bona.value === '' ? null : +f.bona.value, f.text.value.trim()), '_blank', 'noopener');
+      enviaReport(informe(q, r, tipus, f.bona.value === '' ? null : +f.bona.value, f.text.value.trim()), f.hp.value);
     }
     d.remove();
   });
   d.showModal();
 }
-function urlReport(q, r, tipus, bona, text) {
+// Envia l'informe al relé (crea l'issue sense sortir de l'app); si no hi ha relé o falla, obre GitHub
+async function enviaReport(inf, hp) {
+  const github = () => window.open(`${D.repo}/issues/new?labels=error-pregunta&title=${encodeURIComponent(inf.titol)}&body=${encodeURIComponent(inf.cos)}`, '_blank', 'noopener');
+  if (!D.report) return github();
+  avis('Enviant l\'informe…');
+  try {
+    const res = await fetch(D.report, {method: 'POST', headers: {'Content-Type': 'text/plain;charset=utf-8'}, body: JSON.stringify({...inf, etiqueta: 'error-pregunta', hp})});
+    const o = await res.json();
+    if (!o.ok) throw new Error(o.error);
+    avis(`Informe enviat${o.num ? ` (núm. ${o.num})` : ''}. Gràcies!`);
+  } catch {
+    if (confirm('No s\'ha pogut enviar l\'informe. Vols obrir-lo a GitHub per enviar-lo des d\'allà?')) github();
+  }
+}
+function informe(q, r, tipus, bona, text) {
   const cos = [`**Tipus:** ${tipus[1]}`, '', `**Pregunta:** ${q.id} (${q.t} · ${q.e})`, '', `> ${q.q}`, '',
     ...q.op.map((o, k) => `- ${lletra(q, k)}) ${o}${k === q.ok ? '  ← marcada com a correcta' : ''}${k === r ? '  ← la meva resposta' : ''}${k === bona ? '  ← la que crec correcta' : ''}`), '',
     `**Font:** ${q.n}${q.art ? ', art. ' + q.art : ''}`, '', '**Explicació:**', '', text || '(sense text)', '',
     `<sub>Versió de les dades: ${D.versio || '?'}</sub>`].join('\n');
-  const titol = `[${tipus[0]}] ${q.id}: ${tipus[1]}`;
-  return `${D.repo}/issues/new?labels=error-pregunta&title=${encodeURIComponent(titol)}&body=${encodeURIComponent(cos)}`;
+  return {titol: `[${tipus[0]}] ${q.id}: ${tipus[1]}`, cos};
 }
 function enllacaApunts() { /* els enllaços ja porten la ruta; el botó de tornar apareix sol */ }
 
