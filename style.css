@@ -1,22 +1,22 @@
 :root {
-  --fons: #f6f5f0; --superficie: #ffffff; --vora: #dcd9cf; --text: #1e2420; --suau: #5d665f;
-  --verd: #2f5d3a; --verd-clar: #e3eee4; --vermell: #a8322d; --vermell-clar: #f6e1df;
+  --fons: #f3f4f1; --superficie: #ffffff; --vora: #e4e7e2; --text: #16201a; --suau: #66706a; --gris: #eef0ec; --gris-2: #e7e9e4; --menu-fons: rgba(255,255,255,.92);
+  --verd: #2c6a43; --verd-clar: #e6f1e9; --vermell: #a8322d; --vermell-clar: #f6e1df;
   --ambre: #8a5a00; --ambre-clar: #f7ecd4; --blau: #2c5d87; --blau-clar: #e1ebf4;
-  --radi: 12px; --ombra: 0 1px 3px rgba(0,0,0,.08); --barra: #2f5d3a; --sobre-verd: #fff; color-scheme: light;
+  --radi: 18px; --ombra: 0 1px 2px rgba(16,32,22,.04), 0 6px 20px rgba(16,32,22,.06); --barra: #2f5d3a; --sobre-verd: #fff; color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --fons: #151916; --superficie: #1e2420; --vora: #333b35; --text: #e7ebe7; --suau: #a3aca5;
     --verd: #7fbf8c; --verd-clar: #22352a; --vermell: #f08b84; --vermell-clar: #3d2523;
     --ambre: #e5b65c; --ambre-clar: #3a3020; --blau: #8bb8e0; --blau-clar: #1f2f3d;
-    --ombra: none; --barra: #1c3324; --sobre-verd: #102015; color-scheme: dark;
+    --ombra: none; --barra: #1c3324; --sobre-verd: #102015; --gris: #2a322d; --gris-2: #252c27; --menu-fons: rgba(30,36,32,.94); color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --fons: #151916; --superficie: #1e2420; --vora: #333b35; --text: #e7ebe7; --suau: #a3aca5;
     --verd: #7fbf8c; --verd-clar: #22352a; --vermell: #f08b84; --vermell-clar: #3d2523;
     --ambre: #e5b65c; --ambre-clar: #3a3020; --blau: #8bb8e0; --blau-clar: #1f2f3d;
-    --ombra: none; --barra: #1c3324; --sobre-verd: #102015; color-scheme: dark;
+    --ombra: none; --barra: #1c3324; --sobre-verd: #102015; --gris: #2a322d; --gris-2: #252c27; --menu-fons: rgba(30,36,32,.94); color-scheme: dark;
 }
 /* Mida del text (Ajustos) */
 :root[data-text="petit"] { font-size: 14px; }
@@ -455,3 +455,51 @@ button.xip-est { cursor: pointer; } .xip-est.sel { outline: 2px solid var(--blau
 .mj-comarques { --mj-img: url(img/fons/comarques.svg); } .mj-relleu { --mj-img: url(img/fons/relleu.svg); } .mj-enp { --mj-img: url(img/fons/enp.svg); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .minijoc::after { background: linear-gradient(90deg, rgba(20,26,22,.92) 0%, rgba(20,26,22,.86) 50%, rgba(20,26,22,.62) 76%, rgba(20,26,22,.15) 100%); } }
 :root[data-theme="dark"] .minijoc::after { background: linear-gradient(90deg, rgba(20,26,22,.92) 0%, rgba(20,26,22,.86) 50%, rgba(20,26,22,.62) 76%, rgba(20,26,22,.15) 100%); }
+
+/* ---- Estètica 2 (app 1.17): capçalera clara, títols grans, targetes sense vora, botons uniformes ---- */
+body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, system-ui, sans-serif; -webkit-font-smoothing: antialiased; letter-spacing: -.005em; }
+/* Capçalera clara i translúcida, sense franja verda */
+.barra { background: var(--fons); color: var(--text); border-bottom: 1px solid rgba(0,0,0,.05); }
+.marca, .engranatge { color: var(--text); } .marca span { font-weight: 650; font-size: .98rem; }
+.marca img { border-radius: 8px; width: 26px; height: 26px; }
+.engranatge:hover, .engranatge.actiu { background: rgba(0,0,0,.06); }
+/* Títols grans, com iOS */
+h1 { font-size: 1.85rem; font-weight: 750; letter-spacing: -.025em; margin: .3em 0 .7em; }
+h2 { font-size: 1.15rem; font-weight: 700; letter-spacing: -.015em; }
+/* Targetes sense vora, amb ombra suau i radi gran */
+.targeta { border: 0; box-shadow: var(--ombra); border-radius: var(--radi); padding: 1.1rem 1.15rem; }
+/* Botons: alçada fixa, radi suau, secundari en gris */
+.boto { border-radius: 12px; min-height: 44px; padding: .6rem 1.1rem; font-weight: 600; border: 0; background: var(--gris); display: inline-flex; align-items: center; justify-content: center; gap: .4rem; }
+.boto.principal { background: var(--verd); color: var(--sobre-verd); box-shadow: 0 2px 6px rgba(44,106,67,.25); }
+.boto.gran { min-height: 50px; font-size: 1.02rem; }
+/* Barra inferior */
+@media (max-width: 720px) {
+  .menu { background: var(--menu-fons); backdrop-filter: saturate(1.6) blur(14px); -webkit-backdrop-filter: saturate(1.6) blur(14px); border-top: 1px solid rgba(0,0,0,.06); box-shadow: none; }
+  .menu a { font-size: .68rem; font-weight: 550; }
+  .menu a.actiu { color: var(--verd); }
+  .menu a.actiu svg { background: var(--verd-clar); border-radius: 999px; padding: .15rem .9rem; box-sizing: content-box; }
+}
+/* Inici: meta i ratxa en una sola targeta «Avui», més neta */
+.constancia { gap: .75rem; }
+.constancia .targeta { padding: 1rem; }
+.meta-dia .xifra-petita, .ratxa .xifra-petita { font-size: 1.15rem; white-space: nowrap; }
+.meta-dia .suau, .ratxa .suau { font-size: .82rem; line-height: 1.3; }
+.xifra-petita { letter-spacing: -.02em; }
+/* Pràctica destacada */
+.continua { border-radius: var(--radi); box-shadow: 0 8px 24px rgba(44,106,67,.28); }
+.continua .boto.principal { box-shadow: none; }
+.continua .boto:not(.principal) { background: rgba(255,255,255,.14); border: 0; }
+/* Test: opcions més netes */
+.opcio { border: 1.5px solid var(--vora); border-radius: 14px; padding: .85rem .95rem; background: var(--superficie); }
+.opcio .lletra { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--gris); font-size: .85rem; flex-shrink: 0; }
+.etiqueta { font-weight: 600; font-size: .72rem; letter-spacing: .01em; }
+.progres-barra { height: 6px; border-radius: 999px; }
+/* Pestanyes segmentades */
+.pestanyes { background: var(--gris-2); border-radius: 12px; padding: 3px; }
+.pestanyes a { border-radius: 10px; font-weight: 600; }
+/* Resum de l'inici */
+.resum-inici .xifra-petita { font-size: 1.4rem; }
+
+.meta-dia svg.anell, .meta-dia .anell { width: 54px; height: 54px; }
+.constancia .meta-dia, .constancia .ratxa { gap: .6rem; }
+.ratxa .foc svg { width: 40px; height: auto; }
