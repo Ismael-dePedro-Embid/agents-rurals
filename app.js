@@ -435,7 +435,7 @@ function vistaInici() {
   $('#continua').addEventListener('click', () => llancaPractica(darrera));
   $('#instal')?.addEventListener('click', async () => { instalPrompt.prompt(); await instalPrompt.userChoice; instalPrompt = null; navega(); });
   $('#fallades')?.addEventListener('click', () => {
-    comenca(barreja(D.preguntes.filter(x => esFallada(q[x.id]) && vigent(x))).slice(0, 40), 'practica', 'Fallades');
+    comenca(barreja(D.preguntes.filter(x => esFallada(q[x.id]) && vigent(x))).slice(0, 40), 'practica', 'Fallades', {barreja: true});
   });
 }
 
@@ -647,10 +647,18 @@ function triaSimulacre(origen, noves) {
 }
 
 // ---------------------------------------------------------------- sessió de test
+// Lletra on era la correcta a la sessió actual (per canviar-la quan es repeteixen les fallades)
+const posicionsActuals = () => Object.fromEntries((SESSIO?.ids || []).map(id => { const q = PER_ID.get(id); return [id, ordreOp(q).indexOf(q.ok)]; }));
+const opcFallades = () => ({barreja: true, evita: posicionsActuals()});
 function comenca(llista, mode, titol, opc = {}) {
   SESSIO = {dia: opc.dia, mode, titol, ids: llista.map(q => q.id), resp: {}, i: 0, inici: ara(), acabada: false, ex: opc.ex || null, perm: {}};
-  // Ordre de les opcions: el de la pregunta, o barrejat si l'usuari ho ha triat (mai als exàmens oficials sencers)
-  if (aj('barrejaOp') && !opc.ex) for (const q of llista) SESSIO.perm[q.id] = barreja([0, 1, 2, 3]);
+  // Ordre de les opcions: el de la pregunta, o barrejat si l'usuari ho ha triat (mai als exàmens oficials sencers).
+  // En repetir fallades es barreja sempre, i la correcta canvia de lletra respecte a la darrera vegada.
+  if ((aj('barrejaOp') || opc.barreja) && !opc.ex) for (const q of llista) {
+    let p = barreja([0, 1, 2, 3]);
+    for (let k = 0; k < 20 && opc.evita && p.indexOf(q.ok) === opc.evita[q.id]; k++) p = barreja([0, 1, 2, 3]);
+    SESSIO.perm[q.id] = p;
+  }
   if (mode === 'simulacre') SESSIO.fi = ara() + (opc.minuts || D.examen.minuts) * 60e3;
   location.hash = '#/test';
   if (location.hash === '#/test') navega();
@@ -883,7 +891,7 @@ function vistaResultat() {
     S.i = k;
   };
   document.querySelectorAll('.mapa-preguntes button').forEach(b => b.addEventListener('click', () => mostra(+b.dataset.i)));
-  $('#repfall')?.addEventListener('click', () => comenca(fallades.map(id => PER_ID.get(id)), 'practica', 'Fallades del test'));
+  $('#repfall')?.addEventListener('click', () => comenca(fallades.map(id => PER_ID.get(id)), 'practica', 'Fallades del test', opcFallades()));
   if (fallades.length) mostra(S.ids.indexOf(fallades[0]));
 }
 
@@ -1097,7 +1105,7 @@ function vistaFallades([tema]) {
         <div class="botons"><a class="boto" data-apunts href="#/temari/${encodeURIComponent(x.f)}/${encodeURIComponent(x.a)}">${ico('obre')} Apunts</a></div></div>`).join('')}`).join('')
       : '<p>No tens cap pregunta fallada' + (tema ? ' en aquest tema' : '') + '. 👏</p>'}`;
   $('#tema-f').addEventListener('change', e => { location.hash = '#/fallades' + (e.target.value ? '/' + e.target.value : ''); });
-  $('#test-f')?.addEventListener('click', () => comenca(barreja(ll).slice(0, 40), 'practica', 'Fallades'));
+  $('#test-f')?.addEventListener('click', () => comenca(barreja(ll).slice(0, 40), 'practica', 'Fallades', {barreja: true}));
 }
 function vistaProgres() {
   const q = P.tots();
